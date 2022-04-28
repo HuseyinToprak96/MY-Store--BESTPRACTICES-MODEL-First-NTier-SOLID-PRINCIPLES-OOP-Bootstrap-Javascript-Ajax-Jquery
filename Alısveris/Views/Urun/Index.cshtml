@@ -1,0 +1,12 @@
+﻿@model IEnumerable<CoreLayer.Entities.Urun>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+@foreach (var item in Model)
+{
+    @item.UrunAdi
+}
+

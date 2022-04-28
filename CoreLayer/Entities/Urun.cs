@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CoreLayer.Entities
+{
+  public  class Urun
+    {
+        public int Id { get; set; }
+        public string Resim { get; set; }
+        public string UrunAdi { get; set; }
+        public double Ucret  { get; set; }
+        public int Adet { get; set; }
+        [ForeignKey("altKategori")]
+        public int AltKategoriId { get; set; }
+        [ForeignKey("cinsiyet")]
+        public int CinsiyetId { get; set; }
+        public virtual Cinsiyet cinsiyet { get; set; }
+        public virtual List<SepetDetay> sepetDetay { get; set; }
+        public virtual List<FaturaDetay> FaturaDetay { get; set; }
+        public virtual AltKategori altKategori { get; set; }
+    }
+}
