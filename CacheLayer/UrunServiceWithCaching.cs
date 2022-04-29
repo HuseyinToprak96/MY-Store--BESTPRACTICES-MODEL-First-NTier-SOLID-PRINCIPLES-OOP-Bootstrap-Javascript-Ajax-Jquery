@@ -28,7 +28,7 @@ namespace CacheLayer
             _unitOfWork = unitOfWork;
             if (!_memoryCache.TryGetValue(CacheUrunKey,out _))
             {
-                _memoryCache.Set(CacheUrunKey, _urunRepository.TumUrunBilgileri());
+                _memoryCache.Set(CacheUrunKey, _urunRepository.TumUrunBilgileri().Result);
             }
         }
         public async Task CacheAllUrunlerAsync()
