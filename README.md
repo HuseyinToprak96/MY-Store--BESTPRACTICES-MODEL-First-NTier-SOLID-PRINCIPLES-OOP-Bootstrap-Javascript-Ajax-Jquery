@@ -3,7 +3,16 @@
 
 ![api_edit_0](https://user-images.githubusercontent.com/101343622/165672609-ff2365b5-0002-448f-93a0-3629086d16f6.gif)
 
-2.DAY-ERROR-CONTROLLERS-FLUENT_VALIDATION-FILTER-CACHE(29.04.2022)
+2.DAY-ERROR-CONTROLLERS-MIDDLEVARE-FLUENT_VALIDATION-FILTER-CACHING(29.04.2022)
+
+ERROR CONTROL
+![errorControl](https://user-images.githubusercontent.com/101343622/165876626-fe68dfed-d53b-4db8-aac2-b3b15473fe0c.gif)
+
+EXCEPTION
+![exception](https://user-images.githubusercontent.com/101343622/165876744-c30f5bc6-98d4-4391-bfb8-3ddff7f6d64e.gif)
+
+MIDDLEVARE
+![middleware](https://user-images.githubusercontent.com/101343622/165876814-4d971a80-2bea-48e6-80be-cddd19a9c968.gif)
 
 
 3.DAY-RESPONSIVE DESIGN(30.04.2022)
