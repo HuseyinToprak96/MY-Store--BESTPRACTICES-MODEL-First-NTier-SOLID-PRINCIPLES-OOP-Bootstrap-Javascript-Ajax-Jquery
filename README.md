@@ -6,7 +6,7 @@
 
 6.DAY-JAVASCRIPT-JQUERY-AJAX-NOT POSTBACK(03.05.2022)
 
-5.DAY-LOGIN CONTROL-Autherize-Authentication(02.05.2022)
+5.DAY-LOGIN CONTROL-Autherize-Authentication-Pages(02.05.2022)
 
 4.DAY-Data-Extraction(01.05.2022)
 
