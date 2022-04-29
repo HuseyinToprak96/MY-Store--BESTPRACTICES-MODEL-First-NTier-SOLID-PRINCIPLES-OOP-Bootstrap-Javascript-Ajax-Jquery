@@ -5,11 +5,15 @@
 }
 
 <h1>Index</h1>
-<table class="table">
+<div id="urunListe">
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@item.UrunAdi</td>
-        </tr>
+    <div>
+        <img src="../img/img-03.jpg"/>
+        <div>
+            @item.UrunAdi
+        </div>
+    </div>
+
     }
-</table>
+</div>  

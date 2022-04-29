@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32413.511
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alısveris", "Alısveris\Alısveris.csproj", "{12187528-8C4E-4D74-A7C2-E2C594EC33EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreWeb", "Alısveris\StoreWeb.csproj", "{12187528-8C4E-4D74-A7C2-E2C594EC33EB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLayer", "CoreLayer\CoreLayer.csproj", "{B0718319-4755-4B12-B227-705C81EED673}"
 EndProject
