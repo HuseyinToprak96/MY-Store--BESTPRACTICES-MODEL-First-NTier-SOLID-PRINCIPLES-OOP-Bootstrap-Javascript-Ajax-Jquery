@@ -1,3 +1,4 @@
+using CacheLayer;
 using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
 using CoreLayer.Interfaces.UnitOfWork;
@@ -41,20 +42,29 @@ namespace Alısveris
         sqlOption.MigrationsAssembly("DataLayer");
     });
             });
+
+            
+
+
             services.AddScoped(typeof(IService<>), typeof(Service<>));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAltKategoriRepository, AltKategoriRepository>();
             services.AddScoped<IAltKategoriService, AltKategoriService>();
             services.AddScoped<IUrunRepository, UrunRepository>();
-            services.AddScoped<IUrunService, UrunService>();
+            services.AddScoped<IUrunService, UrunServiceWithCaching>();
             services.AddScoped<ISepetRepository, SepetRepository>();
             services.AddScoped<ISepetService, SepetService>();
             services.AddScoped<IUyeRepository, UyeRepository>();
             services.AddScoped<IUyeService, UyeService>();
-
+            services.AddScoped<IKategoriRepository, KategoriRepository>();
+            services.AddScoped<IKategoriService, KategoriService>();
+            services.AddScoped<IFaturaRepository, FaturaRepository>();
+            services.AddScoped<IFaturaService, FaturaService>();
+           
             services.AddAutoMapper(typeof(MapProfile));
-
+            services.AddMemoryCache();
+           
         }
             // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
             public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -67,6 +77,9 @@ namespace Alısveris
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseStaticFiles();
 
             app.UseRouting();

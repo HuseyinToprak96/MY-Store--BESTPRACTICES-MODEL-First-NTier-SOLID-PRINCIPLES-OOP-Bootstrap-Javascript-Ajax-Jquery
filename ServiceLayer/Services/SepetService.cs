@@ -21,14 +21,23 @@ namespace ServiceLayer.Services
             _sepetRepository = sepetRepository;
             _mapper = mapper;
         }
+
+        public async Task<Sepet> MusterininSepeti(int UyeId)
+        {
+            return await _sepetRepository.MusterininSepeti(UyeId);
+        }
+
         public async Task SepeteEkle(SepetDetayDto sepetDetayDto, int UyeId)
         {
             var sepetDetay = _mapper.Map<SepetDetay>(sepetDetayDto);
            await _sepetRepository.SepeteEkle(sepetDetay, UyeId);
+           await _unitOfWork.CommitAsync();
+            
         }
         public void SepettenCikar(int SepetDetayId, int UyeId)
         {
             _sepetRepository.SepettenCikar(SepetDetayId, UyeId);
+            _unitOfWork.Commit();
         }
     }
 }

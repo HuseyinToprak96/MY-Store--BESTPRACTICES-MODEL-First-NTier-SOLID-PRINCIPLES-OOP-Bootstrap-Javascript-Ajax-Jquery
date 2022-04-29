@@ -15,7 +15,7 @@ namespace CoreLayer.Entities
         [ForeignKey("urun")]
         public int? UrunId { get; set; }
         public double Fiyat { get; set; }
-        public virtual Urun urun { get; set; }
-        public virtual Fatura fatura { get; set; }
+        public Urun urun { get; set; }
+        public Fatura fatura { get; set; }
     }
 }

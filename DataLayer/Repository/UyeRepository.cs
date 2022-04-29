@@ -15,6 +15,10 @@ namespace DataLayer.Repository
         {
         }
 
+        public Task<Uye> uyeDetay(int UyeId)
+        {
+            return _data.Uyeler.Include(x => x.Faturalar).ThenInclude(x => x.faturaDetays).ThenInclude(x => x.urun).Include(x => x.cinsiyet).Include(x => x.sepet).Where(x => x.Id == UyeId).SingleOrDefaultAsync();
+        }
         public async Task<Uye> UyeLogin(string mail, string sifre)
         {
             return await _data.Uyeler.Where(x => x.Mail == mail && x.Sifre == sifre).SingleOrDefaultAsync();

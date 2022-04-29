@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoreLayer.Entities
+namespace CoreLayer.Dtos
 {
-   public class Uye
+   public class UyeDto
     {
         public int Id { get; set; }
         public bool Yetki { get; set; }
@@ -16,11 +15,6 @@ namespace CoreLayer.Entities
         public string Adres { get; set; }
         public string Telefon { get; set; }
         public string Mail { get; set; }
-        public string Sifre { get; set; }
-        [ForeignKey("cinsiyet")]
         public int CinsiyetId { get; set; }
-        public Cinsiyet cinsiyet { get; set; }
-        public Sepet sepet { get; set; }
-        public List<Fatura> Faturalar { get; set; }
     }
 }

@@ -10,6 +10,6 @@ namespace CoreLayer.Entities
     {
         public int Id { get; set; }
         public string KategoriAdi { get; set; }
-        public virtual List<AltKategori> altKategoriler { get; set; }
+        public List<AltKategori> altKategoriler { get; set; }
     }
 }

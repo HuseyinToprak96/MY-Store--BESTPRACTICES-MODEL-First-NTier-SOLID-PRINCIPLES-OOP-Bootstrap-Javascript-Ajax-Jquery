@@ -19,6 +19,7 @@ namespace ServiceLayer.Maping
             CreateMap<Urun, VitrinDto>();
             CreateMap<AltKategori, AltKategoriDto>().ReverseMap();
             CreateMap<Kategori, KategoriDto>().ReverseMap();
+            CreateMap<Uye, UyeDto>();
         }
     }
 }

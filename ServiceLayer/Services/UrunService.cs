@@ -28,6 +28,11 @@ namespace ServiceLayer.Services
             throw new NotImplementedException();
         }
 
+        public async Task<List<Urun>> TumUrunBilgileri()
+        {
+          return await  _urunRepository.TumUrunBilgileri();
+        }
+
         public Task<List<Urun>> Yeni4Urun()
         {
             throw new NotImplementedException();

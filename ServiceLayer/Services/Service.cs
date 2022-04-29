@@ -1,6 +1,7 @@
 ﻿using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
 using CoreLayer.Interfaces.UnitOfWork;
+using ServiceLayer.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ServiceLayer.Services
     public class Service<T> : IService<T> where T:class
     {
         protected readonly IRepository<T> _repository;
-        private readonly IUnitOfWork _unitOfWork;
+        protected readonly IUnitOfWork _unitOfWork;
         public Service(IRepository<T> repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
@@ -31,19 +32,22 @@ namespace ServiceLayer.Services
 
         public async Task<T> getByIdAsync(int id)
         {
+            var hasData =await _repository.getByIdAsync(id);
+            if (hasData == null)
+            throw new ClientSideException($"{typeof(T).Name} bulunamadı.");
             return await _repository.getByIdAsync(id);
         }
 
-        public void Remove(T t)
+        public async Task Remove(T t)
         {
             _repository.Remove(t);
-            _unitOfWork.Commit();
+           await _unitOfWork.CommitAsync();
         }
 
-        public void Update(T t)
+        public async Task Update(T t)
         {
             _repository.Update(t);
-            _unitOfWork.Commit();
+            await _unitOfWork.CommitAsync();
         }
     }
 }

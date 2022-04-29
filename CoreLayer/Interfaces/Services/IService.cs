@@ -11,7 +11,7 @@ namespace CoreLayer.Interfaces.Services
         Task<List<T>> getAllAsync();
         Task<T> getByIdAsync(int id);
         Task AddAsync(T t);
-        void Remove(T t);
-        void Update(T t);
+        Task Remove(T t);
+        Task Update(T t);
     }
 }

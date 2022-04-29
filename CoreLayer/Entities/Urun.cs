@@ -18,9 +18,9 @@ namespace CoreLayer.Entities
         public int AltKategoriId { get; set; }
         [ForeignKey("cinsiyet")]
         public int CinsiyetId { get; set; }
-        public virtual Cinsiyet cinsiyet { get; set; }
-        public virtual List<SepetDetay> sepetDetay { get; set; }
-        public virtual List<FaturaDetay> FaturaDetay { get; set; }
-        public virtual AltKategori altKategori { get; set; }
+        public  Cinsiyet cinsiyet { get; set; }
+        public List<SepetDetay> sepetDetay { get; set; }
+        public List<FaturaDetay> FaturaDetay { get; set; }
+        public AltKategori altKategori { get; set; }
     }
 }

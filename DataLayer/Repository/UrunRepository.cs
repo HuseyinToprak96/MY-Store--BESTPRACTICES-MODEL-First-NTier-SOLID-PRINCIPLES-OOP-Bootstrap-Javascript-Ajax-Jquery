@@ -25,6 +25,17 @@ namespace DataLayer.Repository
             throw new NotImplementedException();
         }
 
+        public IQueryable<Urun> GetAll()
+        {
+            return _data.Urunler.AsQueryable().AsNoTracking();
+        }
+
+        public async Task<List<Urun>> TumUrunBilgileri()
+        {
+
+           return await _data.Urunler.Include(x => x.altKategori).ThenInclude(x=>x.kategori).ToListAsync();
+        }
+
         public Task<List<Urun>> Yeni4Urun()
         {
             throw new NotImplementedException();

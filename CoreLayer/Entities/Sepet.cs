@@ -12,7 +12,7 @@ namespace CoreLayer.Entities
         public int Id { get; set; }
         [ForeignKey("uye")]
         public int UyeId { get; set; }
-        public virtual Uye uye { get; set; }
-        public virtual List<SepetDetay> SepetDetay { get; set; }
+        public Uye uye { get; set; }
+        public List<SepetDetay> SepetDetay { get; set; }
     }
 }

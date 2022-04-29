@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace CoreLayer.Interfaces.Repository
 {
-   public interface IUyeRepository:IRepository<Uye>
+   public interface IFaturaRepository:IRepository<Fatura>
     {
-        Task<Uye> UyeLogin(string mail, string sifre);
-        Task Yetkilendir(bool yetki,int id);
-        Task<Uye> uyeDetay(int UyeId);
+        Task<Fatura> FaturaDetay(int id);
+        Task<List<Fatura>> KisininFaturalari(int UyeId);
     }
 }

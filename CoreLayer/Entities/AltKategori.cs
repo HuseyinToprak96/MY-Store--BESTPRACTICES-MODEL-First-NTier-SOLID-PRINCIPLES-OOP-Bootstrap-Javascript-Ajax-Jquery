@@ -13,7 +13,7 @@ namespace CoreLayer.Entities
         public string AltKategoriAdi { get; set; }
         [ForeignKey("kategori")]
         public int KategoriId { get; set; }
-        public virtual Kategori kategori { get; set; }
-        public virtual List<Urun> Urunler { get; set; }
+        public Kategori kategori { get; set; }
+        public List<Urun> Urunler { get; set; }
     }
 }

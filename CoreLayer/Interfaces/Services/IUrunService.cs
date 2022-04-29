@@ -12,5 +12,6 @@ namespace CoreLayer.Interfaces.Services
         Task<List<Urun>> EncokSatan();
         Task<List<Urun>> Yeni4Urun();
         Task<List<Urun>> AltKategoriyeGore(int id);
+        Task<List<Urun>> TumUrunBilgileri();
     }
 }

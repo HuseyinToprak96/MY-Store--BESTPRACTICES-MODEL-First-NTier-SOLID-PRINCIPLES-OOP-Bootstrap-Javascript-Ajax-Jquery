@@ -12,5 +12,6 @@ namespace CoreLayer.Interfaces.Services
     {
         Task SepeteEkle(SepetDetayDto sepetDetay, int UyeId);
         void SepettenCikar(int SepetDetayId, int UyeId);
+        Task<Sepet> MusterininSepeti(int UyeId);
     }
 }

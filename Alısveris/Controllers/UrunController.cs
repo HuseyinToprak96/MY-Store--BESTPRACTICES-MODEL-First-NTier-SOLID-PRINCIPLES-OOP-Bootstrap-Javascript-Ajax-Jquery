@@ -19,7 +19,7 @@ namespace Alısveris.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            return View(await _UrunService.getAllAsync());
+            return View(await _UrunService.TumUrunBilgileri());
         }
         public async Task<IActionResult> Detail(int id)
         {

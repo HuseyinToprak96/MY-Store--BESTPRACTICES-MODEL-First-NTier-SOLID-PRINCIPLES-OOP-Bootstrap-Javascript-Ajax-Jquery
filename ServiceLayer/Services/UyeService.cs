@@ -22,6 +22,12 @@ namespace ServiceLayer.Services
             _uyeRepository = uyeRepository;
         }
 
+        public async Task<UyeDto> uyeDetay(int UyeId)
+        {
+            var uyeDto = _mapper.Map<UyeDto>(await _uyeRepository.uyeDetay(UyeId));
+            return uyeDto;
+        }
+
         public async Task<GirenBilgileri> UyeLogin(string mail, string sifre)
         {
             var uye =await _uyeRepository.UyeLogin(mail, sifre);

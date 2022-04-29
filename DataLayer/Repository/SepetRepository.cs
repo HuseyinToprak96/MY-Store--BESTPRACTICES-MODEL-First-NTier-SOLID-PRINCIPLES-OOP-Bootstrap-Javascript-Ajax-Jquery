@@ -15,6 +15,12 @@ namespace DataLayer.Repository
         {
         }
 
+        public async Task<Sepet> MusterininSepeti(int UyeId)
+        {
+           return await _data.Sepetler.Include(x => x.SepetDetay).Where(x => x.UyeId == UyeId).SingleOrDefaultAsync();
+           
+        }
+
         public async Task SepeteEkle(SepetDetay sepetDetay,int UyeId)
         {
          var Sepet=  await _data.Sepetler.Where(x => x.UyeId == UyeId).SingleOrDefaultAsync();
