@@ -14,6 +14,9 @@ EXCEPTION
 MIDDLEVARE
 ![middleware](https://user-images.githubusercontent.com/101343622/165876814-4d971a80-2bea-48e6-80be-cddd19a9c968.gif)
 
+CACHING 
+![caching](https://user-images.githubusercontent.com/101343622/165877964-d88f7387-a5bb-4874-b004-62ff652ba9ed.gif)
+
 
 3.DAY-RESPONSIVE DESIGN(30.04.2022)
 
