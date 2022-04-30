@@ -20,9 +20,35 @@ namespace DataLayer.Repository
             return await _data.Urunler.Where(x => x.AltKategoriId == id).ToListAsync();
         }
 
-        public Task<List<Urun>> EncokSatan()
+        public async Task<Urun[]> BitmesiYakin()
         {
-            throw new NotImplementedException();
+            var Urunler = await _data.Urunler.OrderByDescending(x => x.Adet).Where(x=>x.Adet>0).ToListAsync();
+            Urun[] uruns = new Urun[4];
+            for (int i = 0; i < 4; i++)
+            {
+                uruns[0] = Urunler[0];
+            }
+            return uruns;
+        }
+
+        public async Task<Urun[]> EncokSatan()
+        {
+            var Urunler =await _data.Urunler.Include(x=>x.altKategori).ThenInclude(x=>x.kategori).OrderBy(x=>x.FaturaDetay.Count).ToListAsync();
+            Urun[] uruns = new Urun[4];
+            for (int i = 0; i < 4; i++)
+                uruns[0] = Urunler[0];
+            return uruns;
+        }
+
+        public async Task<Urun[]> FavoriUrunler()
+        {
+            var Urunler =await _data.Urunler.Include(x => x.altKategori).ThenInclude(x => x.kategori).OrderBy(x => x.sepetDetay.Count).ToListAsync();
+            Urun[] uruns = new Urun[4];
+            for (int i = 0; i < 4; i++)
+            {
+                uruns[0] = Urunler[0];
+            }
+            return uruns;
         }
 
         public IQueryable<Urun> GetAll()
@@ -36,9 +62,15 @@ namespace DataLayer.Repository
            return await _data.Urunler.Include(x => x.altKategori).ThenInclude(x=>x.kategori).ToListAsync();
         }
 
-        public Task<List<Urun>> Yeni4Urun()
+        public async Task<Urun[]> Yeni4Urun()
         {
-            throw new NotImplementedException();
+            var Urunler = await _data.Urunler.OrderBy(x => x.EklenmeTarihi).ToListAsync();
+            Urun[] uruns = new Urun[4];
+            for (int i = 0; i < 4; i++)
+            {
+                uruns[0] = Urunler[0];
+            }
+            return uruns;
         }
     }
 }

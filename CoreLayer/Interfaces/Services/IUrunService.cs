@@ -9,8 +9,10 @@ namespace CoreLayer.Interfaces.Services
 {
    public interface IUrunService:IService<Urun>
     {
-        Task<List<Urun>> EncokSatan();
-        Task<List<Urun>> Yeni4Urun();
+        Task<Urun[]> EncokSatan();
+        Task<Urun[]> Yeni4Urun();
+        Task<Urun[]> FavoriUrunler();
+        Task<Urun[]> BitmesiYakin();
         Task<List<Urun>> AltKategoriyeGore(int id);
         Task<List<Urun>> TumUrunBilgileri();
     }

@@ -18,6 +18,7 @@ namespace CoreLayer.Entities
         public int AltKategoriId { get; set; }
         [ForeignKey("cinsiyet")]
         public int CinsiyetId { get; set; }
+        public DateTime EklenmeTarihi { get; set; }
         public  Cinsiyet cinsiyet { get; set; }
         public List<SepetDetay> sepetDetay { get; set; }
         public List<FaturaDetay> FaturaDetay { get; set; }

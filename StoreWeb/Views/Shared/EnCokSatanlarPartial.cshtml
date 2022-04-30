@@ -1,0 +1,19 @@
+﻿@model List<CoreLayer.Entities.Urun>
+
+<div id="EnCokSatanlar">
+    <h2>EN ÇOK SATILAN ÜRÜNLER</h2>
+    @foreach (var item in Model)
+    {
+        <div id="satilanUrun_@item.Id" class="satilan">
+            <img src="@item.Resim" height="150" width="150"/>
+        <div>
+            <a href="/Urun/Detay/id=@item.Id"> @item.UrunAdi</a> <div class="ucret"> @item.Ucret TL</div>
+        </div>
+    </div>
+}
+</div>
+<style>
+    #EnCokSatanlar{
+        margin-top:50px;
+    }
+</style>

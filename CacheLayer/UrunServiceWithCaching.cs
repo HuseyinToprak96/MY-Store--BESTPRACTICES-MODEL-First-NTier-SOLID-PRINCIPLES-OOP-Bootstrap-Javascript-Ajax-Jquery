@@ -48,7 +48,7 @@ namespace CacheLayer
             throw new NotImplementedException();
         }
 
-        public Task<List<Urun>> EncokSatan()
+        public Task<Urun[]> EncokSatan()
         {
             throw new NotImplementedException();
         }
@@ -87,7 +87,17 @@ namespace CacheLayer
             await CacheAllUrunlerAsync();
         }
 
-        public Task<List<Urun>> Yeni4Urun()
+        public Task<Urun[]> Yeni4Urun()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Urun[]> FavoriUrunler()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Urun[]> BitmesiYakin()
         {
             throw new NotImplementedException();
         }

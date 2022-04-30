@@ -1,0 +1,60 @@
+﻿@model List<CoreLayer.Entities.Urun>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="urunListe">
+    @foreach (var item in Model)
+    {
+    <a href="/Urun/Detay/">
+        <div class="urun" id="@item.Id" onmouseover="goster();">
+            <img src="../img/img-03.jpg" />
+            <div class="bilgi" id="bilgi_@item.Id">
+                <div>
+                    @item.UrunAdi
+                </div><div id="ucret_@item.Id" style="display:none">@item.Ucret</div>
+            </div>
+        </div>
+    </a>
+    }
+</div>
+<script>
+    function goster() {
+    var urunler = document.getElementsByClassName("urun");
+    for (var i = 0; i < urunler.length; i++) {
+        urunler[i].addEventListener("mouseover", function () {
+            var ucret = document.getElementById("ucret_" + this.id);
+            var bilgi = document.getElementById("bilgi_" + this.id);
+            ucret.style.display = "block";
+            bilgi.style.opacity = 1;
+            this.addEventListener("mouseleave", function () {
+                ucret.style.display = "none";
+                bilgi.style.opacity = 0.5;
+            });
+        });
+        }
+    }
+</script>
+<style>
+    #urunListe{
+        width:100%;
+        height:500px;
+    }
+    
+    .urun{
+        height:100px;
+        width:150px;
+        margin-top:50px;
+        margin-left:30px;
+        float:left;
+    }
+    .urun img{
+        height:100%;
+        width:100%;
+    }
+    .bilgi{
+        position:absolute;
+        opacity:0.5;
+    }
+</style>  

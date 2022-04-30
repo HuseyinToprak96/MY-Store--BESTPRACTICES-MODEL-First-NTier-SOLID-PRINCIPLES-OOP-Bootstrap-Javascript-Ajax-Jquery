@@ -23,7 +23,17 @@ namespace ServiceLayer.Services
             return await _urunRepository.AltKategoriyeGore(id);
         }
 
-        public Task<List<Urun>> EncokSatan()
+        public Task<Urun[]> BitmesiYakin()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Urun[]> EncokSatan()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Urun[]> FavoriUrunler()
         {
             throw new NotImplementedException();
         }
@@ -33,7 +43,7 @@ namespace ServiceLayer.Services
           return await  _urunRepository.TumUrunBilgileri();
         }
 
-        public Task<List<Urun>> Yeni4Urun()
+        public Task<Urun[]> Yeni4Urun()
         {
             throw new NotImplementedException();
         }

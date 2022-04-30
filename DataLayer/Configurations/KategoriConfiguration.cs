@@ -14,6 +14,7 @@ namespace DataLayer.Configurations
         public void Configure(EntityTypeBuilder<Kategori> builder)
         {
             builder.Property(x => x.KategoriAdi).HasMaxLength(100);
+            builder.Property(x => x.Renk).HasMaxLength(30);
         }
     }
 }

@@ -1,0 +1,10 @@
+﻿@model StoreWeb.ViewModels.VMIndex
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("PartialKategoriMenu", Model.Kategoriler)
+@Html.Partial("FavoriUrunlerPartial",Model.FavoriUrunlar)
+@Html.Partial("YeniGelenlerPartial",Model.YeniGelenler)
+@Html.Partial("EnCokSatanlarPartial",Model.EnCokSatanlar)
+@Html.Partial("BitmesiYakinUrunlerPartial",Model.BitmesiYakinUrunler)
