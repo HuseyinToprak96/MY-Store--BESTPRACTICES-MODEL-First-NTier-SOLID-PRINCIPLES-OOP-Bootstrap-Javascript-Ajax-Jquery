@@ -45,7 +45,7 @@ namespace CacheLayer
 
         public Task<List<Urun>> AltKategoriyeGore(int id)
         {
-            throw new NotImplementedException();
+            return _urunRepository.AltKategoriyeGore(id);
         }
 
         public async Task<List<Urun>> EncokSatan()

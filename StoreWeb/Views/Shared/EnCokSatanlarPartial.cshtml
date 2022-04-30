@@ -6,8 +6,8 @@
         {
             <div id="satilanUrun_@item.Id" class="satilan">
                 <img src="@item.Resim" height="150" width="150" />
-                <div>
-                    <a href="/Urun/Detay/id=@item.Id"> @item.UrunAdi</a> <div class="ucret"> @item.Ucret TL</div>
+                <div class="bilgi">
+                    <a href="/Urun/Detay/id=@item.Id" class="urun"> @item.UrunAdi</a><br /> <div class="ucret"> @item.Ucret TL</div>
                 </div>
             </div>
         }
@@ -15,9 +15,11 @@
     <style>
         #EnCokSatanlar {
             margin-top: 50px;
+            width:100%;
         }
 
             #EnCokSatanlar div {
                 float: left;
+                width:25%;
             }
     </style>

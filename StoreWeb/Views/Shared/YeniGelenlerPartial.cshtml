@@ -8,8 +8,8 @@
 
             <div id="yeniUrun_@item.Id" class="yeni">
                 <img src="@item.Resim" height="150" width="150" />
-                <div>
-                    <a href="/Urun/Detay/id=@item.Id"> @item.UrunAdi</a> <div class="ucret" style="background-color:@item.altKategori.Renk"> @item.Ucret TL</div>
+                <div class="bilgi">
+                    <a href="/Urun/Detay/id=@item.Id" class="urun"> @item.UrunAdi</a> <br /> <div class="ucret" style="background-color:@item.altKategori.Renk"> @item.Ucret TL</div>
                 </div>
             </div>
         }
@@ -17,9 +17,11 @@
     <style>
         #yeniler {
             margin-top: 50px;
+            width:100%;
         }
 
             #yeniler div {
                 float: left;
+                width:25%;
             }
     </style>

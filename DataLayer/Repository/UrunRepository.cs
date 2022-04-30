@@ -51,10 +51,8 @@ namespace DataLayer.Repository
         {
             return _data.Urunler.AsQueryable().AsNoTracking();
         }
-
         public async Task<List<Urun>> TumUrunBilgileri()
         {
-
            return await _data.Urunler.Include(x => x.altKategori).ThenInclude(x=>x.kategori).ToListAsync();
         }
 
