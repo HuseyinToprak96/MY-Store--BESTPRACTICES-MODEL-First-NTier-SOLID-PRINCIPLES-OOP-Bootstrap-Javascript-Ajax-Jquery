@@ -20,35 +20,31 @@ namespace DataLayer.Repository
             return await _data.Urunler.Where(x => x.AltKategoriId == id).ToListAsync();
         }
 
-        public async Task<Urun[]> BitmesiYakin()
+        public async Task<List<Urun>> BitmesiYakin()
         {
             var Urunler = await _data.Urunler.OrderByDescending(x => x.Adet).Where(x=>x.Adet>0).ToListAsync();
-            Urun[] uruns = new Urun[4];
-            for (int i = 0; i < 4; i++)
-            {
-                uruns[0] = Urunler[0];
-            }
-            return uruns;
+            List<Urun> urunler = new List<Urun>();
+            for (int i = 0; i <4; i++)
+            urunler.Add(Urunler[i]);
+            return urunler;
         }
 
-        public async Task<Urun[]> EncokSatan()
+        public async Task<List<Urun>> EncokSatan()
         {
             var Urunler =await _data.Urunler.Include(x=>x.altKategori).ThenInclude(x=>x.kategori).OrderBy(x=>x.FaturaDetay.Count).ToListAsync();
-            Urun[] uruns = new Urun[4];
+            List<Urun> urunler = new List<Urun>();
             for (int i = 0; i < 4; i++)
-                uruns[0] = Urunler[0];
-            return uruns;
+                urunler.Add(Urunler[i]);
+            return urunler;
         }
 
-        public async Task<Urun[]> FavoriUrunler()
+        public async Task<List<Urun>> FavoriUrunler()
         {
             var Urunler =await _data.Urunler.Include(x => x.altKategori).ThenInclude(x => x.kategori).OrderBy(x => x.sepetDetay.Count).ToListAsync();
-            Urun[] uruns = new Urun[4];
+            List<Urun> urunler = new List<Urun>();
             for (int i = 0; i < 4; i++)
-            {
-                uruns[0] = Urunler[0];
-            }
-            return uruns;
+                urunler.Add(Urunler[i]);
+            return urunler;
         }
 
         public IQueryable<Urun> GetAll()
@@ -62,15 +58,13 @@ namespace DataLayer.Repository
            return await _data.Urunler.Include(x => x.altKategori).ThenInclude(x=>x.kategori).ToListAsync();
         }
 
-        public async Task<Urun[]> Yeni4Urun()
+        public async Task<List<Urun>> Yeni4Urun()
         {
             var Urunler = await _data.Urunler.OrderBy(x => x.EklenmeTarihi).ToListAsync();
-            Urun[] uruns = new Urun[4];
+            List<Urun> urunler = new List<Urun> ();
             for (int i = 0; i < 4; i++)
-            {
-                uruns[0] = Urunler[0];
-            }
-            return uruns;
+                urunler.Add(Urunler[i]);
+            return urunler;
         }
     }
 }

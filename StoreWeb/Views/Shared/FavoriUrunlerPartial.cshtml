@@ -1,7 +1,8 @@
 ﻿@model List<CoreLayer.Entities.Urun>
 
-<div id="favoriler">
     <h2>FAVORİ ÜRÜNLER</h2>
+<div id="favoriler">
+    
     @foreach (var item in Model)
     {
         <div id="favoriUrun_@item.Id" class="favori">
@@ -15,5 +16,8 @@
 <style>
     #favoriler{
         margin-top:50px;
+    }
+    #favoriler div{
+       float:left;
     }
 </style>

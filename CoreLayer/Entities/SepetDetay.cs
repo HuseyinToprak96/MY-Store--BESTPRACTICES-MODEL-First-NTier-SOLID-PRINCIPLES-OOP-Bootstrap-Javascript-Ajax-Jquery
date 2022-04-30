@@ -15,6 +15,7 @@ namespace CoreLayer.Entities
         [ForeignKey("urun")]
         public int? UrunId { get; set; }
         public DateTime EklenmeTarihi { get; set; }
+        public int Adet { get; set; }
         public  Sepet sepet { get; set; }
         public  Urun urun { get; set; }
     }

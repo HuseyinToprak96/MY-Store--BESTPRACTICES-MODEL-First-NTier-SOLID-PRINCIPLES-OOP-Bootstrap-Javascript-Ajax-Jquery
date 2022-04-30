@@ -9,10 +9,10 @@ namespace CoreLayer.Interfaces.Repository
 {
    public interface IUrunRepository:IRepository<Urun>
     {
-        Task<Urun[]> EncokSatan();
-        Task<Urun[]> Yeni4Urun();
-        Task<Urun[]> FavoriUrunler();
-        Task<Urun[]> BitmesiYakin();
+        Task<List<Urun>> EncokSatan();
+        Task<List<Urun>> Yeni4Urun();
+        Task<List<Urun>> FavoriUrunler();
+        Task<List<Urun>> BitmesiYakin();
         Task<List<Urun>> AltKategoriyeGore(int id);
         Task<List<Urun>> TumUrunBilgileri();
         IQueryable<Urun> GetAll();
