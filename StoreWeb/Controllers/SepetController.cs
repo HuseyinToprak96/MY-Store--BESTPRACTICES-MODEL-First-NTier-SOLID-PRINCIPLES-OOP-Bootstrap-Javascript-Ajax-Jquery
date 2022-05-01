@@ -28,8 +28,8 @@ namespace StoreWeb.Controllers
         [HttpPost]
         public JsonResult SepettenCikar(int sepetDetayId)
         {
-            int id=1;
-            _SepetService.SepettenCikar(sepetDetayId,id);
+            int id=1;//sessionID olcak
+            _SepetService.SepettenCikar(1);
             return Json(id);
         }
     }

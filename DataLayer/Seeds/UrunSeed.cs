@@ -13,7 +13,7 @@ namespace DataLayer.Seeds
     {
         public void Configure(EntityTypeBuilder<Urun> builder)
         {
-            builder.HasData(new Urun { Id=1,UrunAdi = "Basketbol Baskılı Tshirt", Adet=100, CinsiyetId=1, Ucret=49.90, Beden="M", AltKategoriId=1, Resim="img/basket.jpg"});
+            builder.HasData(new Urun { Id=1,UrunAdi = "Basketbol Baskılı Tshirt", Adet=100, CinsiyetId=1, Ucret=49.90, Beden="M", AltKategoriId=1, Resim="/img/basket.jpg"});
             builder.HasData(new Urun { Id = 2, UrunAdi = "Mavi Renk Desenli Salaş T-shirt", Adet = 100, AltKategoriId=3 ,CinsiyetId = 4, Beden="S", EklenmeTarihi = DateTime.Now, Ucret = 49.90, Resim = "/img/ErkekCocukSalasMaviDesenli.jpg" });
             builder.HasData(new Urun { Id = 3, UrunAdi = "Sari Renk Salaş  T-shirt", Adet = 100, AltKategoriId=3, CinsiyetId = 4, Beden="S", EklenmeTarihi = DateTime.Now, Ucret = 49.90, Resim = "/img/ErkekCocukSalasSari.jpg" });
             builder.HasData(new Urun { Id = 4, UrunAdi = "Füme Rengi Dik Yaka T-Shirt", Adet = 100, AltKategoriId = 2, CinsiyetId = 2, Beden="L", EklenmeTarihi = DateTime.Now, Ucret = 89.90, Resim = "/img/ErkekDikYakaFume.jpg" });

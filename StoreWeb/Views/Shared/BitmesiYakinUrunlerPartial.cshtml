@@ -1,24 +1,38 @@
 ﻿@model List<CoreLayer.Entities.Urun>
-    
-<h2>BİTMESİ YAKIN ÜRÜNLER</h2>
-<div id="azKalanlar">
-    @foreach (var item in Model)
-    {
-        <div id="azKalanUrun_@item.Id" class="azKalan">
-            <img src="@item.Resim" height="150" width="150" />
-        <div class="bilgi">
-            <a href="/Urun/Detay/id=@item.Id" class="urun"> @item.UrunAdi</a><br /><div class="ucret"> @item.Ucret TL</div>
-        </div>
-    </div>
-}
-</div>
-<style>
-    #azKalanlar{
-        margin-top:50px;
-        width:100%;
-    }
-    #azKalanlar div{
-        float:left;
-        width:25%;
-    }
-</style>
+<div class="comp">
+    <h2>BİTMESİ YAKIN ÜRÜNLER</h2>
+    <div id="azKalanlar">
+        @foreach (var item in Model)
+        {
+            <div id="@item.Id" class="azKalan">
+                <img src="@item.Resim" height="150" width="150" onmouseover="geldiBiten();" />
+                <div class="bilgi">
+                    <a href="/Urun/Detay?id=@item.Id" class="urun" style="width:100%"> @item.UrunAdi</a><br /><div class="ucret" id="azKalanUcret_@item.Id" style="width:50%"> @item.Ucret TL</div>
+                </div>
+            </div>
+        }
+    </div></div>
+    <script>
+        function geldiBiten() {
+            var favoriler = document.getElementsByClassName("azKalan");
+            for (var i = 0; i < favoriler.length; i++) {
+                favoriler[i].addEventListener("mouseover", function () {
+                    var ucret = document.getElementById("azKalanUcret_" + this.id).style.display = "block";
+                });
+                favoriler[i].addEventListener("mouseleave", function () {
+                    var ucret = document.getElementById("azKalanUcret_" + this.id).style.display = "none";
+                });
+            }
+        }
+    </script>
+    <style>
+        #azKalanlar {
+            margin-top: 50px;
+            width: 100%;
+        }
+
+            #azKalanlar .azKalan {
+                float: left;
+                width: 25%;
+            }
+    </style>

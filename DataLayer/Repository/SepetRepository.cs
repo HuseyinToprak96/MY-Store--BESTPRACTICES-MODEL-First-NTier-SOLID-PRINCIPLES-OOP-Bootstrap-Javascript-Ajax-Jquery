@@ -17,8 +17,7 @@ namespace DataLayer.Repository
 
         public async Task<Sepet> MusterininSepeti(int UyeId)
         {
-           return await _data.Sepetler.Include(x => x.SepetDetay).Where(x => x.UyeId == UyeId).SingleOrDefaultAsync();
-           
+           return await _data.Sepetler.Include(x => x.SepetDetay).ThenInclude(x=>x.urun).Where(x => x.UyeId == UyeId).SingleOrDefaultAsync();
         }
 
         public async Task SepeteEkle(SepetDetay sepetDetay,int UyeId)
@@ -39,11 +38,9 @@ namespace DataLayer.Repository
             }
         }
 
-        public void SepettenCikar(int SepetDetayId,int UyeId )
+        public void SepettenCikar(int Id)
         {
-          var sepet= _data.Sepetler.Where(sd => sd.UyeId == UyeId).SingleOrDefault();
-          var sepetDetay = _data.SepetDetaylar.Where(i => i.Id == SepetDetayId).SingleOrDefault();
-          sepet.SepetDetay.Remove(sepetDetay);
+          var sepetDetay =_data.SepetDetaylar.Remove(_data.SepetDetaylar.Where(i => i.Id == Id).SingleOrDefault());
           _data.SaveChanges();
         }
     }

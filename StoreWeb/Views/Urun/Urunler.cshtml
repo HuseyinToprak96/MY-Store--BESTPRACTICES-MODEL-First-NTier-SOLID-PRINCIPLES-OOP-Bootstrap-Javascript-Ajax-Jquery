@@ -1,0 +1,11 @@
+﻿@model List<CoreLayer.Entities.Urun>  
+@{
+    ViewData["Title"] = "Urunler";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h1>Urunler</h1>
+
+    @foreach(var item in Model){
+@item.Id
+}

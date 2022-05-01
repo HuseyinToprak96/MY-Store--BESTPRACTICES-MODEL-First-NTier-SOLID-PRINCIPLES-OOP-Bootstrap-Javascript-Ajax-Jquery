@@ -16,5 +16,6 @@ namespace CoreLayer.Interfaces.Repository
         Task<List<Urun>> AltKategoriyeGore(int id);
         Task<List<Urun>> TumUrunBilgileri();
         IQueryable<Urun> GetAll();
+        Task<Urun> UrunDetay(int id);
      }
 }

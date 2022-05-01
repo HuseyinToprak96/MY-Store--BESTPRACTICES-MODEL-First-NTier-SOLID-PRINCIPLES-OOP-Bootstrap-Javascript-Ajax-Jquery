@@ -3,12 +3,22 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Partial("PartialKategoriMenu", Model.Kategoriler)
-
-@Html.Partial("FavoriUrunlerPartial",Model.FavoriUrunlar)
-
-@Html.Partial("YeniGelenlerPartial",Model.YeniGelenler)
-
-@Html.Partial("EnCokSatanlarPartial",Model.EnCokSatanlar)
-
-@Html.Partial("BitmesiYakinUrunlerPartial",Model.BitmesiYakinUrunler)
+<p>
+    @Html.Partial("PartialKategoriMenu", Model.Kategoriler)
+</p>
+<hr />
+<p>
+    @Html.Partial("FavoriUrunlerPartial", Model.FavoriUrunlar)
+</p>
+<hr />
+<p>
+    @Html.Partial("YeniGelenlerPartial", Model.YeniGelenler)
+</p>
+<hr />
+<p>
+    @Html.Partial("EnCokSatanlarPartial", Model.EnCokSatanlar)
+</p>
+<hr />
+<p>
+    @Html.Partial("BitmesiYakinUrunlerPartial", Model.BitmesiYakinUrunler)
+</p>

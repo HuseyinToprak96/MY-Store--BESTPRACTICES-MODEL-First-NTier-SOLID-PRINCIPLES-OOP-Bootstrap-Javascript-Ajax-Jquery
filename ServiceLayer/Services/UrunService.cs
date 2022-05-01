@@ -1,4 +1,5 @@
-﻿using CoreLayer.Entities;
+﻿using CoreLayer.Dtos;
+using CoreLayer.Entities;
 using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
 using CoreLayer.Interfaces.UnitOfWork;
@@ -23,6 +24,11 @@ namespace ServiceLayer.Services
             return await _urunRepository.AltKategoriyeGore(id);
         }
 
+        public Task<List<Urun>> Arama(Source source)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<Urun>> BitmesiYakin()
         {
             throw new NotImplementedException();
@@ -38,9 +44,19 @@ namespace ServiceLayer.Services
             throw new NotImplementedException();
         }
 
+        public Task<List<Urun>> OnerilenUrunler(int cinsId, int AltKategoriId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Urun>> TumUrunBilgileri()
         {
           return await  _urunRepository.TumUrunBilgileri();
+        }
+
+        public Task<Urun> UrunDetay(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<List<Urun>> Yeni4Urun()

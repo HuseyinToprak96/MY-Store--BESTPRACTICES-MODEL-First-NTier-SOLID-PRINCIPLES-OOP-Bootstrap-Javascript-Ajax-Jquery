@@ -1,0 +1,116 @@
+﻿@model StoreWeb.ViewModels.UrunVeBenzerUrunler
+@{
+    ViewData["Title"] = "Detay";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+@*Sweet kullanmak icin*@
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+@Html.Partial("PartialKategoriMenu", Model.kategoriler)
+
+<div id="detay">
+    <div class="card mb-3" style="max-width: 540px; margin-top:100px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@Model.urun.Resim" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title" style="background-color:@Model.urun.altKategori.kategori.Renk">@Model.urun.UrunAdi</h5>
+                    <p class="card-text"><strong>BEDEN:</strong> @Model.urun.Beden<br /><strong> Kim İçin:</strong>@Model.urun.cinsiyet.cinsiyet<br /><strong> Fiyat:</strong>@Model.urun.Ucret TL</p>
+                    <p class="card-text"><small class="text-muted">@Model.urun.EklenmeTarihi.ToString("dd/MMM/yyy/")</small></p>
+                    <p class="card-text"><button class="btn-danger" onclick="sepetEkle();">Sepete Ekle</button></p>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                SEPETİM @Model.sepet.SepetDetay.Count
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">SEPETİM</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        @foreach (var item in Model.sepet.SepetDetay)
+                        {
+                            <tr>
+                                <td>
+                                    @item.urun.UrunAdi
+                                </td>
+                                <td>
+                                    @item.Adet
+                                </td>
+                                <td><button class="btn-danger" onclick="remove(@item.Id)" id="@item.Id">X</button></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button><img src="~/img/temizle.png" height="45" width="70" /></button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
+                    <button type="button" class="btn btn-primary">Sepete GİT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h2>ÖNERİLEN BENZER ÜRÜNLER</h2>
+<div class="row-cols-4" id="benzer">
+    @foreach (var item in Model.BenzerUrunler)
+    {
+        <a href="/Urun/Detay?id=@item.Id">
+            <div class="u">
+                <div> <img src="@item.Resim" /></div>
+                <div style="background-color:@item.altKategori.kategori.Renk">  @item.UrunAdi</div>
+            </div>
+        </a>
+    }
+</div>
+
+<script>
+    function remove(id) {
+        let find = document.getElementById(id).parentNode.parentNode;
+        debugger
+        var productId = id.toString();
+        $.ajax({
+            url: "/Sepet/SepettenCikar?Id=" + productId,
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                find.parentNode.removeChild(find);
+            },
+            error: function () {
+                console.log("error!");
+            }
+        });
+    }
+    function sepetEkle() {
+
+    }
+</script>
+
+
+<style>
+    #benzer .u {
+        float: left;
+        margin-left: 5%;
+        margin-top: 50px;
+    }
+
+    #detay {
+        text-align: center;
+    }
+</style>

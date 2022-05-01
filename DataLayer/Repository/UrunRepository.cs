@@ -56,6 +56,11 @@ namespace DataLayer.Repository
            return await _data.Urunler.Include(x => x.altKategori).ThenInclude(x=>x.kategori).ToListAsync();
         }
 
+        public async Task<Urun> UrunDetay(int id)
+        {
+            return await _data.Urunler.Include(x=>x.cinsiyet).Include(x => x.altKategori).ThenInclude(x => x.kategori).Where(x => x.Id == id).SingleOrDefaultAsync();
+        }
+
         public async Task<List<Urun>> Yeni4Urun()
         {
             var Urunler = await _data.Urunler.OrderBy(x => x.EklenmeTarihi).ToListAsync();
