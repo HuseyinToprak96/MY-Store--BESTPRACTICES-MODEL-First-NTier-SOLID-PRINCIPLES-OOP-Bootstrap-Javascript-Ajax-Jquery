@@ -9,7 +9,9 @@
 5.DAY-LOGIN CONTROL-Autherize-Authentication-Pages(02.05.2022)
 
 4.DAY-Data-Extraction-AJAX AYARLARI-SEPET AYARLAMA(02.05.2022)
-![ajax](https://user-images.githubusercontent.com/101343622/166204605-f992e9fd-6eeb-4cec-9e3e-3a938e7d9011.gif)
+
+![AJ](https://user-images.githubusercontent.com/101343622/166205248-f722d2eb-d6e1-4434-bd07-eaa8d7c9800d.gif)
+
 
 3.DAY-Index Design-Seed Data-PartialView Design(30.04.2022)
 
