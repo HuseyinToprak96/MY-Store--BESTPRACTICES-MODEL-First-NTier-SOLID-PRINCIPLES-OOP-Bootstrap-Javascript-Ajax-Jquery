@@ -33,5 +33,12 @@ namespace StoreWeb.Controllers
             _SepetService.SepettenCikar(Id);
             return Json(id);
         }
+        [HttpPost]
+        public JsonResult SepetiSil(int id)
+        {
+           var sepet= _SepetService.getByIdAsync(id).Result;
+            _SepetService.Remove(sepet);
+            return Json(sepet.UyeId);
+        }
     }
 }
