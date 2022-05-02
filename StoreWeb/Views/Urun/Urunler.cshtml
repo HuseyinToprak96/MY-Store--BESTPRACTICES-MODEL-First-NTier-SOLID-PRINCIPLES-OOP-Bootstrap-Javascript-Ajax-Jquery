@@ -1,11 +1,70 @@
-﻿@model List<CoreLayer.Entities.Urun>  
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using CoreLayer.Entities
+@model StoreWeb.ViewModels.VM_Urunler
+
 @{
     ViewData["Title"] = "Urunler";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
+<div class=""></div>
+<div id="urunler">
+    <div class="comp ml-3" id="kriter">
+        <table class="table">
+            <tr>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="dropdown-header" style="width:100px">
+                        @foreach (var item in Model.AltKategoris)
+                        {
+                            <option id="@item.Id">@item.kategori.KategoriAdi @item.AltKategoriAdi </option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="dropdown-header" style="width:100px">
+                        @foreach (var item in Model.Cinsiyetler)
+                        {
+                            <option id="@item.Id">@item.cinsiyet</option>
+                        }
+                    </select>
 
-<h1>Urunler</h1>
+                </td>
+            </tr>
+            <tr>
+                <td><button class="btn btn-danger">ARA</button></td>
+            </tr>
+        </table>
+    </div>
+    <div class="comp col-10" id="liste" style="width:100%">
+        <h3>Arama Sonuçları</h3>
+        @foreach (var item in Model.Urunler)
+        {
+            <div class="urun ml-1 mb-1" style="background-image:url(@item.Resim);">@item.Id</div>
 
-    @foreach(var item in Model){
-@item.Id
-}
+
+        }
+    </div>
+    @Html.PagedListPager((IPagedList)Model.Urunler,page=>Url.Action("Urunler",new { page }))
+</div>
+<style>
+    #urunler .comp {
+        float: left;
+    }
+
+    #liste .urun {
+        width: 18%;
+        height: 150px;
+        float: left;
+        opacity: 0.6;
+    }
+
+        #liste .urun:hover {
+            opacity: 1;
+        }
+</style>
