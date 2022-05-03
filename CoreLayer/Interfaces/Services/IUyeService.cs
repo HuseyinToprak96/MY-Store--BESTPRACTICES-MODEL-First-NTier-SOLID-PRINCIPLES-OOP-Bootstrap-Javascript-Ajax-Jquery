@@ -12,6 +12,6 @@ namespace CoreLayer.Interfaces.Services
     {
         Task<GirenBilgileri> UyeLogin(string mail, string sifre);
         Task Yetkilendir(bool yetki,int id);
-        Task<UyeDto> uyeDetay(int UyeId);
+        Task<Uye> uyeDetay(int UyeId);
     }
 }

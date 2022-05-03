@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoreLayer.Dtos;
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
@@ -22,14 +23,14 @@ namespace CacheLayer
 
         public UrunServiceWithCaching(IMemoryCache memoryCache, IUrunRepository urunRepository, IUnitOfWork unitOfWork)
         {
-            
             _memoryCache = memoryCache;
             _urunRepository = urunRepository;
             _unitOfWork = unitOfWork;
-            if (!_memoryCache.TryGetValue(CacheUrunKey,out _))
+            if (!_memoryCache.TryGetValue(CacheUrunKey, out _))
             {
                 _memoryCache.Set(CacheUrunKey, _urunRepository.TumUrunBilgileri().Result);
             }
+           
         }
         public async Task CacheAllUrunlerAsync()
         {
@@ -37,31 +38,19 @@ namespace CacheLayer
         }
         public async Task AddAsync(Urun t)
         {
-           await _urunRepository.AddAsync(t);
+            await _urunRepository.AddAsync(t);
             await _unitOfWork.CommitAsync();
             await CacheAllUrunlerAsync();
 
         }
-
-        public Task<List<Urun>> AltKategoriyeGore(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Urun[]> EncokSatan()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Urun>> getAllAsync()
-        {
-            return Task.FromResult(_memoryCache.Get<List<Urun>>(CacheUrunKey).ToList());
-        }
+        public async Task<List<Urun>> AltKategoriyeGore(int id) => await _urunRepository.AltKategoriyeGore(id);
+        public async Task<List<Urun>> EncokSatan() => await _urunRepository.EncokSatan();
+        public Task<List<Urun>> getAllAsync() => Task.FromResult(_memoryCache.Get<List<Urun>>(CacheUrunKey).ToList());
 
         public Task<Urun> getByIdAsync(int id)
         {
-            var urun= _memoryCache.Get<List<Urun>>(CacheUrunKey).FirstOrDefault(x => x.Id == id);
-            if (urun==null)
+            var urun = _memoryCache.Get<List<Urun>>(CacheUrunKey).FirstOrDefault(x => x.Id == id);
+            if (urun == null)
             {
                 throw new ClientSideException($"{typeof(Urun).Name} bulunamadı");
             }
@@ -72,13 +61,11 @@ namespace CacheLayer
         {
             _urunRepository.Remove(t);
             await _unitOfWork.CommitAsync();
-           await CacheAllUrunlerAsync();
+            await CacheAllUrunlerAsync();
         }
 
-        public async Task<List<Urun>> TumUrunBilgileri()
-        {
-            return await _urunRepository.TumUrunBilgileri();//await kullanılmıyor ise bu şekilde döndürülür
-        }
+        public async Task<List<Urun>> TumUrunBilgileri() => await _urunRepository.TumUrunBilgileri();//await kullanılmıyor ise bu şekilde döndürülür
+
 
         public async Task Update(Urun t)
         {
@@ -87,19 +74,34 @@ namespace CacheLayer
             await CacheAllUrunlerAsync();
         }
 
-        public Task<Urun[]> Yeni4Urun()
+        public async Task<List<Urun>> Yeni4Urun() => await _urunRepository.Yeni4Urun();
+
+
+        public async Task<List<Urun>> FavoriUrunler() => await _urunRepository.FavoriUrunler();
+
+        public async Task<List<Urun>> BitmesiYakin() => await _urunRepository.BitmesiYakin();
+
+        public async Task<Urun> UrunDetay(int id)
         {
-            throw new NotImplementedException();
+         var urun= await _urunRepository.UrunDetay(id);
+            return urun;
         }
 
-        public Task<Urun[]> FavoriUrunler()
+        public Task<List<Urun>> OnerilenUrunler(int cinsId, int AltKategoriId)
         {
-            throw new NotImplementedException();
+            var urunler = _memoryCache.Get<List<Urun>>(CacheUrunKey).Where(x => x.CinsiyetId == cinsId && x.AltKategoriId == AltKategoriId).ToList();
+            return Task.FromResult(urunler);
         }
 
-        public Task<Urun[]> BitmesiYakin()
+        public Task<List<Urun>> Arama(Source source)
         {
-            throw new NotImplementedException();
+            List<Urun> urunler = _memoryCache.Get<List<Urun>>(CacheUrunKey);
+            if (source.AltKategoriId > 0)
+                urunler = urunler.Where(x => x.AltKategoriId == source.AltKategoriId).ToList();
+            if (source.KimeGore > 0)
+                urunler = urunler.Where(x => x.CinsiyetId == source.KimeGore).ToList();
+            return Task.FromResult(urunler);
+
         }
     }
 }

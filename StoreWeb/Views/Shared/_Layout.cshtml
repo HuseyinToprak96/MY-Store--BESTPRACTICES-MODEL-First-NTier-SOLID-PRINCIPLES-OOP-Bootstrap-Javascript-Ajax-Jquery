@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,27 +21,69 @@
               <div class="collapse navbar-collapse" id="mynavbar">
                   <ul class="navbar-nav me-auto">
                       <li class="nav-item">
-                          <a class="nav-link" href="javascript:void(0)">ANASAYFA</a>
+                          <a class="nav-link" href="/Page/Index">ANASAYFA</a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="javascript:void(0)">MAGAZALARIMIZ</a>
+                          <a class="nav-link" href="/Page/Magazalarimiz">MAGAZALARIMIZ</a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="javascript:void(0)">HAKKIMIZDA</a>
+                          <a class="nav-link" href="/Page/Hakkimizda">HAKKIMIZDA</a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="javascript:void(0)">İLETİŞİM</a>
+                          <a class="nav-link" href="/Page/İletisim">İLETİŞİM</a>
                       </li>
                   </ul>
-                  <form class="d-flex">
-                      <input class="form-control me-2" type="text" placeholder="Aranacak kategoriyi girin.">
-                      <button class="btn btn-primary" type="button">Ara</button>
+                  <form class="d-flex" asp-action="KullaniciGiris" method="post" asp-controller="Login">
+                      @if (Context.Session.GetInt32("ID") == null)
+                      {
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                              GİRİŞ İŞLEMLERİ
+                          </button>}
+                      else
+                      {
+                          <button type="button" class="btn btn-danger">
+                              <a href="/Kullanici/Profilim">PROFİLİM</a>
+                          </button>
+                          <button type="button" class="btn btn-danger">
+                              <a href="/Login/Cikis">  ÇIKIŞ YAP</a>
+                          </button>
+                      }
+                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">GİRİŞ İŞLEMLERİ</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <table class="table">
+                                          <tr>
+                                              <td>
+                                                  E-POSTA
+                                              </td>
+                                              <td><input type="text" name="Email" placeholder="E-Mail giriniz" /></td>
+                                          </tr>
+                                          <tr>
+                                              <td>ŞİFRE</td>
+                                              <td><input type="password" name="Sifre" placeholder="Şifrenizi giriniz" /></td>
+                                          </tr>
+                                          <tr><td colspan="2"><button> GİRİŞ YAP</button></td></tr>
+                                          <tr><td><a href="/Login/UyeOl">Üye Ol</a></td><td><a href="/Login/SifremiUnuttum">Şifremi Unuttum</a></td></tr>
+                                          <tr><td colspan="2">@TempData["Hata"]</td></tr>
+                                      </table>
+                                  </div>
+                                  <div class="modal-footer">
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
                   </form>
               </div>
           </div>
       </nav>
       <header>
-          <div id="demo" class="carousel slide" data-bs-ride="carousel">
+          <div id="demo" class="carousel slide" data-bs-ride="carousel" style="margin-top:20px">
 
               <!-- Indicators/dots -->
               <div class="carousel-indicators">
@@ -52,13 +95,13 @@
               <!-- The slideshow/carousel -->
               <div class="carousel-inner">
                   <div class="carousel-item active">
-                      <img src="~/img/HELogo.png" alt="Los Angeles" class="d-block" style="width:100%;height:600px">
+                      <img src="~/img/indirim.jpeg"  class="d-block" style="width:100%;height:600px">
                   </div>
                   <div class="carousel-item">
-                      <img src="~/img/img-03.jpg" alt="Chicago" class="d-block" style="width:100%; height:600px">
+                      <img src="~/img/indirimm.jpeg"  class="d-block" style="width:100%; height:600px">
                   </div>
                   <div class="carousel-item">
-                      <img src="/img/kapidaOdeme.gif" alt="New York" class="d-block" style="width:100%; height:600px" >
+                      <img src="/img/indi.jpg"  class="d-block" style="width:100%; height:600px" >
                   </div>
               </div>
               <!-- Left and right controls/icons -->
@@ -107,16 +150,39 @@
         a:hover {
             text-decoration: none;
         }
+        .urun{
+           color:brown;
+           
+        }
+    .urun:hover {
+        color: brown;
+    }
     .ucret {
         height: 25%;
-        width: 60px;
-        background-color: blueviolet;
-        border-radius: 30px;
+        width: 150px;
+        background-color:aqua;
+        border-radius: 20px;
         text-align: center;
         color: whitesmoke;
         font-weight: bold;
+        display:none;
     }
     body{
-        background-color:blanchedalmond;
+        background-color:whitesmoke;
+    }
+    h2{
+        margin-top:50px;
+        text-align:center;
+        height:40px;
+        background-color:cornflowerblue;
+        box-shadow:2px 4px 8px 2px;
+    }
+    .comp{
+        margin-top:50px;
+    }
+    .bilgi {
+        background-color: whitesmoke;
+        width: 100%;
+        margin: 0px;
     }
 </style>

@@ -34,9 +34,9 @@ namespace ServiceLayer.Services
            await _unitOfWork.CommitAsync();
             
         }
-        public void SepettenCikar(int SepetDetayId, int UyeId)
+        public void SepettenCikar(int Id)
         {
-            _sepetRepository.SepettenCikar(SepetDetayId, UyeId);
+            _sepetRepository.SepettenCikar(Id);
             _unitOfWork.Commit();
         }
     }

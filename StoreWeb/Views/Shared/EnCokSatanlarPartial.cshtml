@@ -1,19 +1,41 @@
 ﻿@model List<CoreLayer.Entities.Urun>
-
-<div id="EnCokSatanlar">
+<div class="comp">
     <h2>EN ÇOK SATILAN ÜRÜNLER</h2>
-    @foreach (var item in Model)
-    {
-        <div id="satilanUrun_@item.Id" class="satilan">
-            <img src="@item.Resim" height="150" width="150"/>
-        <div>
-            <a href="/Urun/Detay/id=@item.Id"> @item.UrunAdi</a> <div class="ucret"> @item.Ucret TL</div>
-        </div>
+    <div id="EnCokSatanlar">
+        @foreach (var item in Model)
+        {
+            <div id="@item.Id" class="satilan">
+                <div>
+                    <img src="@item.Resim" height="150" width="150" onmouseover="geldiCokSatilan();" />
+                </div>
+                <div class="bilgi">
+                    <a href="/Urun/Detay?id=@item.Id" class="urun" style="width:100%"> @item.UrunAdi</a><br /> <div class="ucret" style="width:50%" id="enUcret_@item.Id"> @item.Ucret TL</div>
+                </div>
+            </div>
+        }
     </div>
-}
 </div>
-<style>
-    #EnCokSatanlar{
-        margin-top:50px;
+    <script>
+    function geldiCokSatilan() {
+        var favoriler = document.getElementsByClassName("satilan");
+        for (var i = 0; i < favoriler.length; i++) {
+            favoriler[i].addEventListener("mouseover", function () {
+                var ucret = document.getElementById("enUcret_" + this.id).style.display = "block";
+            });
+            favoriler[i].addEventListener("mouseleave", function () {
+                var ucret = document.getElementById("enUcret_" + this.id).style.display = "none";
+            });
+        }
     }
-</style>
+    </script>
+    <style>
+        #EnCokSatanlar {
+            margin-top: 50px;
+            width:100%;
+        }
+
+            #EnCokSatanlar .satilan {
+                float: left;
+                width:25%;
+            }
+    </style>

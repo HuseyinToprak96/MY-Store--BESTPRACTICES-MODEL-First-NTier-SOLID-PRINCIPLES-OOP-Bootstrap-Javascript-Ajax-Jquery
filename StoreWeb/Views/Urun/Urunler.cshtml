@@ -1,0 +1,81 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using CoreLayer.Entities
+@using CoreLayer.Dtos
+@model StoreWeb.ViewModels.VM_Urunler
+
+@{
+    ViewData["Title"] = "Urunler";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<div class=""></div>
+<div id="urunler">
+    <div class="comp ml-3" id="kriter">
+        <table class="table">
+            <tr>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="dropdown-header" style="width:100px">
+                        @*@foreach (var item in Model.AltKategoris)
+                            {
+                                <option id="@item.Id">@item.kategori.KategoriAdi @item.AltKategoriAdi </option>
+                            }*@
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="dropdown-header" style="width:100px">
+                        @*@foreach (var item in Model.Cinsiyetler)
+                            {
+                                <option id="@item.Id">@item.cinsiyet</option>
+                            }*@
+                    </select>
+
+                </td>
+            </tr>
+            <tr>
+                <td><button class="btn btn-danger">ARA</button></td>
+            </tr>
+        </table>
+    </div>
+    <div class="row-cols-2">
+        <div class="comp col-10" id="liste" style="width:100%">
+            <h3>Arama Sonuçları</h3>
+            @foreach (var item in Model.Urunler)
+            {
+        <a href="/Urun/Detay?id=@item.Id">
+            <div class="urun ml-1 mb-1" style="background-image:url(@item.Resim);">
+                <div style="margin-bottom:0px;">@item.UrunAdi.Substring(0, 20)</div>
+            </div>
+        </a>
+            }
+        </div>
+        <div>
+        </div>
+        <div style="margin-left:150px">
+            <p style="margin-top:20px;">Bu sayfada toplam @Model.Urunler.Count sonuç listelenmiştir.</p>
+        </div>
+        <div style="margin-left:400px">@Html.PagedListPager((IPagedList)Model.Urunler, page => Url.Action("Urunler", new { AltKategoriId=0, KimeGore=0, page }))</div>
+    </div>
+</div><div></div>
+
+<style>
+    #urunler .comp {
+        float: left;
+    }
+
+    #liste .urun {
+        width: 18%;
+        height: 200px;
+        float: left;
+        opacity: 0.6;
+    }
+
+        #liste .urun:hover {
+            opacity: 1;
+        }
+</style>

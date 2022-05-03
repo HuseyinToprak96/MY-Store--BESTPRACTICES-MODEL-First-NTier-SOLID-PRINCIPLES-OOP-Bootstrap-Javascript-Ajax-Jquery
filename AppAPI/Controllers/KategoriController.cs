@@ -56,5 +56,11 @@ namespace AppAPI.Controllers
            await _service.Update(kategori);
             return Ok();
         }
+
+        public List<Kategori> GetAll() => _service.getAllAsync().Result.Select(p => new Kategori
+        {
+            KategoriAdi = "AA",
+            Renk="blue"
+        }).ToList();
     }
 }

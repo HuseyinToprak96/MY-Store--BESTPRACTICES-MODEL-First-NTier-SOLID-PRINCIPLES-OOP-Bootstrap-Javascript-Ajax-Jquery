@@ -13,6 +13,7 @@ namespace CoreLayer.Entities
         public string Resim { get; set; }
         public string UrunAdi { get; set; }
         public double Ucret  { get; set; }
+        public string Beden { get; set; }
         public int Adet { get; set; }
         [ForeignKey("altKategori")]
         public int AltKategoriId { get; set; }

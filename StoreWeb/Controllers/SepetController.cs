@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace StoreWeb.Controllers
 {
     public class SepetController : Controller
@@ -26,11 +27,18 @@ namespace StoreWeb.Controllers
             return Json(sepetDetayDto);
         }
         [HttpPost]
-        public JsonResult SepettenCikar(int sepetDetayId)
+        public JsonResult SepettenCikar(int Id)
         {
-            int id=1;
-            _SepetService.SepettenCikar(sepetDetayId,id);
+            int id=1;//sessionID olcak
+            _SepetService.SepettenCikar(Id);
             return Json(id);
+        }
+        [HttpPost]
+        public JsonResult SepetiSil(int id)
+        {
+           var sepet= _SepetService.getByIdAsync(id).Result;
+            _SepetService.Remove(sepet);
+            return Json(sepet.UyeId);
         }
     }
 }
