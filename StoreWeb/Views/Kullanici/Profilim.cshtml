@@ -1,0 +1,136 @@
+﻿@model CoreLayer.Entities.Uye
+@{
+    ViewData["Title"] = "Profilim";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<h1>Profilim</h1>
+<div class="row-cols-1" id="prof" style="width:100%">
+    <div style="width:65%; background-color:lavenderblush;box-shadow:2px 8px 4px 2px;border-color:azure" class="com">
+        <h3>ÜYELİK BİLGİLERİM</h3>
+        <div class="icerik">
+            <table class="table">
+                <tr>
+                  <td colspan="2"><strong>Ad Soyad:</strong>@Model.Ad @Model.Soyad</td>
+                </tr>
+                <tr><td><strong>Mail:</strong>@Model.Mail</td><td><strong>Telefon:</strong>@Model.Telefon</td></tr>
+                <tr><td><strong>Cinsiyet:</strong><span id="cins">@Model.cinsiyet.cinsiyet</span></td><td><strong>Adres:</strong>@Model.Adres</td></tr>
+                <tr><td colspan="2">Bu güne kadar toplam @Model.Faturalar.Count kez alışveriş yaptınız.</td></tr>
+                <tr><td colspan="2">Sepetinizde Şuanda @Model.sepet.SepetDetay.Count adet ürün bulunmaktadır.<a href="/Urun/Urunler">Alışverişe devam etmek için tıklayın.</a></td></tr>
+            </table>
+        </div>
+    </div>
+    <div style="width:33%;background-color:floralwhite;box-shadow:2px 4px 8px 2px" class="com">
+    
+        <h3>SEPETİM</h3>
+    <div class="icerik">
+        <table>
+            <tr>
+                <th>
+                    RESİM
+                </th>
+                <th>
+                    ÜRÜN ADI
+                </th>
+                <th>
+                    ÜCRET
+                </th>
+                <th>SİL</th>
+            </tr>
+            @foreach (var item in Model.sepet.SepetDetay)
+            {
+                <tr>
+                    <td>
+                     <img src="@item.urun.Resim" height="100" width="100"/>
+                    </td>
+                    <td>
+@item.urun.UrunAdi
+                    </td>
+                    <td>
+                        @item.urun.Ucret
+                    </td>
+                    <td><button class="btn-danger" onclick="silUrun(@item.Id);" id="@item.Id" style="background-color:red;color:white;">Sil</button></td>
+                </tr>
+            }
+            <tr>
+                <td style="text-align:right">
+                    <strong>TUTAR: </strong>
+                </td>
+                <td colspan="2">
+                    @Model.sepet.SepetDetay.Sum(x => x.urun.Ucret) TL
+                </td>
+            </tr>
+            <tr><td colspan="3" style="text-align:center"><button class="btn btn-danger">Sipariş Ver</button></td></tr>
+        </table>
+
+    </div>
+    </div>
+</div>
+<div>
+    <h4>FATURA BİLGİLERİM</h4>
+    <div>
+        <table class="table">
+            <tr>
+                <th>ALIŞVERİŞ KODU</th>
+                <th>ALIŞVERİŞ TARİHİ</th>
+            </tr>
+            @foreach (var item in Model.Faturalar)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.AlisverisTarihi</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            FATURA DETAY
+                        </button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Fatura Detay</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table">
+                                            <tr>
+                                                <th>
+                                                    ÜRÜN ADI
+                                                </th>
+                                                <th>ÜRÜN ADEDİ</th>
+                                                <th>ÜRÜN FİYATI</th>
+                                            </tr>
+                                            @foreach (var urun in item.faturaDetays)
+                                            {
+                                                <tr>
+                                                    <td>@urun.urun.UrunAdi</td><td>@urun.Adet</td><td>@urun.Fiyat</td>
+                                                </tr>
+}
+                                           <tr><td colspan="3">Ödenen Tutar:@Model.Sifre</td></tr>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+
+                                    </div>
+                                </div></div></div>
+                    </td>
+                </tr>
+            }
+        </table>
+        </div>
+    </div>
+<script>
+    function silUrun(id) {
+        //let xhr = new XMLHttpRequest;
+        //xhr.open("POST", "/Sepet/SepettenCikar/" + id, true);
+        //xhr.send();
+        var find = document.getElementById(id);
+        find.parentNode.parentNode.remove();
+</script>
+<style>
+    #prof .com{
+        float:left;
+        margin-left:1%;
+    }
+    h3{
+        color:whitesmoke;
+    }
+</style>

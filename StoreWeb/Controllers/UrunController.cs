@@ -42,7 +42,7 @@ namespace StoreWeb.Controllers
             urunVeBenzerUrunler.urun = urun;
             urunVeBenzerUrunler.BenzerUrunler = onerilen;
             urunVeBenzerUrunler.sepet =await _sepetService.MusterininSepeti(1);
-            urunVeBenzerUrunler.kategoriler = await _kategoriService.KategoriyeAitDetaylar();
+            urunVeBenzerUrunler.Cinsiyetler = await _CinsiyetService.getAllAsync();
             return View(urunVeBenzerUrunler);
         }
         public JsonResult liste()
@@ -54,7 +54,7 @@ namespace StoreWeb.Controllers
         {
             VM_Urunler vM_Urunler = new VM_Urunler();
             var urunler=  _UrunService.Arama(source);
-            vM_Urunler.Urunler = (List<Urun>)urunler.Result.ToPagedList(page, 15);
+            vM_Urunler.Urunler = urunler.Result.ToPagedList(page, 10);
             vM_Urunler.Cinsiyetler = await _CinsiyetService.getAllAsync();
             vM_Urunler.AltKategoris = await _altKategoriService.getAllAsync();
             return View(vM_Urunler);

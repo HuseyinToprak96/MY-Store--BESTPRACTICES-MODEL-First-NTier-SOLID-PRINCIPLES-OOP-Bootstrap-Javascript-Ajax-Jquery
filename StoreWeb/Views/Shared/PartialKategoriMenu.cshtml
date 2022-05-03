@@ -1,28 +1,12 @@
-﻿@model List<CoreLayer.Entities.Kategori>
+﻿@model List<CoreLayer.Entities.Cinsiyet>
 <div id="nav">
     @foreach (var item in Model)
     {
         <div class="kategori" id="@item.Id" href="" onmouseover="goster();">
-            <a href="/Urun/Listesi/KategoriId=@item.Id"> @item.KategoriAdi</a>
-            <div class="altKategori" id="altKategori_@item.Id" style="display:none">
-                @foreach (var altKategori in item.altKategoriler)
-                {
-                <div class="alt">  @altKategori.AltKategoriAdi</div>
-                }
-            </div>
+            <a href="/Urun/Urunler?KimeGore=@item.Id"> @item.cinsiyet</a>
         </div>
     }
 </div>
-<script>
-    function goster() {
-        var kategoriler = document.getElementsByClassName("kategori");
-        for (let i = 0; i < kategoriler.length; i++) {
-            kategoriler[i].addEventListener("mouseover", function () {
-                document.getElementById("altKategori" + this.id).style.display = "block";
-            });
-        }
-    }
-</script>
 <style>
     #nav{
         width:100%;
@@ -35,7 +19,7 @@
     .kategori{
         height:60px;
         width:20%;
-        background-color:cadetblue;
+        background-color:darkorange;
         color:whitesmoke;
         font-size:30px;
         font-weight:bold;
@@ -48,19 +32,10 @@
     .kategori:hover{
         transform:scale(1.05);
     }
-    .kategori:hover div{
-        display:block;
-    }
     a{
         color:whitesmoke;
     }
     a:hover{
         color:whitesmoke;
-    }
-    .alt{
-        height:20px;
-        width:20%;
-        background-color:azure;
-        color:black;
     }
 </style>

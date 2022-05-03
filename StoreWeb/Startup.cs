@@ -17,6 +17,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Alısveris
 {
@@ -43,9 +46,30 @@ namespace Alısveris
     });
             });
 
-            
+            //session kullanabilmek için
+
+            services.AddSession(opt=>
+            {
+                opt.IdleTimeout = TimeSpan.FromMinutes(5);
+            });
+
+            //services.AddMvc(conf =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder()
+            //    .RequireAuthenticatedUser()
+            //    .Build();
+            //    conf.Filters.Add(new AuthorizeFilter(policy));
+            //});
 
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(x =>
+                {
+                    x.LoginPath = "/Login/KullaniciGiris";
+                });
+
+
+            //dependincy inversion kullanımı için yapılması gereken tanımlamalar
             services.AddScoped(typeof(IService<>), typeof(Service<>));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -61,7 +85,6 @@ namespace Alısveris
             services.AddScoped<IKategoriService, KategoriService>();
             services.AddScoped<IFaturaRepository, FaturaRepository>();
             services.AddScoped<IFaturaService, FaturaService>();
-           
             services.AddAutoMapper(typeof(MapProfile));
             services.AddMemoryCache();
            
@@ -81,7 +104,7 @@ namespace Alısveris
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseStaticFiles();
-
+            app.UseSession();//yazmaz isek session kullnılmaz.(ÖNEMLİ)
             app.UseRouting();
 
             app.UseAuthorization();

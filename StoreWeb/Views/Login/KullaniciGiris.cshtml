@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "KullaniciGiris";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<div id="giris">
+    <h1 style="text-align:center">GİRİŞ PANELİ</h1>
+    <form asp-action="KullaniciGiris" asp-controller="Login" method="post">
+        <table class="table" id="log">
+            <tr>
+                <td height="40" colspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input name="Email" placeholder="Epostanızı giriniz." />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input name="Sifre" placeholder="Şifrenizi giriniz." type="password" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><input value="Giriş Yap" type="submit" /></td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    <a href="/Uye/UyeOl" >Üye Ol</a>
+                </td>
+                <td>
+                    <a href="/Uye/SifremiUnuttum">Şifremi Unuttum</a>
+                </td>
+            </tr>
+            <tr>
+                <td>@TempData["hata"]</td>
+            </tr>
+        </table>
+    </form>
+</div>
+<style>
+    #log{
+        margin-left:auto;
+        margin-right:auto;
+        box-shadow:2px 4px 4px 2px;
+        width:400px;
+        text-align:center
+    }
+    #giris{
+       
+        margin-top:150px;
+    }
+</style>

@@ -98,8 +98,8 @@ namespace CacheLayer
             List<Urun> urunler = _memoryCache.Get<List<Urun>>(CacheUrunKey);
             if (source.AltKategoriId > 0)
                 urunler = urunler.Where(x => x.AltKategoriId == source.AltKategoriId).ToList();
-            if (source.KategoriId > 0)
-                urunler = urunler.Where(x => x.AltKategoriId == source.AltKategoriId).ToList();
+            if (source.KimeGore > 0)
+                urunler = urunler.Where(x => x.CinsiyetId == source.KimeGore).ToList();
             return Task.FromResult(urunler);
 
         }

@@ -22,10 +22,11 @@ namespace ServiceLayer.Services
             _uyeRepository = uyeRepository;
         }
 
-        public async Task<UyeDto> uyeDetay(int UyeId)
+        public async Task<Uye> uyeDetay(int UyeId)
         {
-            var uyeDto = _mapper.Map<UyeDto>(await _uyeRepository.uyeDetay(UyeId));
-            return uyeDto;
+            var uye = await _uyeRepository.uyeDetay(UyeId);
+            var uyeDto = _mapper.Map<UyeDto>(uye);
+            return uye;
         }
 
         public async Task<GirenBilgileri> UyeLogin(string mail, string sifre)
