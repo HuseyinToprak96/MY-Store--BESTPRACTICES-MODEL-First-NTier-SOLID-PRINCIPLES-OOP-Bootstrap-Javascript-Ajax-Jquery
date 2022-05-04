@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace StoreWeb.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IAltKategoriService _altKategoriService;
         private readonly IUyeService _uyeService;
         private readonly IUrunService _urunService;
-        private readonly IService<Kategori> _KategoriService;
+        private readonly IKategoriService _KategoriService;
         private readonly IMapper _mapper;
-        public AdminController(IAltKategoriService altKategoriService, IUyeService uyeService, IUrunService urunService, IService<Kategori> kategoriService, IMapper mapper)
+        public AdminController(IAltKategoriService altKategoriService, IUyeService uyeService, IUrunService urunService, IKategoriService kategoriService, IMapper mapper)
         {
             _altKategoriService = altKategoriService;
             _uyeService = uyeService;
@@ -23,9 +23,9 @@ namespace StoreWeb.Controllers
             _KategoriService = kategoriService;
             _mapper = mapper;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _KategoriService.KategoriyeAitDetaylar());
         }
         [HttpPost]
         public async Task<JsonResult> UrunEkle(Urun urun)

@@ -8,10 +8,10 @@ namespace DataLayer.Seeds
     {
         public void Configure(EntityTypeBuilder<Kategori> builder)
         {
-            builder.HasData(new Kategori { Id = 1, KategoriAdi = "T-shirt", Renk = "red" });
-            builder.HasData(new Kategori { Id = 2, KategoriAdi = "Gömlek", Renk = "gold" });
-            builder.HasData(new Kategori { Id = 3, KategoriAdi = "Pantolon", Renk = "blue" });
-            builder.HasData(new Kategori { Id = 4, KategoriAdi = "Ayakkabı", Renk = "black" });
+            builder.HasData(new Kategori { Id = 1, KategoriAdi = "T-shirt Çeşitleri", Renk = "red" });
+            builder.HasData(new Kategori { Id = 2, KategoriAdi = "Gömlek Çeşitleri", Renk = "gold" });
+            builder.HasData(new Kategori { Id = 3, KategoriAdi = "Pantolon Çeşitleri", Renk = "blue" });
+            builder.HasData(new Kategori { Id = 4, KategoriAdi = "Ayakkabı Çeşitleri", Renk = "black" });
         }
     }
 }
