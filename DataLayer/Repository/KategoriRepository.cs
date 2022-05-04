@@ -14,7 +14,7 @@ namespace DataLayer.Repository
 
         public async Task<List<Kategori>> KategoriyeAitDetaylar()
         {
-            return await _data.Kategoriler.Include(x => x.altKategoriler).ThenInclude(x => x.Urunler).ToListAsync();
+            return await _data.Kategoriler.Include(x => x.altKategoriler).ThenInclude(x => x.Urunler).ThenInclude(x=>x.cinsiyet).ToListAsync();
         }
     }
 }

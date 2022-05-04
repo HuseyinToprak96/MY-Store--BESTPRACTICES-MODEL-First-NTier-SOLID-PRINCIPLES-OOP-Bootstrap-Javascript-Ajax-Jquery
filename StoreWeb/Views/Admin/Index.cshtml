@@ -1,8 +1,83 @@
-﻿
+﻿@model List<CoreLayer.Entities.Kategori>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+@foreach (var kategori in Model)
+{
+<div id="kategori_@kategori.Id" class="kategoriAccordion" onclick="Goster(@kategori.Id,'kategori')">
+    <h3 style="background-color:@kategori.Renk">@kategori.KategoriAdi<button onclick="accordionSil(@kategori.Id,'kategori');">X</button></h3>
+</div> <div class="listeAltkategori" id="alt_kategori_@kategori.Id">
+       @foreach (var altKategori in kategori.altKategoriler)
+       {
+           <div style="background-color:@altKategori.Renk" class="li kategori_@kategori.Id" onclick="Goster(@altKategori.Id,'altKategori')" id="altKategori_@altKategori.Id">
+               @altKategori.AltKategoriAdi<button onclick="accordionSil(@altKategori.Id,'altKategori');" id="btn_@altKategori.Id">X</button>
+           </div>
+           <div class="urunlerAccordion altKategori_@altKategori.Id" id="alt_altKategori_@altKategori.Id">
+               @foreach (var urun in altKategori.Urunler)
+               {
+                   <div class="urunAdmin" id="urun_@urun.Id">
+                       @urun.UrunAdi    <button onclick="accordionSil(@urun.Id, 'urun');">X</button>
+                   </div>
+               }
+           </div>
+       }
+  
+</div>
+}
+<script>
+    //yollanılan 2. parametreye göre çalışacak olan metotlar... 
+    //değişen tek kısımları 2. parametrelerdir. Yani koda tek satır kod ile eklenecektir.
 
-<h1>Index</h1>
+    var urun = "/urun/Sil?id=";
+    var altKategori = "/altkategori/Sil?id=";
+    var kategori = "/kategori/Sil?id=";
 
+
+    function Goster(id, tiklanan) {
+        var acc = document.getElementById("alt_" + tiklanan + "_" + id);
+        if (acc.style.display == "none")
+            acc.style.display = "block";
+        else
+            acc.style.display = "none";
+    }
+
+    function accordionSil(id, silinecek) {
+
+        //ajax işlemleri eklenecek
+
+        var obj = document.getElementById(silinecek + "_" + id);
+        obj.remove();
+        if (silinecek != "urun") {
+        var alt = document.getElementById("alt_" + silinecek + "_" + id);
+            alt.remove();
+        }
+    }
+</script>
+
+<style>
+    h3{
+        height:80px;
+        font-size:40px;
+        color:whitesmoke;
+        padding-top:15px;
+        text-align:center;
+    }
+    .kategoriAccordion:focus ul{
+        display:block;
+    }
+    .listeAltkategori{
+        display:none;
+    }
+    .urunlerAccordion{
+        display:none;
+    }
+    .li{
+        height:40px;
+        font-size:20px;
+        padding-top:10px;
+        list-style-type:none;
+        background-color:beige;
+        margin-top:5px;
+    }
+</style>
