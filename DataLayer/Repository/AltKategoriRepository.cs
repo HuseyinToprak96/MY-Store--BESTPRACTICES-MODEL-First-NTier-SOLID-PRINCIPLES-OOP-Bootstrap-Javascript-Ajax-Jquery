@@ -1,15 +1,13 @@
 ﻿using CoreLayer.Entities;
 using CoreLayer.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Repository
 {
-    public class AltKategoriRepository : Repository<AltKategori>,IAltKategoriRepository
+    public class AltKategoriRepository : Repository<AltKategori>, IAltKategoriRepository
     {
         public AltKategoriRepository(Data data) : base(data)
         {
@@ -17,7 +15,7 @@ namespace DataLayer.Repository
         }
         public async Task<List<AltKategori>> KategoriyeAitAltKategoriler(int id)
         {
-            return await _data.AltKategoriler.Where(ak=>ak.Id==id).ToListAsync();
+            return await _data.AltKategoriler.Where(ak => ak.Id == id).ToListAsync();
         }
     }
 }

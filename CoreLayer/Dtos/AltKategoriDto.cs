@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CoreLayer.Dtos
+﻿namespace CoreLayer.Dtos
 {
-   public class AltKategoriDto
+    public class AltKategoriDto
     {
         public int Id { get; set; }
         public string AltKategoriAdi { get; set; }

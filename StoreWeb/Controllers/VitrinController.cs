@@ -1,14 +1,11 @@
-﻿using CoreLayer.Dtos;
-using CoreLayer.Entities;
+﻿using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 namespace StoreWeb.Controllers
 {
+    [AllowAnonymous]
     public class VitrinController : Controller
     {
         private readonly IService<FaturaDetay> _faturaDetayservice; //En çok satan ürünler için
@@ -38,7 +35,7 @@ namespace StoreWeb.Controllers
         }
         public async Task<PartialViewResult> Kategoriler()
         {
-          var kategoriler= await _Kategoriservice.getAllAsync();
+            var kategoriler = await _Kategoriservice.getAllAsync();
             return PartialView();
         }
     }

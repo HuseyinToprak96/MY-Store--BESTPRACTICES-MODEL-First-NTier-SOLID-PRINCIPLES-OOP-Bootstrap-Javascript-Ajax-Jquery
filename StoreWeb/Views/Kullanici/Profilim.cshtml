@@ -1,4 +1,5 @@
 ﻿@model CoreLayer.Entities.Uye
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Profilim";
     Layout = "~/Views/Shared/_Layout2.cshtml";
@@ -10,65 +11,73 @@
         <div class="icerik">
             <table class="table">
                 <tr>
-                  <td colspan="2"><strong>Ad Soyad:</strong>@Model.Ad @Model.Soyad</td>
+                  <td colspan="2"><strong>Ad Soyad:</strong>@Model.Ad @Model.Soyad @Context.Session.GetString("Yetki")</td>
                 </tr>
                 <tr><td><strong>Mail:</strong>@Model.Mail</td><td><strong>Telefon:</strong>@Model.Telefon</td></tr>
                 <tr><td><strong>Cinsiyet:</strong><span id="cins">@Model.cinsiyet.cinsiyet</span></td><td><strong>Adres:</strong>@Model.Adres</td></tr>
-                <tr><td colspan="2">Bu güne kadar toplam @Model.Faturalar.Count kez alışveriş yaptınız.</td></tr>
-                <tr><td colspan="2">Sepetinizde Şuanda @Model.sepet.SepetDetay.Count adet ürün bulunmaktadır.<a href="/Urun/Urunler">Alışverişe devam etmek için tıklayın.</a></td></tr>
+                <tr><td>Bu güne kadar toplam @Model.Faturalar.Count kez alışveriş yaptınız.</td><td>@if (Model.Faturalar.Count == 0)
+            {
+                <a href="/Urun/Urunler" style="color:darkslateblue">Alışverişe Başla</a>
+            }
+</td></tr>
+                @if (Model.sepet != null) { 
+                <tr><td colspan="2">Sepetinizde Şuanda @Model.sepet.SepetDetay.Count adet ürün bulunmaktadır.<a href="/Urun/Urunler">Alışverişe devam etmek için tıklayın.</a></td></tr>}
             </table>
         </div>
     </div>
     <div style="width:33%;background-color:floralwhite;box-shadow:2px 4px 8px 2px" class="com">
-    
+        @if (Model.sepet!=null) {
         <h3>SEPETİM</h3>
-    <div class="icerik">
-        <table>
-            <tr>
-                <th>
-                    RESİM
-                </th>
-                <th>
-                    ÜRÜN ADI
-                </th>
-                <th>
-                    ÜCRET
-                </th>
-                <th>SİL</th>
-            </tr>
-            @foreach (var item in Model.sepet.SepetDetay)
-            {
+        <div class="icerik">
+            <table>
                 <tr>
-                    <td>
-                     <img src="@item.urun.Resim" height="100" width="100"/>
-                    </td>
-                    <td>
-@item.urun.UrunAdi
-                    </td>
-                    <td>
-                        @item.urun.Ucret
-                    </td>
-                    <td><button class="btn-danger" onclick="silUrun(@item.Id);" id="@item.Id" style="background-color:red;color:white;">Sil</button></td>
+                    <th>
+                        RESİM
+                    </th>
+                    <th>
+                        ÜRÜN ADI
+                    </th>
+                    <th>
+                        ÜCRET
+                    </th>
+                    <th>SİL</th>
                 </tr>
-            }
-            <tr>
-                <td style="text-align:right">
-                    <strong>TUTAR: </strong>
-                </td>
-                <td colspan="2">
-                    @Model.sepet.SepetDetay.Sum(x => x.urun.Ucret) TL
-                </td>
-            </tr>
-            <tr><td colspan="3" style="text-align:center"><button class="btn btn-danger">Sipariş Ver</button></td></tr>
-        </table>
 
-    </div>
+                @foreach (var item in Model.sepet.SepetDetay)
+                {
+                    <tr>
+                        <td>
+                            <img src="@item.urun.Resim" height="100" width="100" />
+                        </td>
+                        <td>
+                            @item.urun.UrunAdi
+                        </td>
+                        <td>
+                            @item.urun.Ucret
+                        </td>
+                        <td><button class="btn-danger" onclick="silUrun(@item.Id);" id="@item.Id" style="background-color:red;color:white;">Sil</button></td>
+                    </tr>
+                }
+                <tr>
+                    <td style="text-align:right">
+                        <strong>TUTAR: </strong>
+                    </td>
+                    <td colspan="2">
+                        @Model.sepet.SepetDetay.Sum(x => x.urun.Ucret) TL
+                    </td>
+                </tr>
+                <tr><td colspan="3" style="text-align:center"><button class="btn btn-danger">Sipariş Ver</button></td></tr>
+            </table>
+
+        </div>}
     </div>
 </div>
+@if (Model.Faturalar.Count>0 ) {
 <div>
-    <h4>FATURA BİLGİLERİM</h4>
+    
     <div>
-        <table class="table">
+        <table class="table" style="margin-top:50px">
+            <tr><th colspan="2"><h4>FATURA BİLGİLERİM</h4></th></tr>
             <tr>
                 <th>ALIŞVERİŞ KODU</th>
                 <th>ALIŞVERİŞ TARİHİ</th>
@@ -116,7 +125,7 @@
             }
         </table>
         </div>
-    </div>
+    </div> }
 <script>
     function silUrun(id) {
         //let xhr = new XMLHttpRequest;

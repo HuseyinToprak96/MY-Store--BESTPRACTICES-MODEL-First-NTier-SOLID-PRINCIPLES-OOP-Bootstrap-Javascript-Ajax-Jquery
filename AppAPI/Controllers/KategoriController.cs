@@ -2,9 +2,7 @@
 using CoreLayer.Dtos;
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,21 +44,21 @@ namespace AppAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> KategoriSil(int id)
         {
-           await _service.Remove(await _service.getByIdAsync(id));
+            await _service.Remove(await _service.getByIdAsync(id));
             return Ok();
         }
         [HttpPut]
         public async Task<IActionResult> Guncelle(KategoriDto kategoriDto)
         {
             var kategori = _mapper.Map<Kategori>(kategoriDto);
-           await _service.Update(kategori);
+            await _service.Update(kategori);
             return Ok();
         }
 
         public List<Kategori> GetAll() => _service.getAllAsync().Result.Select(p => new Kategori
         {
             KategoriAdi = "AA",
-            Renk="blue"
+            Renk = "blue"
         }).ToList();
     }
 }

@@ -1,9 +1,6 @@
 ﻿using CoreLayer.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Repository
@@ -20,7 +17,7 @@ namespace DataLayer.Repository
         }
         public async Task AddAsync(T t)
         {
-           await _dbSet.AddAsync(t);
+            await _dbSet.AddAsync(t);
         }
 
         public async Task<List<T>> getAllAsync()

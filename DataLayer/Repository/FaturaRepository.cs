@@ -1,10 +1,8 @@
 ﻿using CoreLayer.Entities;
 using CoreLayer.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Repository
@@ -22,7 +20,7 @@ namespace DataLayer.Repository
 
         public async Task<List<Fatura>> KisininFaturalari(int UyeId)
         {
-            return await _data.Faturalar.Include(x => x.faturaDetays).Where(x => x.UyeId==UyeId).ToListAsync();
+            return await _data.Faturalar.Include(x => x.faturaDetays).Where(x => x.UyeId == UyeId).ToListAsync();
         }
     }
 }

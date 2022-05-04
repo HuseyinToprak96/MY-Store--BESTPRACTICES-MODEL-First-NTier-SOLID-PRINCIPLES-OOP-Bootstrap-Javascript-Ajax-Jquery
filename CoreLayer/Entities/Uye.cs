@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoreLayer.Entities
 {
-   public class Uye
+    public class Uye
     {
         public int Id { get; set; }
         public bool Yetki { get; set; }
@@ -18,7 +14,7 @@ namespace CoreLayer.Entities
         public string Mail { get; set; }
         public string Sifre { get; set; }
         [ForeignKey("cinsiyet")]
-        public int CinsiyetId { get; set; }
+        public int? CinsiyetId { get; set; }
         public Cinsiyet cinsiyet { get; set; }
         public Sepet sepet { get; set; }
         public List<Fatura> Faturalar { get; set; }

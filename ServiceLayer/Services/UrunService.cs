@@ -5,8 +5,6 @@ using CoreLayer.Interfaces.Services;
 using CoreLayer.Interfaces.UnitOfWork;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ServiceLayer.Services
@@ -51,7 +49,7 @@ namespace ServiceLayer.Services
 
         public async Task<List<Urun>> TumUrunBilgileri()
         {
-          return await  _urunRepository.TumUrunBilgileri();
+            return await _urunRepository.TumUrunBilgileri();
         }
 
         public Task<Urun> UrunDetay(int id)

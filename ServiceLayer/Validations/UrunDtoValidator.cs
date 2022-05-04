@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CoreLayer.Dtos;
+﻿using CoreLayer.Dtos;
 using FluentValidation;
 namespace ServiceLayer.Validations
 {
-    public class UrunDtoValidator:AbstractValidator<UrunDto>
+    public class UrunDtoValidator : AbstractValidator<UrunDto>
     {
         public UrunDtoValidator()
         {

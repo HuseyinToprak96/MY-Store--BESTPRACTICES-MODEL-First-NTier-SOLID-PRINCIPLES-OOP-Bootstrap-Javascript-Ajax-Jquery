@@ -2,11 +2,8 @@
 using CoreLayer.Dtos;
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppAPI.Controllers
@@ -36,20 +33,20 @@ namespace AppAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-           await _altKategoriService.Remove(await _altKategoriService.getByIdAsync(id));
+            await _altKategoriService.Remove(await _altKategoriService.getByIdAsync(id));
             return Ok();
         }
         [HttpPut]
         public async Task<IActionResult> Guncelle(AltKategoriDto altKategoriDto)
         {
-           await _altKategoriService.Update(_mapper.Map<AltKategori>(altKategoriDto));
+            await _altKategoriService.Update(_mapper.Map<AltKategori>(altKategoriDto));
             return Ok();
         }
         [HttpPost]
         public async Task<IActionResult> Ekle(AltKategoriDto altKategoriDto)
         {
-           await _altKategoriService.AddAsync(_mapper.Map<AltKategori>(altKategoriDto));
-           return Ok();
+            await _altKategoriService.AddAsync(_mapper.Map<AltKategori>(altKategoriDto));
+            return Ok();
         }
     }
 }

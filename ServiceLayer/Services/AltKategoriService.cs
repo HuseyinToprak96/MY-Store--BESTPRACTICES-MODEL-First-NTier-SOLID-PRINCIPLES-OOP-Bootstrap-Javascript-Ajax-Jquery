@@ -2,15 +2,12 @@
 using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
 using CoreLayer.Interfaces.UnitOfWork;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ServiceLayer.Services
 {
-    public class AltKategoriService : Service<AltKategori>,IAltKategoriService
+    public class AltKategoriService : Service<AltKategori>, IAltKategoriService
     {
         private readonly IAltKategoriRepository _altKategoriRepository;
         public AltKategoriService(IRepository<AltKategori> repository, IUnitOfWork unitOfWork, IAltKategoriRepository altKategoriRepository) : base(repository, unitOfWork)

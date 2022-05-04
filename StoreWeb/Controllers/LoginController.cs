@@ -1,33 +1,51 @@
-﻿using CoreLayer.Interfaces.Services;
+﻿using AutoMapper;
+using CoreLayer.Dtos;
+using CoreLayer.Entities;
+using CoreLayer.Interfaces.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace StoreWeb.Controllers
 {
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         private readonly IUyeService _uyeService;
-        public LoginController(IUyeService uyeService)
+        private readonly IMapper _mapper;
+        public LoginController(IUyeService uyeService, IMapper mapper)
         {
             _uyeService = uyeService;
+            _mapper = mapper;
         }
         public IActionResult KullaniciGiris()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> KullaniciGiris(string Email,string Sifre)
+        public async Task<IActionResult> KullaniciGiris(string Email, string Sifre)
         {
             var uyeBilgileri = await _uyeService.UyeLogin(Email, Sifre);
-            if (uyeBilgileri != null) {
+            if (uyeBilgileri != null)
+            {
                 HttpContext.Session.SetInt32("ID", uyeBilgileri.Id);
-                HttpContext.Session.SetString("Yetki", uyeBilgileri.Yetki);
-                
-                return RedirectToAction( "Index","Page");
+                if (uyeBilgileri.Yetki == true)
+                {
+                    // string yetki = "Admin";
+                    var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Role,"Admin")
+                };
+                    var userIdentity = new ClaimsIdentity(claims, "Login");
+                    ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+                    await HttpContext.SignInAsync(principal);
+                    return RedirectToAction("Index", "Admin");
+                }
+                return RedirectToAction("Index", "Page");
             }
             else
                 TempData["Hata"] = "Hatalı kullanıcı adı veya şifre";
@@ -38,6 +56,23 @@ namespace StoreWeb.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Page");
+        }
+        [HttpGet]
+        public IActionResult UyeOl()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UyeOl(UyeOlDto uyeOlDto)
+        {
+            if (ModelState.IsValid)
+            {
+                uyeOlDto.CinsiyetId = 2;
+                var uye = _mapper.Map<Uye>(uyeOlDto);
+               await _uyeService.AddAsync(uye);
+                return RedirectToAction(nameof(KullaniciGiris));
+            }
+            return View();
         }
     }
 }

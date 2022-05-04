@@ -1,5 +1,3 @@
-using System;
-
 namespace Alısveris.Models
 {
     public class ErrorViewModel

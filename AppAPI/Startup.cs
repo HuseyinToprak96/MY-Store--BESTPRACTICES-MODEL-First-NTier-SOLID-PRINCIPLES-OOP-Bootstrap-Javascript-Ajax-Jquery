@@ -14,15 +14,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ServiceLayer.Maping;
 using ServiceLayer.Services;
 using ServiceLayer.Validations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AppAPI
 {
@@ -39,7 +34,7 @@ namespace AppAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers(opt=>opt.Filters.Add(new ValidateFilterAttribute())).AddFluentValidation(x=>x.RegisterValidatorsFromAssemblyContaining<UrunDtoValidator>());
+            services.AddControllers(opt => opt.Filters.Add(new ValidateFilterAttribute())).AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<UrunDtoValidator>());
 
             services.Configure<ApiBehaviorOptions>(opt =>//API a özel
             {
@@ -92,7 +87,7 @@ namespace AppAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AppAPI v1"));
             }
             app.UseCustomException();//Kendi middleware imiz.
-            
+
 
 
             app.UseRouting();
