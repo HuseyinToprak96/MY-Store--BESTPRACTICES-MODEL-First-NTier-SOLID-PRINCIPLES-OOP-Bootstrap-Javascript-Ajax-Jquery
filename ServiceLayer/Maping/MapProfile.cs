@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
 using CoreLayer.Dtos;
 using CoreLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceLayer.Maping
 {
-    public class MapProfile:Profile
+    public class MapProfile : Profile
     {
         public MapProfile()
         {
@@ -20,6 +15,7 @@ namespace ServiceLayer.Maping
             CreateMap<AltKategori, AltKategoriDto>().ReverseMap();
             CreateMap<Kategori, KategoriDto>().ReverseMap();
             CreateMap<Uye, UyeDto>();
+            CreateMap<UyeOlDto, Uye>();
         }
     }
 }

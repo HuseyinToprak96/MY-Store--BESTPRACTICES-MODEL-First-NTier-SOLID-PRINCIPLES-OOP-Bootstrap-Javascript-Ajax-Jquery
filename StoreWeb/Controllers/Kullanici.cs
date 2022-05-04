@@ -3,13 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StoreWeb.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace StoreWeb.Controllers
 {
+    [AllowAnonymous]
     public class Kullanici : Controller
     {
         private readonly IUyeService _uyeService;
@@ -25,9 +23,8 @@ namespace StoreWeb.Controllers
         public async Task<IActionResult> Profilim()
         {
             int id = HttpContext.Session.GetInt32("ID").Value;
-
             return View(await _uyeService.uyeDetay(id));
         }
-        
+
     }
 }

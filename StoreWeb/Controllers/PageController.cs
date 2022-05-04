@@ -1,18 +1,13 @@
 ﻿using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
-using HtmlAgilityPack;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using StoreWeb.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StoreWeb.Controllers
 {
+    [AllowAnonymous]
     public class PageController : Controller
     {
         private readonly IService<Cinsiyet> _Cinsiyetservice;

@@ -2,11 +2,7 @@
 using CoreLayer.Dtos;
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppAPI.Controllers
@@ -42,14 +38,14 @@ namespace AppAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Sil(int id)
         {
-           await _service.Remove(await _service.getByIdAsync(id));
+            await _service.Remove(await _service.getByIdAsync(id));
             return Ok();
         }
         [HttpPut]
         public async Task<IActionResult> Guncelle(UrunDto urunDto)
         {
             var urun = _mapper.Map<Urun>(urunDto);
-           await _service.Update(urun);
+            await _service.Update(urun);
             return Ok();
         }
     }

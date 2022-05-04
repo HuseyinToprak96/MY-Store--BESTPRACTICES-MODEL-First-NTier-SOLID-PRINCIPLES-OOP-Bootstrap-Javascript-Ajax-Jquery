@@ -1,3 +1,4 @@
+using AppAPI.Filters;
 using CacheLayer;
 using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
@@ -5,21 +6,20 @@ using CoreLayer.Interfaces.UnitOfWork;
 using DataLayer;
 using DataLayer.Repository;
 using DataLayer.UnitOfWork;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ServiceLayer.Maping;
 using ServiceLayer.Services;
+using ServiceLayer.Validations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Alısveris
 {
@@ -35,7 +35,8 @@ namespace Alısveris
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllers(opt => opt.Filters.Add(new ValidateFilterAttribute())).AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<UyeDtoValidator>());
+
 
             services.AddDbContext<Data>(opt =>
             {
@@ -48,25 +49,30 @@ namespace Alısveris
 
             //session kullanabilmek için
 
-            services.AddSession(opt=>
+            services.AddSession(opt =>
             {
                 opt.IdleTimeout = TimeSpan.FromMinutes(5);
             });
 
-            //services.AddMvc(conf =>
-            //{
-            //    var policy = new AuthorizationPolicyBuilder()
-            //    .RequireAuthenticatedUser()
-            //    .Build();
-            //    conf.Filters.Add(new AuthorizeFilter(policy));
-            //});
+
 
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(x =>
                 {
-                    x.LoginPath = "/Login/KullaniciGiris";
+                    x.LoginPath = "/Error/Index";
                 });
+
+
+            services.AddMvc(conf =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+                conf.Filters.Add(new AuthorizeFilter(policy));
+            });
+
+
 
 
             //dependincy inversion kullanımı için yapılması gereken tanımlamalar
@@ -87,10 +93,10 @@ namespace Alısveris
             services.AddScoped<IFaturaService, FaturaService>();
             services.AddAutoMapper(typeof(MapProfile));
             services.AddMemoryCache();
-           
+
         }
-            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -106,9 +112,8 @@ namespace Alısveris
             app.UseStaticFiles();
             app.UseSession();//yazmaz isek session kullnılmaz.(ÖNEMLİ)
             app.UseRouting();
-
             app.UseAuthorization();
-
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

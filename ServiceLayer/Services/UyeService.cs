@@ -4,10 +4,6 @@ using CoreLayer.Entities;
 using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
 using CoreLayer.Interfaces.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ServiceLayer.Services
@@ -31,7 +27,7 @@ namespace ServiceLayer.Services
 
         public async Task<GirenBilgileri> UyeLogin(string mail, string sifre)
         {
-            var uye =await _uyeRepository.UyeLogin(mail, sifre);
+            var uye = await _uyeRepository.UyeLogin(mail, sifre);
             var GirenBilgileriDto = _mapper.Map<GirenBilgileri>(uye);
             return GirenBilgileriDto;
         }

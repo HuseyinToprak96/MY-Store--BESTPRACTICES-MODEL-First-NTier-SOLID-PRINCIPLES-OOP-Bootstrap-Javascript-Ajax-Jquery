@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CoreLayer.Dtos
+﻿namespace CoreLayer.Dtos
 {
-   public class UyeDto
+    public class UyeDto
     {
         public int Id { get; set; }
         public bool Yetki { get; set; }

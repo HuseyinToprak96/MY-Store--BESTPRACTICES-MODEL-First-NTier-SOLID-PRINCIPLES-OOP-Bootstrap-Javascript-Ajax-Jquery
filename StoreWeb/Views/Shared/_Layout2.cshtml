@@ -43,9 +43,9 @@
                         <form class="d-flex" asp-action="KullaniciGiris" method="post" asp-controller="Login">
                             @if (Context.Session.GetInt32("ID") == null)
                             {
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    GİRİŞ İŞLEMLERİ
-                                </button>}
+                            <button type="button" class="btn btn-primary">
+                                <a href="/Login/KullaniciGiris">   GİRİŞ İŞLEMLERİ</a>
+                            </button>}
                             else
                             {
                                 <button type="button" class="btn btn-danger">

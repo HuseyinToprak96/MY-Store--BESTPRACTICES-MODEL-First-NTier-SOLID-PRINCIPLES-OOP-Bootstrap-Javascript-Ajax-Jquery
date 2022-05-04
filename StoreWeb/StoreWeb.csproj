@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AppAPI\AppAPI.csproj" />
     <ProjectReference Include="..\CacheLayer\CacheLayer.csproj" />
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
     <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
@@ -12,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="PagedList.Core" Version="1.17.4" />

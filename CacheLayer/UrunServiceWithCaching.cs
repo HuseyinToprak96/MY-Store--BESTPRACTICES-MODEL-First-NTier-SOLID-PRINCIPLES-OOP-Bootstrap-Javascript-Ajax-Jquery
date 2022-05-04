@@ -1,15 +1,12 @@
-﻿using AutoMapper;
-using CoreLayer.Dtos;
+﻿using CoreLayer.Dtos;
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
 using CoreLayer.Interfaces.UnitOfWork;
 using Microsoft.Extensions.Caching.Memory;
 using ServiceLayer.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CacheLayer
@@ -30,7 +27,7 @@ namespace CacheLayer
             {
                 _memoryCache.Set(CacheUrunKey, _urunRepository.TumUrunBilgileri().Result);
             }
-           
+
         }
         public async Task CacheAllUrunlerAsync()
         {
@@ -83,7 +80,7 @@ namespace CacheLayer
 
         public async Task<Urun> UrunDetay(int id)
         {
-         var urun= await _urunRepository.UrunDetay(id);
+            var urun = await _urunRepository.UrunDetay(id);
             return urun;
         }
 

@@ -1,8 +1,4 @@
 ﻿using CoreLayer.Interfaces.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.UnitOfWork
@@ -21,7 +17,7 @@ namespace DataLayer.UnitOfWork
 
         public async Task CommitAsync()
         {
-           await _data.SaveChangesAsync();
+            await _data.SaveChangesAsync();
         }
     }
 }

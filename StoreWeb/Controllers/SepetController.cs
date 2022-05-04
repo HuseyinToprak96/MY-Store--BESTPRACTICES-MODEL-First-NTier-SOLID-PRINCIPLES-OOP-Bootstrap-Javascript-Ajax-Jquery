@@ -2,10 +2,6 @@
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 
 namespace StoreWeb.Controllers
@@ -20,23 +16,22 @@ namespace StoreWeb.Controllers
             _sepet = sepet;
         }
         [HttpPost]
-        public async Task<JsonResult> SepeteEkle(SepetDetayDto sepetDetayDto)
+        public JsonResult SepeteEkle(SepetDetayDto sepetDetayDto)
         {
             int id = 1;
-            await _SepetService.SepeteEkle(sepetDetayDto,id);
+            _SepetService.SepeteEkle(sepetDetayDto, id);
             return Json(sepetDetayDto);
         }
         [HttpPost]
         public JsonResult SepettenCikar(int Id)
         {
-            int id=1;//sessionID olcak
             _SepetService.SepettenCikar(Id);
-            return Json(id);
+            return Json(Id);
         }
         [HttpPost]
         public JsonResult SepetiSil(int id)
         {
-           var sepet= _SepetService.getByIdAsync(id).Result;
+            var sepet = _SepetService.getByIdAsync(id).Result;
             _SepetService.Remove(sepet);
             return Json(sepet.UyeId);
         }

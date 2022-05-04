@@ -1,19 +1,17 @@
 ﻿using CoreLayer.Dtos;
 using CoreLayer.Entities;
-using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
-using DataLayer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using X.PagedList.Mvc.Core;
+using StoreWeb.Filters;
 using StoreWeb.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList;
 
 namespace StoreWeb.Controllers
 {
+    [AllowAnonymous]
     public class UrunController : Controller
     {
         private readonly IUrunService _UrunService;
@@ -33,27 +31,24 @@ namespace StoreWeb.Controllers
         {
             return View(await _UrunService.TumUrunBilgileri());
         }
+        [FilterLogin]
         public async Task<IActionResult> Detay(int id)
         {
-           var urun= await _UrunService.UrunDetay(id);
+            int Userid = HttpContext.Session.GetInt32("ID").Value;
+            var urun = await _UrunService.UrunDetay(id);
             var onerilen = await _UrunService.OnerilenUrunler(urun.CinsiyetId, urun.AltKategoriId);
             onerilen.Remove(urun);
             UrunVeBenzerUrunler urunVeBenzerUrunler = new UrunVeBenzerUrunler();
             urunVeBenzerUrunler.urun = urun;
             urunVeBenzerUrunler.BenzerUrunler = onerilen;
-            urunVeBenzerUrunler.sepet =await _sepetService.MusterininSepeti(1);
+            urunVeBenzerUrunler.sepet = await _sepetService.MusterininSepeti(Userid);
             urunVeBenzerUrunler.Cinsiyetler = await _CinsiyetService.getAllAsync();
             return View(urunVeBenzerUrunler);
         }
-        public JsonResult liste()
-        {
-            var urunler = _UrunService.getAllAsync().Result;
-            return Json(urunler);
-        }
-        public async Task<IActionResult> Urunler(Source source,int page=1)
+        public async Task<IActionResult> Urunler(Source source, int page = 1)
         {
             VM_Urunler vM_Urunler = new VM_Urunler();
-            var urunler=  _UrunService.Arama(source);
+            var urunler = _UrunService.Arama(source);
             vM_Urunler.Urunler = urunler.Result.ToPagedList(page, 10);
             vM_Urunler.Cinsiyetler = await _CinsiyetService.getAllAsync();
             vM_Urunler.AltKategoris = await _altKategoriService.getAllAsync();
