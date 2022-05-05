@@ -15,6 +15,11 @@ namespace ServiceLayer.Services
             _altKategoriRepository = altKategoriRepository;
         }
 
+        public Task<AltKategori> Eklenen(AltKategori altKategori)
+        {
+            return _altKategoriRepository.Eklenen(altKategori);
+        }
+
         public async Task<List<AltKategori>> KategoriyeAitAltKategoriler(int id)
         {
             return await _altKategoriRepository.KategoriyeAitAltKategoriler(id);

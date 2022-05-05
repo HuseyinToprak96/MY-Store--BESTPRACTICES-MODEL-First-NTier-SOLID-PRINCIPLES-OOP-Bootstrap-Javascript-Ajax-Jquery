@@ -22,11 +22,10 @@ namespace AppAPI.Controllers
         }
         [HttpPost]
         //public async Task<IActionResult> KategoriEkle(KategoriDto kategoriDto)
-        public async Task<IActionResult> KategoriEkle(KategoriDto kategoriDto)
+        public async Task<IActionResult> kategoriEkle(KategoriDto kategoriDto)
         {
             var kategori = _mapper.Map<Kategori>(kategoriDto);
             await _service.AddAsync(kategori);
-            //return Ok();
             return Ok(kategoriDto);
         }
         [HttpGet]
@@ -55,10 +54,6 @@ namespace AppAPI.Controllers
             return Ok();
         }
 
-        public List<Kategori> GetAll() => _service.getAllAsync().Result.Select(p => new Kategori
-        {
-            KategoriAdi = "AA",
-            Renk = "blue"
-        }).ToList();
+    
     }
 }

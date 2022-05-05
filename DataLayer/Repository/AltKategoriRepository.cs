@@ -13,6 +13,14 @@ namespace DataLayer.Repository
         {
 
         }
+
+        public async Task<AltKategori> Eklenen(AltKategori altKategori)
+        {
+            
+            var alt = await _data.AltKategoriler.AddAsync(altKategori);
+            return alt.Entity;
+        }
+
         public async Task<List<AltKategori>> KategoriyeAitAltKategoriler(int id)
         {
             return await _data.AltKategoriler.Where(ak => ak.Id == id).ToListAsync();

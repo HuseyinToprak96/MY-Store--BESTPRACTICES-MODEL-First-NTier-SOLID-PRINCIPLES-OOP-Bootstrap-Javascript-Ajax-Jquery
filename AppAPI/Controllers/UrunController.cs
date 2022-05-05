@@ -19,7 +19,7 @@ namespace AppAPI.Controllers
             _mapper = mapper;
         }
         [HttpPost]
-        public async Task<IActionResult> Ekle(UrunDto urunDto)
+        public async Task<IActionResult> urunEkle(UrunDto urunDto)
         {
             var urun = _mapper.Map<Urun>(urunDto);
             await _service.AddAsync(urun);

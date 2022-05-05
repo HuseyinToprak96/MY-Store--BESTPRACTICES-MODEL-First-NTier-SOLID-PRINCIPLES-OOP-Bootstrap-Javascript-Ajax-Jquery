@@ -16,5 +16,6 @@ namespace CoreLayer.Interfaces.Services
         Task<Urun> UrunDetay(int id);
         Task<List<Urun>> OnerilenUrunler(int cinsId, int AltKategoriId);
         Task<List<Urun>> Arama(Source source);
+        Task<Urun> EklenenUrunuGoster(Urun urun);
     }
 }

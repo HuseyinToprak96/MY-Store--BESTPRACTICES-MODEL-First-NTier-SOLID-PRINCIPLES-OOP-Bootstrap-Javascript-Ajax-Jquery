@@ -32,6 +32,11 @@ namespace ServiceLayer.Services
             throw new NotImplementedException();
         }
 
+        public async Task<Urun> EklenenUrunuGoster(Urun urun)
+        {
+            return await _urunRepository.EklenenUrunuGoster(urun);
+        }
+
         public Task<List<Urun>> EncokSatan()
         {
             throw new NotImplementedException();

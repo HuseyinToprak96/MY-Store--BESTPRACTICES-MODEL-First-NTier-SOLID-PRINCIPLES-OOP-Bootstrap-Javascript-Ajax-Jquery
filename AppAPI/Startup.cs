@@ -1,5 +1,6 @@
 using AppAPI.Filters;
 using AppAPI.Middlewares;
+using CacheLayer;
 using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
 using CoreLayer.Interfaces.UnitOfWork;
@@ -58,7 +59,7 @@ namespace AppAPI
             services.AddScoped<IAltKategoriRepository, AltKategoriRepository>();
             services.AddScoped<IAltKategoriService, AltKategoriService>();
             services.AddScoped<IUrunRepository, UrunRepository>();
-            services.AddScoped<IUrunService, UrunService>();
+            services.AddScoped<IUrunService, UrunServiceWithCaching>();
             services.AddScoped<ISepetRepository, SepetRepository>();
             services.AddScoped<ISepetService, SepetService>();
             services.AddScoped<IUyeRepository, UyeRepository>();
