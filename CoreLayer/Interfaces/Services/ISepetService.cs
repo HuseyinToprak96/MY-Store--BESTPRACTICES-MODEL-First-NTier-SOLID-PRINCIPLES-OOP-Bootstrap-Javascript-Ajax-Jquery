@@ -6,8 +6,8 @@ namespace CoreLayer.Interfaces.Services
 {
     public interface ISepetService : IService<Sepet>
     {
-        Task SepeteEkle(SepetDetayDto sepetDetay, int UyeId);
-        void SepettenCikar(int Id);
+        Task SepeteEkle(int UrunId, int UyeId);
+        Task SepettenCikar(int Id);
         Task<Sepet> MusterininSepeti(int UyeId);
     }
 }

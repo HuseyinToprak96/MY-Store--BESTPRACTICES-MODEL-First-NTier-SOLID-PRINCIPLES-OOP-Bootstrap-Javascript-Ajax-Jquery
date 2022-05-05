@@ -4,11 +4,12 @@ using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreWeb.Filters;
 using System.Threading.Tasks;
 
 namespace StoreWeb.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [FilterStatus]
     public class AdminController : Controller
     {
         private readonly IAltKategoriService _altKategoriService;
@@ -16,13 +17,15 @@ namespace StoreWeb.Controllers
         private readonly IUrunService _urunService;
         private readonly IKategoriService _KategoriService;
         private readonly IMapper _mapper;
-        public AdminController(IAltKategoriService altKategoriService, IUyeService uyeService, IUrunService urunService, IKategoriService kategoriService, IMapper mapper)
+        private readonly ISiparisService _siparisService;
+        public AdminController(IAltKategoriService altKategoriService, IUyeService uyeService, IUrunService urunService, IKategoriService kategoriService, IMapper mapper, ISiparisService siparisService)
         {
             _altKategoriService = altKategoriService;
             _uyeService = uyeService;
             _urunService = urunService;
             _KategoriService = kategoriService;
             _mapper = mapper;
+            _siparisService = siparisService;
         }
         public async Task<IActionResult> Index()
         {
@@ -39,6 +42,7 @@ namespace StoreWeb.Controllers
         {
             var urun = await _urunService.getByIdAsync(id);
             await _urunService.Remove(urun);
+            
             return Json(id);
         }
         public IActionResult Kategoriler()
@@ -72,7 +76,7 @@ namespace StoreWeb.Controllers
             await _altKategoriService.Remove(altKategori);
             return Json(altKategori);
         }
-        public async Task<IActionResult> Uyeler()
+        public async Task<IActionResult> Kullanicilar()
         {
             return View(await _uyeService.getAllAsync());
         }
@@ -81,6 +85,13 @@ namespace StoreWeb.Controllers
         {
             await _uyeService.Yetkilendir(yetki, id);
             return Json(yetki);
+        }
+        public async Task<IActionResult> SiparisDurumu(int islem)
+        {
+            Durum durum = (Durum)islem;
+        //siparisle ilgili işlemler değişmeyeceğinden enum içerisinde tuttuk
+            var siparisler =await _siparisService.Siparisler(durum);
+            return View(siparisler);
         }
     }
 }

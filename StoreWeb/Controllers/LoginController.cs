@@ -58,14 +58,15 @@ namespace StoreWeb.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Page");
         }
-        [HttpGet]
         public IActionResult UyeOl()
         {
             return View();
         }
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> UyeOl(UyeOlDto uyeOlDto)
         {
+            return RedirectToAction("Login");
             if (ModelState.IsValid)
             {
                 uyeOlDto.CinsiyetId = 2;
@@ -73,6 +74,11 @@ namespace StoreWeb.Controllers
                await _uyeService.AddAsync(uye);
                 return RedirectToAction(nameof(KullaniciGiris));
             }
+            return RedirectToAction("UyeOl");
+        }
+
+        public IActionResult UyeOl1()
+        {
             return View();
         }
     }

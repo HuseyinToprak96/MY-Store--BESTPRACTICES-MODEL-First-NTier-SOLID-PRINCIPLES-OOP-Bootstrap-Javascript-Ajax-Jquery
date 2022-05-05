@@ -1,23 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
+using System;
 
 namespace StoreWeb.Filters
 {
-    public class FilterStatus : IAuthorizationFilter
+    public class FilterStatus : ActionFilterAttribute
     {
-        string _rol;
-        public FilterStatus(string rol)
-        {
-            _rol = rol;
-        }
-
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
             string yetki = context.HttpContext.Session.GetString("Yetki");
-            if (yetki == "False")
+            if (yetki != "Admin")
             {
-
+                context.Result = new RedirectToRouteResult(new RouteValueDictionary{
+                    {"action","Index" },
+                    { "controller","Page"}
+                });
             }
+            base.OnActionExecuting(context);
         }
     }
 }

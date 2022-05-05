@@ -24,6 +24,7 @@ namespace DataLayer.Repository
         public async Task Yetkilendir(bool yetki, int id)
         {
             var uye = await _data.Uyeler.Where(x => x.Id == id).SingleOrDefaultAsync();
+            uye.Yetki = yetki;
             await _data.SaveChangesAsync();
 
         }

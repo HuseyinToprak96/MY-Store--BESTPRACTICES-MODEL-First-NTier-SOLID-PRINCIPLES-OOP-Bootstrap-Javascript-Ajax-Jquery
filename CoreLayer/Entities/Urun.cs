@@ -20,6 +20,7 @@ namespace CoreLayer.Entities
         public Cinsiyet cinsiyet { get; set; }
         public List<SepetDetay> sepetDetay { get; set; }
         public List<FaturaDetay> FaturaDetay { get; set; }
+        public List<SiparisDetay> SiparisDetay { get; set; }
         public AltKategori altKategori { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CoreLayer.Entities;
 using CoreLayer.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,12 +25,15 @@ namespace DataLayer.Repository
             {
                 Sepet sepet = new Sepet();
                 sepet.UyeId = UyeId;
-                sepet.SepetDetay.Add(sepetDetay);
                 await _data.Sepetler.AddAsync(sepet);
+                sepet.SepetDetay.Add(sepetDetay);
                 _data.SaveChanges();
             }
             else
             {
+                sepetDetay.SepetId = Sepet.Id;
+                sepetDetay.EklenmeTarihi = DateTime.Now;
+                sepetDetay.Adet = 1;
                 Sepet.SepetDetay.Add(sepetDetay);
                 _data.SaveChanges();
             }

@@ -8,6 +8,7 @@ namespace ServiceLayer.Validations
         public SepetDetayValidator()
         {
             RuleFor(x => x.UrunId).InclusiveBetween(1, int.MaxValue).WithMessage("Aralık Dışı!");
+            RuleFor(x => x.SepetId).InclusiveBetween(1, int.MaxValue).WithMessage("Aralık Dışı");
         }
     }
 }

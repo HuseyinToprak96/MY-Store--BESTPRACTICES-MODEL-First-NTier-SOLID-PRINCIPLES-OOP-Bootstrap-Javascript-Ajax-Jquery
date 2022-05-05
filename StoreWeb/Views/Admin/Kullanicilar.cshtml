@@ -1,0 +1,44 @@
+﻿@model List<CoreLayer.Entities.Uye>
+@{
+    ViewData["Title"] = "Kullanicilar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 style="text-align:center; margin-top:60px">YETKİLENDİRME SAYFASI</h1>
+<table class="table">
+    <tr>
+        <th>
+            AD SOYAD
+        </th>
+        <th>
+            TELEFON
+        </th>
+        <th>
+            E-POSTA
+        </th>
+        <th>
+            ADRES
+        </th>
+        <th>
+            YETKİ
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Ad @item.Soyad
+            </td>
+            <td>
+                @item.Telefon
+            </td>
+            <td>
+                @item.Mail
+            </td>
+            <td>
+                @item.Adres
+            </td>
+            <td><input type="checkbox" id="@item.Id" name="yetki" checked="@item.Yetki" class="yetki"/></td>
+        </tr>
+    }
+</table>
