@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoreLayer.Dtos;
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -34,39 +35,38 @@ namespace StoreWeb.Controllers
             return Json(urun);
         }
         [HttpPost]
-        public async Task<JsonResult> UrunSil(int id)
+        public async Task<JsonResult> urunSil(int id)
         {
             var urun = await _urunService.getByIdAsync(id);
             await _urunService.Remove(urun);
-            return Json(urun);
+            return Json(id);
         }
         public IActionResult Kategoriler()
         {
             return View();
         }
-        public async Task<IActionResult> KategoriEkle()
+        public async Task<JsonResult> KategoriEkle(KategoriDto kategoriDto)
         {
-            return View(await _KategoriService.getAllAsync());
+            var kategori = _mapper.Map<Kategori>(kategoriDto);
+            await _KategoriService.AddAsync(kategori);
+            return Json(kategoriDto.KategoriAdi);
         }
         [HttpPost]
-        public async Task<JsonResult> KategoriSil(int id)
+        public async Task<JsonResult> kategoriSil(int id)
         {
-            var urun = await _urunService.getByIdAsync(id);
-            await _urunService.Remove(urun);
-            return Json(urun);
+            var kategori = await _urunService.getByIdAsync(id);
+            await _urunService.Remove(kategori);
+            return Json(id);
         }
-        public IActionResult AltKategoriler()
+        
+        public async Task<JsonResult> altKategoriEkle(AltKategoriDto altKategoriDto)
         {
-            return View();
-        }
-        [HttpPost]
-        public async Task<JsonResult> AltKategoriEkle(AltKategori altKategori)
-        {
+            var altKategori = _mapper.Map<AltKategori>(altKategoriDto);
             await _altKategoriService.AddAsync(altKategori);
             return Json(altKategori);
         }
         [HttpPost]
-        public async Task<JsonResult> AltKategoriSil(int id)
+        public async Task<JsonResult> altKategoriSil(int id)
         {
             var altKategori = await _altKategoriService.getByIdAsync(id);
             await _altKategoriService.Remove(altKategori);

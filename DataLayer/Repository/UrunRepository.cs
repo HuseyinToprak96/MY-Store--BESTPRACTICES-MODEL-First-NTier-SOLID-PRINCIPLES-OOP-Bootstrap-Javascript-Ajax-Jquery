@@ -27,6 +27,12 @@ namespace DataLayer.Repository
             return urunler;
         }
 
+        public async Task<Urun> EklenenUrunuGoster(Urun urun)
+        {
+         var u=  await _data.Urunler.AddAsync(urun);
+           return u.Entity;
+        }
+
         public async Task<List<Urun>> EncokSatan()
         {
             var Urunler = await _data.Urunler.Include(x => x.altKategori).ThenInclude(x => x.kategori).OrderBy(x => x.FaturaDetay.Count).ToListAsync();

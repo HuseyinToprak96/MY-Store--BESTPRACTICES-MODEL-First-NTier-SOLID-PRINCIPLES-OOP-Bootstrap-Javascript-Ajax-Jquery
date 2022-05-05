@@ -35,6 +35,7 @@ namespace StoreWeb.Controllers
                 HttpContext.Session.SetInt32("ID", uyeBilgileri.Id);
                 if (uyeBilgileri.Yetki == true)
                 {
+                    HttpContext.Session.SetString("Yetki","Admin");
                     // string yetki = "Admin";
                     var claims = new List<Claim>
                 {

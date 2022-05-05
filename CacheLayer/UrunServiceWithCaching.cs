@@ -100,5 +100,11 @@ namespace CacheLayer
             return Task.FromResult(urunler);
 
         }
+
+        public async Task<Urun> EklenenUrunuGoster(Urun urun)
+        {
+         var u=  await _urunRepository.EklenenUrunuGoster(urun);
+            return u;
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace AppAPI.Controllers
             return Ok();
         }
         [HttpPost]
-        public async Task<IActionResult> Ekle(AltKategoriDto altKategoriDto)
+        public async Task<IActionResult> altKategoriEkle(AltKategoriDto altKategoriDto)
         {
             await _altKategoriService.AddAsync(_mapper.Map<AltKategori>(altKategoriDto));
             return Ok();

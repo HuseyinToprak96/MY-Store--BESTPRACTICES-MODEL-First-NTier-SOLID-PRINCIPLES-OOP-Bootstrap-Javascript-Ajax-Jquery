@@ -41,6 +41,12 @@
                           </button>}
                       else
                       {
+
+
+@if (Context.Session.GetString("Yetki")=="Admin") { 
+                          <button type="button" class="btn btn-danger">
+                              <a href="/Admin/Index">YÖNETİM PANELİ</a>
+                          </button>}
                           <button type="button" class="btn btn-danger">
                               <a href="/Kullanici/Profilim">PROFİLİM</a>
                           </button>

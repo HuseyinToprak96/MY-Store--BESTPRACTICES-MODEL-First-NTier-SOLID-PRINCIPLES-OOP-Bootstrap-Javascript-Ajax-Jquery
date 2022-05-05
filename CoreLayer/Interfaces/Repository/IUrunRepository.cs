@@ -15,5 +15,6 @@ namespace CoreLayer.Interfaces.Repository
         Task<List<Urun>> TumUrunBilgileri();
         IQueryable<Urun> GetAll();
         Task<Urun> UrunDetay(int id);
+        Task<Urun> EklenenUrunuGoster(Urun urun);
     }
 }
