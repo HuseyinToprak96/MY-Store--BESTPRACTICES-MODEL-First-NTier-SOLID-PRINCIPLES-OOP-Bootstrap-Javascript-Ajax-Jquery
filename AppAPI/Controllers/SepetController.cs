@@ -1,28 +1,30 @@
 ﻿using AutoMapper;
-using CoreLayer.Dtos;
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UrunController : ControllerBase
+    public class SepetController : ControllerBase
     {
-        private readonly IUrunService _service;
+        private readonly ISepetService _service;
         private readonly IMapper _mapper;
-        public UrunController(IUrunService service, IMapper mapper)
+        public SepetController(ISepetService service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
         }
         [HttpPost]
-        public async Task<IActionResult> Add(UrunDto urunDto)
+        public async Task<IActionResult> Add(Sepet sepet)
         {
-            var urun = _mapper.Map<Urun>(urunDto);
-            await _service.AddAsync(urun);
+            await _service.AddAsync(sepet);
             return Ok();
         }
         [HttpGet]
@@ -33,7 +35,7 @@ namespace AppAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Find(int id)
         {
-            return Ok(_mapper.Map<UrunDto>(await _service.getByIdAsync(id)));
+            return Ok(await _service.getByIdAsync(id));
         }
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
@@ -42,10 +44,9 @@ namespace AppAPI.Controllers
             return Ok();
         }
         [HttpPut]
-        public async Task<IActionResult> Update(UrunDto urunDto)
+        public async Task<IActionResult> Update(Sepet sepet)
         {
-            var urun = _mapper.Map<Urun>(urunDto);
-            await _service.Update(urun);
+            await _service.Update(sepet);
             return Ok();
         }
     }

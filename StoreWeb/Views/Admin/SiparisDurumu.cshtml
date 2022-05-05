@@ -1,0 +1,44 @@
+﻿@model List<CoreLayer.Entities.Siparis>
+@using CoreLayer.Entities
+@{
+    ViewData["Title"] = "SiparisDurumu";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div style=" margin-top:60px;display:grid;grid-template-columns:20% 80%">
+    <div>
+        @foreach (var durum in Durum.GetNames(typeof(Durum)))
+        {
+        <div>@durum</div>
+        }
+    </div>
+    <div>
+        <table class="table">
+            <tr style="background-color:burlywood">
+                <th>Sipariş Kodu</th>
+                <th>Sipariş Tarihi</th>
+                <th>Sipariş Sahibi</th>
+                <th>İletişim Bilgileri</th>
+                <th>Sipariş Durumu</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SiparisKodu</td>
+                    <td>@item.SiparisTarihi.ToString("dd/MMM/yyyy")</td>
+                    <td>@item.uye.Ad @item.uye.Soyad</td>
+                    <td>@item.uye.Telefon</td>
+                    <td><select>
+                        @foreach (var durum in Durum.GetNames(typeof(Durum)))
+                        {
+                        <option selected="@item.SiparisDurumu">@durum</option>
+                        }
+                        </select></td>
+                    <td><button class="btn btn-light">Güncelle</button></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

@@ -68,6 +68,8 @@ namespace AppAPI
             services.AddScoped<IKategoriService, KategoriService>();
             services.AddScoped<IFaturaRepository, FaturaRepository>();
             services.AddScoped<IFaturaService, FaturaService>();
+            services.AddScoped<ISiparisRepository, SiparisRepository>();
+            services.AddScoped<ISiparisService, SiparisService>();
             services.AddAutoMapper(typeof(MapProfile));
             services.AddControllersWithViews();
 
@@ -88,8 +90,6 @@ namespace AppAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AppAPI v1"));
             }
             app.UseCustomException();//Kendi middleware imiz.
-
-
 
             app.UseRouting();
 

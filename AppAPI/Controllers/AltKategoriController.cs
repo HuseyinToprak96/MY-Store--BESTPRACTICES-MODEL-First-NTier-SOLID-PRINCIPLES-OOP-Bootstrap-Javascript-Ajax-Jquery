@@ -21,12 +21,12 @@ namespace AppAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Listele()
+        public async Task<IActionResult> List()
         {
             return Ok(_mapper.Map<List<AltKategori>>(await _altKategoriService.getAllAsync()));
         }
         [HttpGet]
-        public async Task<IActionResult> Bul(int id)
+        public async Task<IActionResult> Find(int id)
         {
             return Ok(_mapper.Map<AltKategori>(await _altKategoriService.getByIdAsync(id)));
         }
@@ -37,13 +37,13 @@ namespace AppAPI.Controllers
             return Ok();
         }
         [HttpPut]
-        public async Task<IActionResult> Guncelle(AltKategoriDto altKategoriDto)
+        public async Task<IActionResult> Update(AltKategoriDto altKategoriDto)
         {
             await _altKategoriService.Update(_mapper.Map<AltKategori>(altKategoriDto));
             return Ok();
         }
         [HttpPost]
-        public async Task<IActionResult> altKategoriEkle(AltKategoriDto altKategoriDto)
+        public async Task<IActionResult> Add(AltKategoriDto altKategoriDto)
         {
             await _altKategoriService.AddAsync(_mapper.Map<AltKategori>(altKategoriDto));
             return Ok();

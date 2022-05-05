@@ -20,6 +20,7 @@ using ServiceLayer.Maping;
 using ServiceLayer.Services;
 using ServiceLayer.Validations;
 using System;
+using System.Reflection;
 
 namespace Alısveris
 {
@@ -37,7 +38,7 @@ namespace Alısveris
         {
             services.AddControllers(opt => opt.Filters.Add(new ValidateFilterAttribute())).AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<UyeDtoValidator>());
 
-
+            
             services.AddDbContext<Data>(opt =>
             {
                 opt.UseSqlServer(
@@ -46,7 +47,7 @@ namespace Alısveris
         sqlOption.MigrationsAssembly("DataLayer");
     });
             });
-
+            
             //session kullanabilmek için
 
             services.AddSession(opt =>
@@ -91,6 +92,8 @@ namespace Alısveris
             services.AddScoped<IKategoriService, KategoriService>();
             services.AddScoped<IFaturaRepository, FaturaRepository>();
             services.AddScoped<IFaturaService, FaturaService>();
+            services.AddScoped<ISiparisRepository, SiparisRepository>();
+            services.AddScoped<ISiparisService, SiparisService>();
             services.AddAutoMapper(typeof(MapProfile));
             services.AddMemoryCache();
 
@@ -108,7 +111,6 @@ namespace Alısveris
             }
 
             app.UseDefaultFiles();
-            app.UseStaticFiles();
             app.UseStaticFiles();
             app.UseSession();//yazmaz isek session kullnılmaz.(ÖNEMLİ)
             app.UseRouting();
