@@ -35,23 +35,30 @@
                             <a class="nav-link" href="/Page/İletisim">İLETİŞİM</a>
                         </li>
                     </ul>
-                        <form class="d-flex" asp-action="KullaniciGiris" method="post" asp-controller="Login">
-                            @if (Context.Session.GetInt32("ID") == null)
-                            {
+                    <form class="d-flex" asp-action="KullaniciGiris" method="post" asp-controller="Login">
+                        @if (Context.Session.GetInt32("ID") == null)
+                        {
                             <button type="button" class="btn btn-primary">
                                 <a href="/Login/KullaniciGiris">   GİRİŞ İŞLEMLERİ</a>
                             </button>}
-                            else
+                        else
+                        {
+
+
+                            @if (Context.Session.GetString("Yetki") == "Admin")
                             {
                                 <button type="button" class="btn btn-danger">
-                                    <a href="/Kullanici/Profilim">PROFİLİM</a>
-                                </button>
-                                <button type="button" class="btn btn-danger">
-                                    <a href="/Login/Cikis">  ÇIKIŞ YAP</a>
-                                </button>
-                            }
+                                    <a href="/Admin/Index">YÖNETİM PANELİ</a>
+                                </button>}
+                            <button type="button" class="btn btn-danger">
+                                <a href="/Kullanici/Profilim">PROFİLİM</a>
+                            </button>
+                            <button type="button" class="btn btn-danger">
+                                <a href="/Login/Cikis">  ÇIKIŞ YAP</a>
+                            </button>
+                        }
 
-                        </form>
+                    </form>
 </div>
             </div>
         </nav>

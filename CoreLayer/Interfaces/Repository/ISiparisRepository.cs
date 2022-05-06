@@ -10,5 +10,7 @@ namespace CoreLayer.Interfaces.Repository
     public interface ISiparisRepository:IRepository<Siparis>
     {
         Task<List<Siparis>> Siparisler(Durum durum);
+        Task DurumGuncelle(int durum);
+        Task SiparisGuncelle(int durum, int id);
     }
 }

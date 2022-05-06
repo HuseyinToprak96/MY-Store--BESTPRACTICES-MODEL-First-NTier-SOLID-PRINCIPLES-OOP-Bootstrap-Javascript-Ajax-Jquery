@@ -1,41 +1,58 @@
 ﻿@model List<CoreLayer.Entities.Urun>
+
 <div class="comp">
     <h2>YENİ GELEN ÜRÜNLER</h2>
     <div id="yeniler">
-
-        @foreach (var item in Model)
+        @if (Model != null)
         {
+            @foreach (var item in Model)
+            {
 
-            <div id="@item.Id" class="yeni">
-                <img src="@item.Resim" height="150" width="150" onmouseover="geldiYeni();" />
-                <div class="bilgi">
-                    <a href="/Urun/Detay?id=@item.Id" class="urun" style="width:100%"> @item.UrunAdi</a> <br /> <div class="ucret" id="yeniUcret_@item.Id" style="background-color:@item.altKategori.Renk; width:50%"> @item.Ucret TL</div>
+                <div id="@item.Id" class="yeni">
+                    <img src="@item.Resim" height="150" width="150" onmouseover="geldiYeni();" />
+                    <div class="bilgi">
+                        <a href="/Urun/Detay?id=@item.Id" class="urun" style="width:100%"> @item.UrunAdi</a> <br /> <div class="ucret" id="yeniUcret_@item.Id" style="background-color:@item.altKategori.Renk; width:50%"> @item.Ucret TL</div>
+                    </div>
                 </div>
-            </div>
-        }
-    </div>
-    </div>
-    <script>
-        function geldiYeni() {
-            var favoriler = document.getElementsByClassName("yeni");
-            for (var i = 0; i < favoriler.length; i++) {
-                favoriler[i].addEventListener("mouseover", function () {
-                    var ucret = document.getElementById("yeniUcret_" + this.id).style.display = "block";
-                });
-                favoriler[i].addEventListener("mouseleave", function () {
-                    var ucret = document.getElementById("yeniUcret_" + this.id).style.display = "none";
-                });
-            }
-        }
-    </script>
-    <style>
-        #yeniler {
-            margin-top: 50px;
-            width: 100%;
-        }
+            }}
 
-            #yeniler .yeni {
-                float: left;
-                width: 25%;
+        @if (Model.Count < 4)
+        {
+            @for (int i = 0; i < (4 - Model.Count); i++)
+            {
+
+                <div id="sold_@i" class="yeni">
+                    <img src="/img/sold.jpg" height="150" width="150" />
+                    <div class="bilgi">
+                        Beklemede Kal! <br />
+                    </div>
+                </div>
             }
-    </style>
+
+        }
+    </div>
+</div>
+<script>
+    function geldiYeni() {
+        var favoriler = document.getElementsByClassName("yeni");
+        for (var i = 0; i < favoriler.length; i++) {
+            favoriler[i].addEventListener("mouseover", function () {
+                var ucret = document.getElementById("yeniUcret_" + this.id).style.display = "block";
+            });
+            favoriler[i].addEventListener("mouseleave", function () {
+                var ucret = document.getElementById("yeniUcret_" + this.id).style.display = "none";
+            });
+        }
+    }
+</script>
+<style>
+    #yeniler {
+        margin-top: 50px;
+        width: 100%;
+    }
+
+        #yeniler .yeni {
+            float: left;
+            width: 25%;
+        }
+</style>

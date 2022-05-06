@@ -47,5 +47,11 @@ namespace AppAPI.Controllers
             await _service.Update(siparis);
             return Ok();
         }
+        [HttpGet] 
+        public async Task<IActionResult> New()
+        {
+         var siparisler=  await _service.Siparisler(0);
+            return Ok(siparisler);
+        }
     }
 }
