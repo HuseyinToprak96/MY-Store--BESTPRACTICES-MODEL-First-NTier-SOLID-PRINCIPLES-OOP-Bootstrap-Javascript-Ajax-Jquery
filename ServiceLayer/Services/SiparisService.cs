@@ -18,6 +18,18 @@ namespace ServiceLayer.Services
             _siparisRepository = siparisRepository;
         }
 
+        public async Task DurumGuncelle(int islem)
+        {
+            await _siparisRepository.DurumGuncelle(islem);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task SiparisGuncelle(int durum,int id)
+        {
+            await _siparisRepository.SiparisGuncelle(durum, id);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task<List<Siparis>> Siparisler(Durum durum)
         {
             return await _siparisRepository.Siparisler(durum);

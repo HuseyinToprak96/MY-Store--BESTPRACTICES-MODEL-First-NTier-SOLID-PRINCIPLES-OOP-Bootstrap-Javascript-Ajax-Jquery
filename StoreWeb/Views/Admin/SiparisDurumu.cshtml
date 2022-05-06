@@ -5,11 +5,11 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div style=" margin-top:60px;display:grid;grid-template-columns:20% 80%">
+<div style=" margin-top:60px;display:grid;grid-template-columns:20% 80%;margin-left:auto; margin-right:auto;">
     <div>
-        @foreach (var durum in Durum.GetNames(typeof(Durum)))
+        @for (int i=0;i< Durum.GetNames(typeof(Durum)).Length;i++)
         {
-        <div>@durum</div>
+        <a href="/Admin/SiparisDurumu?id=@i"><div class="siparisDurumu">@Durum.GetNames(typeof(Durum))[i]</div></a>
         }
     </div>
     <div>
@@ -22,23 +22,64 @@
                 <th>Sipariş Durumu</th>
                 <th></th>
             </tr>
-            @foreach (var item in Model)
+            @foreach (var item in ((List<Siparis>)TempData["siparisler"]))
             {
                 <tr>
                     <td>@item.SiparisKodu</td>
                     <td>@item.SiparisTarihi.ToString("dd/MMM/yyyy")</td>
                     <td>@item.uye.Ad @item.uye.Soyad</td>
                     <td>@item.uye.Telefon</td>
-                    <td><select>
-                        @foreach (var durum in Durum.GetNames(typeof(Durum)))
+                    
+                    <td>
+                    @if(((int)item.SiparisDurumu+1)<Durum.GetNames(typeof(Durum)).Length-1) {
+                    <select id="dropEnum">
+                            <option class="opt" id="@((int)item.SiparisDurumu+1)">@Durum.GetNames(typeof(Durum))[((int)item.SiparisDurumu)+1]</option>
+                        </select>}
+                else
+                {
+                    <strong> Müşteri Puanı</strong>
+                }
+                    </td>
+                    <td>
+                        @if (((int)item.SiparisDurumu + 1) < Durum.GetNames(typeof(Durum)).Length - 1)
                         {
-                        <option selected="@item.SiparisDurumu">@durum</option>
+                            <button class="btn btn-light btnEnum" id="@item.Id">Güncelle</button>
                         }
-                        </select></td>
-                    <td><button class="btn btn-light">Güncelle</button></td>
+                    </td>
                 </tr>
             }
         </table>
     </div>
 </div>
+<div id="a">
 
+</div>
+<script>
+    $(document).ready(function () {
+        $('.btnEnum')
+            .click(function () {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Admin/SiparisOlay?durum=" + $(".opt").attr("id") + "&id=" + $(this).attr("id"), true);
+                xhr.send();
+            });
+            
+        });
+</script>
+
+<style>
+    .siparisDurumu{
+        height:40px;
+        width:80%;
+        margin-left:auto;
+        margin-right:auto;
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size:150%;
+        font-weight:bold;
+        color:black;
+        background-color:burlywood;
+        border:1px solid;
+        margin:2px;
+        text-align:right
+
+    }
+</style>

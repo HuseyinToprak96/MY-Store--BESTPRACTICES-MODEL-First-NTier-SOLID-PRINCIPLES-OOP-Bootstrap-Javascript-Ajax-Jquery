@@ -11,6 +11,7 @@ namespace DataLayer.Repository
     {
         public UrunRepository(Data data) : base(data)
         {
+
         }
 
         public async Task<List<Urun>> AltKategoriyeGore(int id)
@@ -22,8 +23,11 @@ namespace DataLayer.Repository
         {
             var Urunler = await _data.Urunler.OrderByDescending(x => x.Adet).Where(x => x.Adet > 0).ToListAsync();
             List<Urun> urunler = new List<Urun>();
+            if (Urunler.Count >= 4) { 
             for (int i = 0; i < 4; i++)
-                urunler.Add(Urunler[i]);
+                urunler.Add(Urunler[i]);}
+            else
+                urunler = Urunler;
             return urunler;
         }
 
@@ -37,8 +41,13 @@ namespace DataLayer.Repository
         {
             var Urunler = await _data.Urunler.Include(x => x.altKategori).ThenInclude(x => x.kategori).OrderBy(x => x.FaturaDetay.Count).ToListAsync();
             List<Urun> urunler = new List<Urun>();
-            for (int i = 0; i < 4; i++)
-                urunler.Add(Urunler[i]);
+            if (Urunler.Count >= 4)
+            {
+                for (int i = 0; i < 4; i++)
+                    urunler.Add(Urunler[i]);
+            }
+            else
+                urunler = Urunler;
             return urunler;
         }
 
@@ -46,8 +55,13 @@ namespace DataLayer.Repository
         {
             var Urunler = await _data.Urunler.Include(x => x.altKategori).ThenInclude(x => x.kategori).OrderBy(x => x.sepetDetay.Count).ToListAsync();
             List<Urun> urunler = new List<Urun>();
-            for (int i = 0; i < 4; i++)
-                urunler.Add(Urunler[i]);
+            if (Urunler.Count >= 4)
+            {
+                for (int i = 0; i < 4; i++)
+                    urunler.Add(Urunler[i]);
+            }
+            else
+                urunler = Urunler;
             return urunler;
         }
 
@@ -69,8 +83,13 @@ namespace DataLayer.Repository
         {
             var Urunler = await _data.Urunler.OrderBy(x => x.EklenmeTarihi).ToListAsync();
             List<Urun> urunler = new List<Urun>();
-            for (int i = 0; i < 4; i++)
-                urunler.Add(Urunler[i]);
+            if (Urunler.Count >= 4)
+            {
+                for (int i = 0; i < 4; i++)
+                    urunler.Add(Urunler[i]);
+            }
+            else
+                urunler = Urunler;
             return urunler;
         }
     }

@@ -64,12 +64,12 @@
                 Yeni Alt Kategori Ekle(@kategori.KategoriAdi)
             </div>
             <div class="urunlerAccordion altKategori_-1" id="alt_altKategoriEkle_@kategori.Id">
-                <form class="altForm">
+                <form class="altForm" id="@kategori.Id">
                     <div class="form-group">
                         <label>Alt Kategori Adı</label>
-                        <input class="form-control" name="AltKategoriAdi" />
+                        <input class="form-control " id="txtAlt_@kategori.Id" name="AltKategoriAdi" />
                     </div>
-                    <input class="form-control" name="KategoriId" id="@kategori.Id" value="@kategori.Id" />
+                    <input class="form-control " name="KategoriId" id="txtKatId_@kategori.Id" value="@kategori.Id" />
                     <button type="submit" class="btn btn-success">EKLE</button>
                 </form>
             </div>
@@ -83,7 +83,8 @@
         <form class="form">
             <div class="form-group">
                 <label>Kategori Adı</label>
-                <textarea class="form-control" name="kategoriAdi"></textarea>
+                <textarea class="form-control" id="katAdi" name="kategoriAdi"></textarea>
+                
             </div>
             <button type="submit" class="btn btn-success">EKLE</button>
         </form>
@@ -92,8 +93,6 @@
     <script>
         //yollanılan 2. parametreye göre çalışacak olan metotlar...
         //değişen tek kısımları 2. parametrelerdir. Yani koda tek satır kod ile eklenecektir.
-
-
 
         function Goster(id, tiklanan) {
             var acc = document.getElementById("alt_" + tiklanan + "_" + id);
@@ -120,13 +119,33 @@
 
             e.preventDefault();
             var formData = $(this).serialize();
+            var kategoriAdi = $("#katAdi").val();
+            //alert(kategoriAdi);
             $.ajax({
                 type: 'POST',
                 url: '/Admin/KategoriEkle',
                 data: formData,
                 success: function (data) {
                     console.log("data", data);
-
+                    var div = document.createElement("div");
+                    div.id = "kategori_" + data;
+                    div.className = "kategoriAccordion";
+                    div.addEventListener("click", function () {
+                        Goster(data, "kategori");
+                    });
+                    var h = document.createElement("h3");
+                    h.innerText = kategoriAdi;
+                    h.style.backgroundColor = "brown";
+                    h.className = "kat";
+                    var btn = document.createElement("button");
+                    btn.innerText = "X";
+                    btn.addEventListener("click", function () {
+                        accordionSil(data, 'kategori');
+                    });
+                    h.appendChild(btn);
+                    div.appendChild(h);
+                    var d = document.getElementById("panelAdmin");
+                    d.appendChild(div);
                 },
                 error: function (error) {
                     console.log("error", error);
@@ -137,9 +156,8 @@
         //ALT KATEGORİ EKLE
         $('.altForm').submit(function (e) {
             e.preventDefault();
-
             var formData = $(this).serialize();
-
+            var id = $(this).attr("id");
             $.ajax({
                 type: 'POST',
                 url: '/Admin/altKategoriEkle',
@@ -147,15 +165,23 @@
                 success: function (data) {
                     console.log("data", data);
                     var div = document.createElement("div");
-                    div.className = "li kategori_1";
-                    div.innerText = data.AltKategoriAdi;
-                    var k = document.getElementById(1);
-                    var id = k.value;
-                    //var veri = JSON.parse(data);
-                    //var altKategori = Array.from(veri);
-                    alert(data.Id);
+                    div.style.backgroundColor = "beige";
+                    div.addEventListener("click",function () {
+                        Goster(data, 'altKategori');
+                    });
+                    div.id = "altKategori_" + data;
+                    div.className = "li kategori_" + id;
+                    div.innerText = $('#txtAlt_' + id).val();
+                    var btn = document.createElement("button");
+                    btn.addEventListener("click", function () {
+                        accordionSil(data, 'altKategori');
+                    });
+                    btn.id = "btn_" + data;
+                    btn.innerText = "X";
+                    div.appendChild(btn);
                     var d = document.getElementById("alt_kategori_" + id);
                     d.appendChild(div);
+
 
                 },
                 error: function (error) {

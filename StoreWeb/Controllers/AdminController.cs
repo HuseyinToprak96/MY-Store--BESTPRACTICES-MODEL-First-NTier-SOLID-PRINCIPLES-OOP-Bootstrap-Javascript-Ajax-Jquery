@@ -53,13 +53,13 @@ namespace StoreWeb.Controllers
         {
             var kategori = _mapper.Map<Kategori>(kategoriDto);
             await _KategoriService.AddAsync(kategori);
-            return Json(kategoriDto.KategoriAdi);
+            return Json(kategori.Id);
         }
         [HttpPost]
         public async Task<JsonResult> kategoriSil(int id)
         {
-            var kategori = await _urunService.getByIdAsync(id);
-            await _urunService.Remove(kategori);
+            var kategori = await _KategoriService.getByIdAsync(id);
+            await _KategoriService.Remove(kategori);
             return Json(id);
         }
         
@@ -67,7 +67,7 @@ namespace StoreWeb.Controllers
         {
             var altKategori = _mapper.Map<AltKategori>(altKategoriDto);
             await _altKategoriService.AddAsync(altKategori);
-            return Json(altKategori);
+            return Json(altKategori.Id);
         }
         [HttpPost]
         public async Task<JsonResult> altKategoriSil(int id)
@@ -86,12 +86,26 @@ namespace StoreWeb.Controllers
             await _uyeService.Yetkilendir(yetki, id);
             return Json(yetki);
         }
-        public async Task<IActionResult> SiparisDurumu(int islem)
+        public async Task<IActionResult> SiparisDurumu(int id)
         {
-            Durum durum = (Durum)islem;
+            Durum durum = (Durum)id;
         //siparisle ilgili işlemler değişmeyeceğinden enum içerisinde tuttuk
-            var siparisler =await _siparisService.Siparisler(durum);
-            return View(siparisler);
+            TempData["siparisler"] =await _siparisService.Siparisler(durum);
+            
+            //Tempdata ile taşıma sebebimiz eğer yeni sipariş gelmiş ise altta bulunan metoddan dolayı bunun durumu 1 e getirilcek
+            //yani görülmüş sipariş olacak. bundan dolayıda yeni gelen siparişleri göremeyiz.
+            if (id == 0)
+                await _siparisService.DurumGuncelle(id);
+            return View();
         }
+
+
+        [HttpPost]
+        public async Task<JsonResult> SiparisOlay(int durum,int id)
+        { 
+             await _siparisService.SiparisGuncelle(durum,id);
+             return Json(durum);
+        }
+
     }
 }
