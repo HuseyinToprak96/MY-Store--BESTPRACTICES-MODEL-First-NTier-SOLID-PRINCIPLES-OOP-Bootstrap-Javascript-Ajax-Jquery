@@ -14,7 +14,7 @@ namespace CoreLayer.Interfaces.Services
         Task<List<Urun>> AltKategoriyeGore(int id);
         Task<List<Urun>> TumUrunBilgileri();
         Task<Urun> UrunDetay(int id);
-        Task<List<Urun>> OnerilenUrunler(int cinsId, int AltKategoriId);
+        Task<List<Urun>> OnerilenUrunler(int? cinsId, int? AltKategoriId);
         Task<List<Urun>> Arama(Source source);
         Task<Urun> EklenenUrunuGoster(Urun urun);
     }

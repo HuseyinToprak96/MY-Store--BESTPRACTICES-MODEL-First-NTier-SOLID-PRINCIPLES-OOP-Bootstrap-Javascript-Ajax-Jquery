@@ -13,11 +13,11 @@ namespace CoreLayer.Entities
         public string Beden { get; set; }
         public int Adet { get; set; }
         [ForeignKey("altKategori")]
-        public int AltKategoriId { get; set; }
-        [ForeignKey("cinsiyet")]
-        public int CinsiyetId { get; set; }
+        public int? AltKategoriId { get; set; }
+        [ForeignKey("kimeGore")]
+        public int? kimeGoreId { get; set; }
         public DateTime EklenmeTarihi { get; set; }
-        public Cinsiyet cinsiyet { get; set; }
+        public KimeGore kimeGore { get; set; }
         public List<SepetDetay> sepetDetay { get; set; }
         public List<FaturaDetay> FaturaDetay { get; set; }
         public List<SiparisDetay> SiparisDetay { get; set; }

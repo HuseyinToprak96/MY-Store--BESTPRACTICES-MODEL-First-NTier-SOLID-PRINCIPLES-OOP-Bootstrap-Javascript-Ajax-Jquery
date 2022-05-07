@@ -12,5 +12,6 @@ namespace CoreLayer.Interfaces.Repository
         Task<List<Siparis>> Siparisler(Durum durum);
         Task DurumGuncelle(int durum);
         Task SiparisGuncelle(int durum, int id);
+        Task<Siparis> SiparisDetay(int id);
     }
 }

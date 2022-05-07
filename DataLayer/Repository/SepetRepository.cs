@@ -2,6 +2,7 @@
 using CoreLayer.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,31 +19,26 @@ namespace DataLayer.Repository
             return await _data.Sepetler.Include(x => x.SepetDetay).ThenInclude(x => x.urun).Where(x => x.UyeId == UyeId).SingleOrDefaultAsync();
         }
 
-        public async Task SepeteEkle(SepetDetay sepetDetay, int UyeId)
+        public async Task<List<SepetDetay>> sepetDetaylari(int sepetId)
         {
-            var Sepet = await _data.Sepetler.Where(x => x.UyeId == UyeId).SingleOrDefaultAsync();
-            if (Sepet == null)
-            {
-                Sepet sepet = new Sepet();
-                sepet.UyeId = UyeId;
-                await _data.Sepetler.AddAsync(sepet);
-                sepet.SepetDetay.Add(sepetDetay);
-                _data.SaveChanges();
-            }
-            else
-            {
-                sepetDetay.SepetId = Sepet.Id;
-                sepetDetay.EklenmeTarihi = DateTime.Now;
-                sepetDetay.Adet = 1;
-                Sepet.SepetDetay.Add(sepetDetay);
-                _data.SaveChanges();
-            }
+            return await _data.SepetDetaylar.Include(x => x.urun).Where(x => x.SepetId == sepetId).ToListAsync();
+        }
+
+        public async Task SepeteEkle(int UrunId, int UyeId)
+        {
+            var sepet = await _data.Sepetler.Where(x=>x.UyeId==UyeId).SingleOrDefaultAsync();
+            SepetDetay sepetDetay = new SepetDetay();
+            sepetDetay.SepetId = sepet.Id;
+            sepetDetay.EklenmeTarihi = DateTime.Now;
+            sepetDetay.UrunId = UrunId;
+            sepetDetay.Adet = 1;
+            _data.SepetDetaylar.Add(sepetDetay);
         }
 
         public void SepettenCikar(int Id)
         {
-            var sepetDetay = _data.SepetDetaylar.Remove(_data.SepetDetaylar.Where(i => i.Id == Id).SingleOrDefault());
-            _data.SaveChanges();
+         _data.SepetDetaylar.Remove(_data.SepetDetaylar.Where(i => i.Id == Id).SingleOrDefault());
+         _data.SaveChanges();
         }
     }
 }

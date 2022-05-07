@@ -7,9 +7,9 @@ namespace CoreLayer.Entities
     {
         public int Id { get; set; }
         [ForeignKey("sepet")]
-        public int? SepetId { get; set; }
+        public int SepetId { get; set; }
         [ForeignKey("urun")]
-        public int? UrunId { get; set; }
+        public int UrunId { get; set; }
         public DateTime EklenmeTarihi { get; set; }
         public int Adet { get; set; }
         public Sepet sepet { get; set; }

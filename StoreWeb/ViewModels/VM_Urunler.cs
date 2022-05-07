@@ -8,6 +8,6 @@ namespace StoreWeb.ViewModels
     {
         public IPagedList<Urun> Urunler { get; set; }
         public List<AltKategori> AltKategoris { get; set; }
-        public List<Cinsiyet> Cinsiyetler { get; set; }
+        public List<KimeGore> kimeGore { get; set; }
     }
 }

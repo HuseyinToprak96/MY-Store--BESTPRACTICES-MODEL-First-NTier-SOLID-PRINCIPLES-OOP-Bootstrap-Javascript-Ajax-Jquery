@@ -49,7 +49,7 @@
             {
         <a href="/Urun/Detay?id=@item.Id">
             <div class="urun ml-1 mb-1" style="background-image:url(@item.Resim);">
-                <div style="margin-bottom:0px;">@item.UrunAdi.Substring(0, 20)</div>
+                <div style="margin-bottom:0px;">@item.UrunAdi</div>
             </div>
         </a>
             }
@@ -73,6 +73,7 @@
         height: 200px;
         float: left;
         opacity: 0.6;
+        background-image:url(/wwwroot/img/sold.jpg);
     }
 
         #liste .urun:hover {

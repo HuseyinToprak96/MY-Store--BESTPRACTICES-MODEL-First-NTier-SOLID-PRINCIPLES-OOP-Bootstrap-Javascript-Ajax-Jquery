@@ -8,7 +8,7 @@ namespace ServiceLayer.Validations
         public KategoriDtoValidator()
         {
             RuleFor(x => x.KategoriAdi).NotNull().WithMessage("Null değer alamaz!").NotEmpty().WithMessage("Boş Geçilemez");
-
+            
         }
     }
 }

@@ -42,7 +42,10 @@ namespace CacheLayer
         }
         public async Task<List<Urun>> AltKategoriyeGore(int id) => await _urunRepository.AltKategoriyeGore(id);
         public async Task<List<Urun>> EncokSatan() => await _urunRepository.EncokSatan();
+       
+        
         public Task<List<Urun>> getAllAsync() => Task.FromResult(_memoryCache.Get<List<Urun>>(CacheUrunKey).ToList());
+
 
         public Task<Urun> getByIdAsync(int id)
         {
@@ -84,9 +87,9 @@ namespace CacheLayer
             return urun;
         }
 
-        public Task<List<Urun>> OnerilenUrunler(int cinsId, int AltKategoriId)
+        public Task<List<Urun>> OnerilenUrunler(int? cinsId, int? AltKategoriId)
         {
-            var urunler = _memoryCache.Get<List<Urun>>(CacheUrunKey).Where(x => x.CinsiyetId == cinsId && x.AltKategoriId == AltKategoriId).ToList();
+            var urunler = _memoryCache.Get<List<Urun>>(CacheUrunKey).Where(x => x.kimeGoreId == cinsId && x.AltKategoriId == AltKategoriId).ToList();
             return Task.FromResult(urunler);
         }
 
@@ -96,7 +99,7 @@ namespace CacheLayer
             if (source.AltKategoriId > 0)
                 urunler = urunler.Where(x => x.AltKategoriId == source.AltKategoriId).ToList();
             if (source.KimeGore > 0)
-                urunler = urunler.Where(x => x.CinsiyetId == source.KimeGore).ToList();
+                urunler = urunler.Where(x => x.kimeGoreId == source.KimeGore).ToList();
             return Task.FromResult(urunler);
 
         }

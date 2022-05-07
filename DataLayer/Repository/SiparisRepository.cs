@@ -22,6 +22,11 @@ namespace DataLayer.Repository
             siparis.SiparisDurumu += 1;
         }
 
+        public async Task<Siparis> SiparisDetay(int id)
+        {
+            return await _data.Siparisler.Include(x=>x.siparisDetay).ThenInclude(x=>x.urun).Where(x => x.Id == id).SingleOrDefaultAsync();
+        }
+
         public async Task SiparisGuncelle(int durum,int id)
         {
             var siparis =await _data.Siparisler.Where(x => x.Id == id).SingleOrDefaultAsync();

@@ -1,5 +1,6 @@
 ﻿@model CoreLayer.Entities.Uye
 @using Microsoft.AspNetCore.Http
+@using CoreLayer.Entities
 @{
     ViewData["Title"] = "Profilim";
     Layout = "~/Views/Shared/_Layout2.cshtml";
@@ -14,7 +15,7 @@
                   <td colspan="2"><strong>Ad Soyad:</strong>@Model.Ad @Model.Soyad @Context.Session.GetString("Yetki")</td>
                 </tr>
                 <tr><td><strong>Mail:</strong>@Model.Mail</td><td><strong>Telefon:</strong>@Model.Telefon</td></tr>
-                <tr><td><strong>Cinsiyet:</strong><span id="cins">@Model.cinsiyet.cinsiyet</span></td><td><strong>Adres:</strong>@Model.Adres</td></tr>
+                <tr><td><strong>Cinsiyet:</strong><span id="cins"></span></td><td><strong>Adres:</strong>@Model.Adres</td></tr>
                 <tr><td>Bu güne kadar toplam @Model.Faturalar.Count kez alışveriş yaptınız.</td><td>@if (Model.Faturalar.Count == 0)
             {
                 <a href="/Urun/Urunler" style="color:darkslateblue">Alışverişe Başla</a>

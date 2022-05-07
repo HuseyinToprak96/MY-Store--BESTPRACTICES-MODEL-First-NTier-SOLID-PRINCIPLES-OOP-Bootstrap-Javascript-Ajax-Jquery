@@ -66,7 +66,8 @@ namespace StoreWeb.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> UyeOl(UyeOlDto uyeOlDto)
         {
-            return RedirectToAction("Login");
+          
+
             if (ModelState.IsValid)
             {
                 uyeOlDto.CinsiyetId = 2;

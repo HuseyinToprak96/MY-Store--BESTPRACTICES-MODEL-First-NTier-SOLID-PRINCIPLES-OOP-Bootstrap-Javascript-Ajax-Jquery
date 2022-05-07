@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div style=" margin-top:60px;display:grid;grid-template-columns:20% 80%;margin-left:auto; margin-right:auto;">
+<div style=" margin-top:60px;display:grid;grid-template-columns:20% 75%;margin-left:auto; margin-right:auto;">
     <div>
         @for (int i=0;i< Durum.GetNames(typeof(Durum)).Length;i++)
         {
@@ -21,6 +21,7 @@
                 <th>İletişim Bilgileri</th>
                 <th>Sipariş Durumu</th>
                 <th></th>
+                <th>Detay</th>
             </tr>
             @foreach (var item in ((List<Siparis>)TempData["siparisler"]))
             {
@@ -31,7 +32,7 @@
                     <td>@item.uye.Telefon</td>
                     
                     <td>
-                    @if(((int)item.SiparisDurumu+1)<Durum.GetNames(typeof(Durum)).Length-1) {
+                    @if(((int)item.SiparisDurumu+1)<Durum.GetNames(typeof(Durum)).Length) {
                     <select id="dropEnum">
                             <option class="opt" id="@((int)item.SiparisDurumu+1)">@Durum.GetNames(typeof(Durum))[((int)item.SiparisDurumu)+1]</option>
                         </select>}
@@ -41,10 +42,13 @@
                 }
                     </td>
                     <td>
-                        @if (((int)item.SiparisDurumu + 1) < Durum.GetNames(typeof(Durum)).Length - 1)
+                        @if (((int)item.SiparisDurumu + 1) < Durum.GetNames(typeof(Durum)).Length)
                         {
                             <button class="btn btn-light btnEnum" id="@item.Id">Güncelle</button>
                         }
+                    </td>
+                    <td>
+                        <a href="/Admin/SiparisDetay?id=@item.Id">İncele</a>
                     </td>
                 </tr>
             }
