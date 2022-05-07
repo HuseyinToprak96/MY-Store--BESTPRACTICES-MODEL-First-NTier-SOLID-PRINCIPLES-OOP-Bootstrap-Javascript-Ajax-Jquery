@@ -14,7 +14,7 @@ namespace DataLayer
         public DbSet<Urun> Urunler { get; set; }
         public DbSet<Kategori> Kategoriler { get; set; }
         public DbSet<AltKategori> AltKategoriler { get; set; }
-        public DbSet<Cinsiyet> Cinsiyetler { get; set; }
+        public DbSet<KimeGore> kimeGore { get; set; }
         public DbSet<Fatura> Faturalar { get; set; }
         public DbSet<FaturaDetay> FaturaDetaylar { get; set; }
         public DbSet<Sepet> Sepetler { get; set; }

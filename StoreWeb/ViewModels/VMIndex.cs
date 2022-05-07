@@ -11,7 +11,7 @@ namespace StoreWeb.ViewModels
         public List<Urun> YeniGelenler { get; set; }
         public List<Urun> BitmesiYakinUrunler { get; set; }
         public List<Kategori> Kategoriler { get; set; }
-        public List<Cinsiyet> Cinsiyetler { get; set; }
+        public List<KimeGore> kimeGore { get; set; }
 
     }
 }

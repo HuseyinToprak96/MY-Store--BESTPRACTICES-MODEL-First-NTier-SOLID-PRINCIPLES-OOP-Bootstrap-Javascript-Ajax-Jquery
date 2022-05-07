@@ -1,4 +1,7 @@
-﻿@model List<CoreLayer.Entities.Kategori>
+﻿
+@using CoreLayer.Entities
+@model List<CoreLayer.Entities.Kategori>
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -6,53 +9,145 @@
 <div style="text-align:center;margin-top:60px">
     <input type="text" placeholder="Kategori, AltKategori veya Ürün adı arayın." id="ara" />
 </div>
-<div  id="panelAdmin">
-    
-    
+<div id="panelAdmin" style="width:80%;margin:0 auto">
+
+
     @foreach (var kategori in Model)
     {
-        <div id="kategori_@kategori.Id" class="kategoriAccordion" onclick="Goster(@kategori.Id,'kategori')">
-            <h3 style="background-color:@kategori.Renk" class="kat">@kategori.KategoriAdi<button onclick="accordionSil(@kategori.Id,'kategori');">X</button></h3>
+        <div style="max-width:800px" id="kategori_@kategori.Id" class="kategoriAccordion">
+            <h3 style="background-color:@kategori.Renk" id="h_@kategori.Id" onclick="Goster(@kategori.Id,'kategori')" class="kat"><span id="sp_@kategori.Id"> @kategori.KategoriAdi</span><button onclick="accordionSil(@kategori.Id,'kategori');">X</button></h3>
+            <form class="updateKategori" id="@kategori.Id">
+                <div class="form-group" style="display:none">
+
+                    <input class="form-control" id="katId_@kategori.Id" name="Id" value="@kategori.Id" />
+                </div>
+                <div class="form-group">
+                    <label>Kategori Adı</label>
+                    <input class="form-control" id="katAdi_@kategori.Id" name="KategoriAdi" value="@kategori.KategoriAdi" />
+                </div>
+                <div class="form-group">
+                    <label>Renk</label>
+                    <input class="form-control" id="renk_@kategori.Id" name="Renk" value="@kategori.Renk" />
+                </div>
+                <input type="submit" class="btn-success" value="Güncelle" />
+            </form>
         </div> <div class="listeAltkategori" id="alt_kategori_@kategori.Id">
+            @if (kategori.altKategoriler != null)
+            {
+                <h2 style="text-align:center">ALT KATEGORİLER(@kategori.KategoriAdi)</h2>}
             @foreach (var altKategori in kategori.altKategoriler)
             {
-                <div style="background-color:@altKategori.Renk" class="li kategori_@kategori.Id" onclick="Goster(@altKategori.Id,'altKategori')" id="altKategori_@altKategori.Id">
-                    @altKategori.AltKategoriAdi<button onclick="accordionSil(@altKategori.Id,'altKategori');" id="btn_@altKategori.Id">X</button>
+                <div class="li kategori_@kategori.Id" style="width:80%;margin:0 0 0 auto">
+                    <h4 class="altH" style="background-color:@altKategori.Renk;color:whitesmoke;" id="altKategori_@altKategori.Id" onclick="Goster(@altKategori.Id,'altKategori')">
+                        <span id="spAlt_@altKategori.Id"> @altKategori.AltKategoriAdi</span><button onclick="accordionSil(@altKategori.Id,'altKategori');" id="btn_@altKategori.Id">X</button>
+                    </h4>
+                    <form class="updateAltKategori" id="@altKategori.Id">
+                        <div class="form-group" style="display:none">
+
+                            <input class="form-control" id="altKatId_@altKategori.Id" name="Id" value="@altKategori.Id" />
+                        </div>
+                        <div class="form-group">
+                            <label>Alt Kategori Adı</label>
+                            <input class="form-control" id="altKatAdi_@altKategori.Id" name="AltKategoriAdi" value="@altKategori.AltKategoriAdi" />
+                        </div>
+                        <div class="form-group">
+                            <label>Renk</label>
+                            <input class="form-control" id="renkAlt_@altKategori.Id" name="Renk" value="@altKategori.Renk" />
+                        </div>
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <select name="KategoriId" class="form-control">
+                                @foreach (var kat in Model)
+                                {
+                                    <option value="@kat.Id">
+                                        @kat.KategoriAdi
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <input type="submit" class="btn-success" value="Güncelle" />
+                    </form>
                 </div>
-                <div class="urunlerAccordion altKategori_@altKategori.Id" id="alt_altKategori_@altKategori.Id">
+                <div style="margin:0 0 0 auto; width:64%" class="urunlerAccordion altKategori_@altKategori.Id" id="alt_altKategori_@altKategori.Id">
                     @foreach (var urun in altKategori.Urunler)
                     {
+                        <h5 id="hUrun_@urun.Id" style="text-align:center;background-color:darkseagreen; margin-top:10px;">@urun.UrunAdi</h5>
                         <div class="urunAdmin" id="urun_@urun.Id">
-                            @urun.UrunAdi    <button onclick="accordionSil(@urun.Id, 'urun');">X</button>
+                            <span id="spUrun_@urun.Id"> @urun.UrunAdi</span>  <button onclick="accordionSil(@urun.Id, 'urun');">X</button>
+                            <form class="updateUrun" id="@urun.Id">
+                                <div class="form-group" style="display:none">
+                                    <input class="form-control" id="urunId_@urun.Id" name="Id" value="@urun.Id" />
+                                </div>
+                                 <div class="form-group" style="display:none">
+                                    <label>Resim</label>
+                                    <input class="form-control" id="res_@urun.Id" name="Resim" value="@urun.Resim" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Ürün Adı</label>
+                                    <input class="form-control" id="urunAdi_@urun.Id" name="UrunAdi" value="@urun.UrunAdi" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Alt Kategori</label>
+                                    <select name="altKategoriId" class="form-control">
+                                        @foreach (var altK in ((List<AltKategori>)TempData["AltKategoriler"]))
+                                        {
+                                            <option value=@altK.Id>@altK.AltKategoriAdi</option>
+}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Adet</label>
+                                    <input class="form-control" id="adet_@urun.Id" name="Adet" value="@urun.Adet" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Kime Göre?</label>
+                                    <select name="CinsiyetId" id="kim_@urun.Id" class="form-control">
+                                        @foreach (var item in ((List<KimeGore>)TempData["KimeGore"]))
+                                        {
+                                            <option selected="@urun.kimeGoreId" value="@item.Id">@item.kimeGore</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <input type="submit" class="btn-success" value="Güncelle" />
+                            </form>
+
+                            @*<button type="button" onclick="modalUret();" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+                         <strong> RAPOR BİLDİR</strong> 
+                            </button>*@
+
+
+
+
+
                         </div>
                     }
                     <div class="urunAdmin ekleForm" id="urun_-1">
                         <h3 style="color:darkblue">Yeni Ürün Ekle (@altKategori.AltKategoriAdi)</h3>
-                        <form class="urunForm">
-                            <div class="form-group">
-                                <label>Resim</label>
-                                <input type="file" class="form-control" name="Resim" />
-                            </div>
+                        <form id="@altKategori.Id" class="urunForm">
                             <div class="form-group">
                                 <label>Ürün Adı</label>
-                                <input id="txt" class="form-control" name="UrunAdi" />
+                                <input id="txt_@altKategori.Id" class="form-control" name="UrunAdi" />
                             </div>
                             <div class="form-group">
                                 <label>Fiyat</label>
-                                <input class="form-control" name="Ucret" />
+                                <input class="form-control" id="fiyat_@altKategori.Id" name="Ucret" />
                             </div>
                             <div class="form-group">
                                 <label>Adet</label>
-                                <input class="form-control" name="Adet" />
+                                <input class="form-control" id="adet_@altKategori.Id" name="Adet" />
                             </div>
-                            <input type="text" disabled name="" />
                             <div class="form-group">
                                 <label>Kime Göre?</label>
-                                <select>
-                                    <option name="">asdasda</option>
+                                <select name="CinsiyetId" id="kim_@altKategori.Id" class="form-control">
+                                    @foreach (var item in ((List<KimeGore>)TempData["KimeGore"]))
+                                    {
+                                        <option value="@item.Id">@item.kimeGore</option>
+                                    }
                                 </select>
-                                <input type="text" name="CinsiyetId" value="1" />
-                                <input type="text" name="AltKategoriId" value="@altKategori.Id" />
+                                <input type="text" style="display:none" name="AltKategoriId" value="@altKategori.Id" />
                             </div>
                             <button type="submit" class="btn btn-success">EKLE</button>
                         </form>
@@ -61,7 +156,7 @@
                 </div>
             }
             <div class="li kategori_-1" onclick="Goster(@kategori.Id, 'altKategoriEkle')" id="altKategori_-1">
-                Yeni Alt Kategori Ekle(@kategori.KategoriAdi)
+                <h4 class="altH">  Yeni Alt Kategori Ekle(@kategori.KategoriAdi)</h4>
             </div>
             <div class="urunlerAccordion altKategori_-1" id="alt_altKategoriEkle_@kategori.Id">
                 <form class="altForm" id="@kategori.Id">
@@ -76,222 +171,325 @@
         </div>
     }
 </div>
-    <div class="kategoriAccordion" onclick="Goster(-1,'KategoriEkle')">
-        <h3 style="background-color:blueviolet">YENİ KATEGORİ EKLE(+)</h3>
-    </div>
-    <div id="alt_KategoriEkle_-1" style="display:none">
-        <form class="form">
-            <div class="form-group">
-                <label>Kategori Adı</label>
-                <textarea class="form-control" id="katAdi" name="kategoriAdi"></textarea>
-                
-            </div>
-            <button type="submit" class="btn btn-success">EKLE</button>
-        </form>
-    </div>
+<div class="kategoriAccordion" onclick="Goster(-1,'KategoriEkle')">
+    <h3 style="background-color:blueviolet">YENİ KATEGORİ EKLE(+)</h3>
+</div>
+<div id="alt_KategoriEkle_-1" style="display:none">
+    <form class="form">
+        <div class="form-group">
+            <label>Kategori Adı</label>
+            <textarea class="form-control" id="katAdi" name="kategoriAdi"></textarea>
 
-    <script>
-        //yollanılan 2. parametreye göre çalışacak olan metotlar...
-        //değişen tek kısımları 2. parametrelerdir. Yani koda tek satır kod ile eklenecektir.
+        </div>
+        <button type="submit" class="btn btn-success">EKLE</button>
+    </form>
+</div>
 
-        function Goster(id, tiklanan) {
-            var acc = document.getElementById("alt_" + tiklanan + "_" + id);
-            if (acc.style.display == "none")
-                acc.style.display = "block";
-            else
-                acc.style.display = "none";
+<script>
+    //yollanılan 2. parametreye göre çalışacak olan metotlar...
+    //değişen tek kısımları 2. parametrelerdir. Yani koda tek satır kod ile eklenecektir.
+
+    function Goster(id, tiklanan) {
+        var acc = document.getElementById("alt_" + tiklanan + "_" + id);
+        if (acc.style.display == "none")
+            acc.style.display = "block";
+        else
+            acc.style.display = "none";
+    }
+    function accordionSil(id, silinecek) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/Admin/" + silinecek + "Sil?id=" + id, true);
+        xhr.send();
+        var obj = document.getElementById(silinecek + "_" + id);
+        obj.remove();
+        if (silinecek != "urun") {
+            var alt = document.getElementById("alt_" + silinecek + "_" + id);
+            alt.remove();
         }
-        function accordionSil(id, silinecek) {
-
-            //ajax işlemleri eklenecek
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/Admin/" + silinecek + "Sil?id=" + id, true);
-            xhr.send();
-            var obj = document.getElementById(silinecek + "_" + id);
-            obj.remove();
-            if (silinecek != "urun") {
-                var alt = document.getElementById("alt_" + silinecek + "_" + id);
-                alt.remove();
-            }
-        }
-        //KATEGORİ EKLE
-        $('.form').submit(function (e) {
-
-            e.preventDefault();
-            var formData = $(this).serialize();
-            var kategoriAdi = $("#katAdi").val();
-            //alert(kategoriAdi);
-            $.ajax({
-                type: 'POST',
-                url: '/Admin/KategoriEkle',
-                data: formData,
-                success: function (data) {
-                    console.log("data", data);
-                    var div = document.createElement("div");
-                    div.id = "kategori_" + data;
-                    div.className = "kategoriAccordion";
-                    div.addEventListener("click", function () {
-                        Goster(data, "kategori");
-                    });
-                    var h = document.createElement("h3");
-                    h.innerText = kategoriAdi;
-                    h.style.backgroundColor = "brown";
-                    h.className = "kat";
-                    var btn = document.createElement("button");
-                    btn.innerText = "X";
-                    btn.addEventListener("click", function () {
-                        accordionSil(data, 'kategori');
-                    });
-                    h.appendChild(btn);
-                    div.appendChild(h);
-                    var d = document.getElementById("panelAdmin");
-                    d.appendChild(div);
-                },
-                error: function (error) {
-                    console.log("error", error);
-                }
-            });
-        });
-
-        //ALT KATEGORİ EKLE
-        $('.altForm').submit(function (e) {
-            e.preventDefault();
-            var formData = $(this).serialize();
-            var id = $(this).attr("id");
-            $.ajax({
-                type: 'POST',
-                url: '/Admin/altKategoriEkle',
-                data: formData,
-                success: function (data) {
-                    console.log("data", data);
-                    var div = document.createElement("div");
-                    div.style.backgroundColor = "beige";
-                    div.addEventListener("click",function () {
-                        Goster(data, 'altKategori');
-                    });
-                    div.id = "altKategori_" + data;
-                    div.className = "li kategori_" + id;
-                    div.innerText = $('#txtAlt_' + id).val();
-                    var btn = document.createElement("button");
-                    btn.addEventListener("click", function () {
-                        accordionSil(data, 'altKategori');
-                    });
-                    btn.id = "btn_" + data;
-                    btn.innerText = "X";
-                    div.appendChild(btn);
-                    var d = document.getElementById("alt_kategori_" + id);
-                    d.appendChild(div);
-
-
-                },
-                error: function (error) {
-                    console.log("error", error);
-                }
-            });
-        });
-
-
-        //ÜRÜN EKLEME//NASIL TEKE İNDİRİLLİR?
-
-        $('.urunForm').submit(function (e) {
-
-            e.preventDefault();
-            var formData = $(this).serialize();
-            $.ajax({
-                type: 'POST',
-                url: '/Admin/urunEkle',
-                data: formData,
-                success: function (data) {
-
-                    console.log("data", data);
-
-                },
-                error: function (error) {
-                    console.log("error", error);
-                }
-            });
-        });
-
-        //function ekleListeye(id) {
-        //    var txt = document.getElementById("txt");
-        //    var d = document.getElementById("#alt_altKategori_" + id)
-        //    var div = document.createElement("div");
-        //    div.className = "urunAdmin";
-        //    div.innerText = txt.value;
-        //    var buton = document.createElement("button");
-        //    buton.value = "X";
-        //    div.appendChild(buton);
-        //    d.appendChild(div);
-        //}
-
-        //function ara() {
-        //    var txt = document.getElementById("ara");
-        //    var divler = document.querySelectorAll("#panelAdmin div");
-
-
-        //}
-        //Arama Motoru
-        $(document).ready(function () {
-            $("#ara").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#panelAdmin div").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    }
+    //KATEGORİ EKLE
+    $('.form').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        var kategoriAdi = $("#katAdi").val();
+        //alert(kategoriAdi);
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/KategoriEkle',
+            data: formData,
+            success: function (data) {
+                console.log("data", data);
+                var div = document.createElement("div");
+                div.id = "kategori_" + data;
+                div.className = "kategoriAccordion";
+                div.addEventListener("click", function () {
+                    Goster(data, "kategori");
                 });
+                var h = document.createElement("h3");
+                h.innerText = kategoriAdi;
+                h.style.backgroundColor = "brown";
+                h.className = "kat";
+                var btn = document.createElement("button");
+                btn.innerText = "X";
+                btn.addEventListener("click", function () {
+                    accordionSil(data, 'kategori');
+                });
+                h.appendChild(btn);
+                div.appendChild(h);
+                var d = document.getElementById("panelAdmin");
+                d.appendChild(div);
+            },
+            error: function (error) {
+                console.log("error", error);
+            }
+        });
+    });
+
+
+
+
+    //ALT KATEGORİ EKLE
+    $('.altForm').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        var id = $(this).attr("id");
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/altKategoriEkle',
+            data: formData,
+            success: function (data) {
+                console.log("data", data);
+                var div = document.createElement("div");
+                div.style.backgroundColor = "beige";
+                div.addEventListener("click", function () {
+                    Goster(data, 'altKategori');
+                });
+                div.id = "altKategori_" + data;
+                div.className = "li kategori_" + id;
+                div.innerText = $('#txtAlt_' + id).val();
+                var btn = document.createElement("button");
+                btn.addEventListener("click", function () {
+                    accordionSil(data, 'altKategori');
+                });
+                btn.id = "btn_" + data;
+                btn.innerText = "X";
+                div.appendChild(btn);
+                var d = document.getElementById("alt_kategori_" + id);
+                d.appendChild(div);
+
+
+            },
+            error: function (error) {
+                console.log("error", error);
+            }
+        });
+    });
+
+
+    //ÜRÜN EKLEME//NASIL TEKE İNDİRİLLİR?
+
+    $('.urunForm').submit(function (e) {
+
+        e.preventDefault();
+        var formData = $(this).serialize();
+        var id = $(this).attr("id");
+        //var resim = $("#Resim_" + id);
+        //alert(resim.val());
+        //alert(resim.val());
+
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/urunEkle',
+            data: formData,
+            success: function (data) {
+                var div = document.createElement("div");
+                div.className = "urunAdmin";
+                div.id = "urun_" + data;
+                var span = document.createElement("span");
+                span.id = "spUrun_" + data;
+                span.innerText = $("#txt_" + id).val();
+                div.appendChild(span);
+                var btn = document.createElement("button");
+                btn.addEventListener("click", function () {
+                    accordionSil(data, 'urun');
+                });
+                btn.innerText = "X";
+                div.appendChild(btn);
+                var d = document.getElementById("alt_altKategori_" + id);
+                d.appendChild(div);
+                console.log("data", data);
+
+            },
+            error: function (error) {
+                console.log("error", error);
+            }
+        });
+    });
+
+
+    //UPDATE KATEGORİ
+    $('.updateKategori').submit(function (e) {
+
+        e.preventDefault();
+        var formData = $(this).serialize();
+        var id = $(this).attr("id");
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/KategoriGuncelle',
+            data: formData,
+            success: function (data) {
+                var sp = document.getElementById("sp_" + id);
+                var h = document.getElementById("h_" + id);
+                sp.innerText = $("#katAdi_" + id).val();
+                h.style.backgroundColor = $("#renk_" + id).val();
+                console.log("data", data);
+
+            },
+            error: function (error) {
+                console.log("error", error);
+            }
+        });
+    });
+
+    //UPDATE ALTKATEGORİ
+
+    $('.updateAltKategori').submit(function (e) {
+
+        e.preventDefault();
+        var formData = $(this).serialize();
+        var id = $(this).attr("id");
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/AltKategoriGuncelle',
+            data: formData,
+            success: function (data) {
+                var sp = document.getElementById("spAlt_" + id);
+                var h = document.getElementById("altKategori_" + id);
+                sp.innerText = $("#altKatAdi_" + id).val();
+                h.style.backgroundColor = $("#renkAlt_" + id).val();
+                console.log("data", data);
+
+            },
+            error: function (error) {
+                console.log("error", error);
+            }
+        });
+    });
+
+
+    //UPDATE ÜRÜNLER
+
+    $('.updateUrun').submit(function (e) {
+
+        e.preventDefault();
+        var formData = $(this).serialize();
+        var id = $(this).attr("id");
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/UrunGuncelle',
+            data: formData,
+            success: function (data) {
+                 var sp = document.getElementById("spUrun_" + id);
+                 var h = document.getElementById("hUrun_" + id);
+                 sp.innerText = $("#urunAdi_" + id).val();
+                 h.innerText = $("#urunAdi_" + id).val();
+                 console.log("data", data);
+
+            },
+            error: function (error) {
+                console.log("error", error);
+            }
+        });
+    });
+
+
+
+    //Arama Motoru
+    $(document).ready(function () {
+        $("#ara").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#panelAdmin div").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
+    });
 
-    </script>
+</script>
 
-    <style>
-        h3 {
-            height: 80px;
-            font-size: 40px;
-            color: whitesmoke;
-            padding-top: 15px;
-            text-align: center;
-        }
+<style>
 
-        .kategoriAccordion:focus ul {
-            display: block;
-        }
+    h3 {
+        height: 80px;
+        font-size: 40px;
+        color: whitesmoke;
+        background-color: brown;
+        padding-top: 15px;
+        text-align: center;
+    }
 
-        .listeAltkategori {
-            display: none;
-        }
+    .kategoriAccordion:focus ul {
+        display: block;
+    }
 
-        .urunlerAccordion {
-            display: none;
-        }
+    .listeAltkategori {
+        display: none;
+    }
 
-        .li {
-            height: 40px;
-            font-size: 20px;
-            padding-top: 10px;
-            list-style-type: none;
+    .urunlerAccordion {
+        display: none;
+        color: red;
+    }
+
+    .li {
+        min-height: 175px;
+        height: max-content;
+        font-size: 20px;
+        padding-top: 10px;
+        list-style-type: none;
+        background-color: beige;
+        margin-top: 5px;
+    }
+
+    .ekleForm {
+        box-shadow: 2px 4px 4px 2px;
+        border: 1px solid;
+        margin-top: 20px;
+    }
+
+    .kategoriAccordion {
+        margin-top: 20px;
+        background-color: floralwhite;
+        box-shadow: 2px 4px 4px 2px;
+        height: 250px;
+    }
+
+    #ara {
+        border: 0px;
+        background-color: darkkhaki;
+        height: 100px;
+        width: 80%;
+        font-size: 20px;
+        border-radius: 10px;
+    }
+
+        #ara:focus {
+            border: 5px solid;
             background-color: beige;
-            margin-top: 5px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
 
-        .ekleForm {
-            box-shadow: 2px 4px 4px 2px;
-            border: 1px solid;
-            margin-top: 20px;
-        }
+    .altH {
+        background-color: gainsboro;
+        color: brown;
+    }
 
-        .kategoriAccordion {
-            background-color: brown;
-        }
-        #ara {
-            border: 0px;
-            background-color: darkkhaki;
-            height: 100px;
-            width: 80%;
-            font-size: 20px;
-            border-radius:10px;
-        }
-        #ara:focus{
-            border:5px solid;
-            background-color:beige;
-            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
-    </style>
+    .urunAdmin {
+        min-height: 150px;
+        height: max-content;
+        box-shadow: 2px 4px 4px 2px;
+        border: 2px solid;
+        margin-top: 20px;
+        background-color: antiquewhite;
+        color: black;
+    }
+</style>

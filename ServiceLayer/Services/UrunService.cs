@@ -47,7 +47,7 @@ namespace ServiceLayer.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Urun>> OnerilenUrunler(int cinsId, int AltKategoriId)
+        public Task<List<Urun>> OnerilenUrunler(int? cinsId, int? AltKategoriId)
         {
             throw new NotImplementedException();
         }

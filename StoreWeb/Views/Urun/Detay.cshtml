@@ -4,9 +4,9 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
+@using Microsoft.AspNetCore.Http 
 
-
-@Html.Partial("PartialKategoriMenu", Model.Cinsiyetler)
+@Html.Partial("PartialKategoriMenu", Model.kimeGore)
 
 <div id="detay">
     <div class="card mb-3" style="max-width: 540px; margin-top:100px;">
@@ -17,18 +17,18 @@
             <div class="col-md-8">
                 <div class="card-body">
                     <h5 class="card-title" id="name" style="background-color:@Model.urun.altKategori.kategori.Renk">@Model.urun.UrunAdi</h5>
-                    <p class="card-text"><strong>BEDEN:</strong> @Model.urun.Beden<br /><strong> Kim İçin:</strong>@Model.urun.cinsiyet.cinsiyet<br /><strong> Fiyat:</strong>@Model.urun.Ucret TL</p>
+                    <p class="card-text"><strong>BEDEN:</strong> @Model.urun.Beden<br /><strong> Kim İçin:</strong>@Model.urun.kimeGore.kimeGore <br /><strong> Fiyat:</strong>@Model.urun.Ucret TL</p>
                     <p class="card-text"><small class="text-muted">@Model.urun.EklenmeTarihi.ToString("dd/MMM/yyy/")</small></p>
                     <p class="card-text">
-                       
-                        <input type="submit" class="btn-danger" id="ekle" onclick="sepeteEkle(@Model.urun.Id);" value="EKLE" />
-</div>
-            </div>
-            @if (Model.sepet != null) { 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 
-                <strong> SEPETİM</strong> <strong id="adet">@Model.sepet.SepetDetay.Count</strong> ürün bulunuyor.
-            </button>}
+                        <input type="submit" class="btn-danger" id="ekle" onclick="sepeteEkle(@Model.urun.Id);" value="EKLE" />
+                </div>
+            </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+            <strong> SEPETİM </strong>
+            <strong id="adet">@Model.sepet.SepetDetay.Count</strong><span> ürün bulunuyor.</span>
+        </button>
         </div>
     </div>
     <!-- Modal -->
@@ -40,44 +40,40 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @if (Model.sepet != null)
-                    {
-                        <table class="table" id="tbl_List">
+                    
+                    <table class="table" id="tbl_List">
+                        @if (Model.sepet.SepetDetay.Count > 0)
+                        {
+                            <tr>
+                                <th>
+                                    Ürün Adı
+                                </th>
+                                <th>
+                                    Adet
+                                </th>
+                                <th></th>
+                            </tr>
+                        
 
-                            @if (Model.sepet != null)
-                            {
-                                <tr><th colspan="3">Sepetinizde hiç bir ürün bulunamadı</th></tr>
-}
-                            else
-                            {
-                                <tr>
-                                    <th>
-                                        Ürün Adı
-                                    </th>
-                                    <th>
-                                        Adet
-                                    </th>
-                                    <th></th>
-                                </tr>
-}
-
-                            @foreach (var item in Model.sepet.SepetDetay)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.urun.UrunAdi)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Adet)
-                                    </td>
-                                    <td><button class="btn-danger" onclick="sil(@item.Id);" id="sil_@item.Id" style="background-color:red;color:white;">Sil</button></td>
-                                </tr>
-                            }
-
-                        </table>}
+                        @foreach (var item in Model.sepet.SepetDetay)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.urun.UrunAdi)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Adet)
+                                </td>
+                                <td><button class="btn-danger" onclick="sil(@item.Id);" id="sil_@item.Id" style="background-color:red;color:white;">Sil</button></td>
+                            </tr>
+                        }}
+            else {
+                         <tr><th colspan="3">Sepetinizde hiç bir ürün bulunamadı</th></tr>
+                        }
+                    </table>
                 </div>
                 <div class="modal-footer">
-                  @if (Model.sepet != null)
+                  @if (Model.sepet.SepetDetay.Count>0)
                   {  <button onclick="temizle(@Model.sepet.Id);"><img src="~/img/temizle.png" height="45" width="70" /></button>}
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
                     <button type="button" class="btn btn-primary" formmethod="get" formaction="Profilim"><a href="/Kullanici/Profilim">Sepete Git</a></button>
@@ -112,7 +108,7 @@
     function sil(id) {
         var adet = document.getElementById("adet");
         let xhr = new XMLHttpRequest;
-        xhr.open("POST", "/Sepet/SepettenCikar?id=" + id, true);
+        xhr.open("POST", "/MVCSepet/SepettenCikar?id=" + id, true);
         xhr.send();
         var find = document.getElementById("sil_" + id);
         adet.innerText = parseInt(adet.innerText) - 1;
@@ -126,7 +122,7 @@
         var tablo = document.getElementById("tbl_List");
         if (btn.value == "EKLE") {
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/Sepet/SepeteEkle?UrunId=" + id, true);
+            xhr.open("POST", "/MVCSepet/SepetEkle?UrunId=" + id, true);
             xhr.send();
             btn.value = "KALDIR";
             adet.innerText = parseInt(adet.innerText) + 1;

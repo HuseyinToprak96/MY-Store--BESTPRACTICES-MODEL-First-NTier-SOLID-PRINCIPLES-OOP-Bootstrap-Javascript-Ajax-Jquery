@@ -49,5 +49,23 @@ namespace AppAPI.Controllers
             await _service.Update(sepet);
             return Ok();
         }
+        [HttpPost]
+        public async Task<IActionResult> SepeteEkle( int UrunId,int UyeId)
+        {
+            await _service.SepeteEkle(UrunId,UyeId);
+            return Ok();
+        }
+        [HttpDelete]
+        public async Task<IActionResult> SepettenCikar(int SepetDetayId)
+        {
+            await _service.SepettenCikar(SepetDetayId);
+            return Ok();
+        }
+        [HttpGet]
+        public async Task<IActionResult> MusterininSepeti(int Uyeid)
+        {
+            var sepet= await _service.MusterininSepeti(Uyeid);
+            return Ok(sepet);
+        }
     }
 }

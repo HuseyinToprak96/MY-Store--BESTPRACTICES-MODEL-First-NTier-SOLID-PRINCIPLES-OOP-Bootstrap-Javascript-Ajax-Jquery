@@ -76,7 +76,7 @@ namespace DataLayer.Repository
 
         public async Task<Urun> UrunDetay(int id)
         {
-            return await _data.Urunler.Include(x => x.cinsiyet).Include(x => x.altKategori).ThenInclude(x => x.kategori).Where(x => x.Id == id).SingleOrDefaultAsync();
+            return await _data.Urunler.Include(x => x.kimeGore).Include(x => x.altKategori).ThenInclude(x => x.kategori).Where(x => x.Id == id).SingleOrDefaultAsync();
         }
 
         public async Task<List<Urun>> Yeni4Urun()

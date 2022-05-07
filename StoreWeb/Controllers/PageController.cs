@@ -10,13 +10,13 @@ namespace StoreWeb.Controllers
     [AllowAnonymous]
     public class PageController : Controller
     {
-        private readonly IService<Cinsiyet> _Cinsiyetservice;
+        private readonly IService<KimeGore> _KimeGoreservice;
         private readonly IKategoriService _kategoriService;
         private readonly IUrunService _urunService;
 
-        public PageController(IService<Cinsiyet> cinsiyetservice, IKategoriService kategoriService, IUrunService urunService)
+        public PageController(IService<KimeGore> kimeGoreservice, IKategoriService kategoriService, IUrunService urunService)
         {
-            _Cinsiyetservice = cinsiyetservice;
+            _KimeGoreservice = kimeGoreservice;
             _kategoriService = kategoriService;
             _urunService = urunService;
         }
@@ -26,7 +26,7 @@ namespace StoreWeb.Controllers
             VMIndex vMIndex = new VMIndex();
             vMIndex.Urunler = await _urunService.getAllAsync();
             vMIndex.Kategoriler = await _kategoriService.KategoriyeAitDetaylar();
-            vMIndex.Cinsiyetler = await _Cinsiyetservice.getAllAsync();
+            vMIndex.kimeGore = await _KimeGoreservice.getAllAsync();
             vMIndex.BitmesiYakinUrunler = await _urunService.BitmesiYakin();
             vMIndex.EnCokSatanlar = await _urunService.EncokSatan();
             vMIndex.FavoriUrunlar = _urunService.FavoriUrunler().Result;

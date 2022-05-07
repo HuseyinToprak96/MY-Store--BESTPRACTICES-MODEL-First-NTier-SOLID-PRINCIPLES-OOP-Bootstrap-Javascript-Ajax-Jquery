@@ -3,10 +3,10 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Partial("PartialKategoriMenu", Model.Cinsiyetler)
+@Html.Partial("PartialKategoriMenu", Model.kimeGore)
 <table class="table" id="ind">
 
-    <tr>
+    <tr >
         <td>@Html.Partial("FavoriUrunlerPartial", Model.FavoriUrunlar)</td>
     </tr>
     <tr>
@@ -19,3 +19,9 @@
         <td>  @Html.Partial("BitmesiYakinUrunlerPartial", Model.BitmesiYakinUrunler) </td>
     </tr>
 </table>
+
+<style>
+    #ind tr td{
+height:400px;
+    }
+</style>

@@ -1,4 +1,5 @@
-﻿using CoreLayer.Entities;
+﻿using CoreLayer.Dtos;
+using CoreLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace CoreLayer.Interfaces.Services
         Task<List<Siparis>> Siparisler(Durum durum);
         Task DurumGuncelle(int durum);
         Task SiparisGuncelle(int durum, int id);
+        Task<Siparis_Siparis_Detay_UrunDto> SiparisDetay(int id);
     }
 }

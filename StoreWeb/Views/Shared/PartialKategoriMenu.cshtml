@@ -1,9 +1,9 @@
-﻿@model List<CoreLayer.Entities.Cinsiyet>
+﻿@model List<CoreLayer.Entities.KimeGore>
 <div id="nav">
     @foreach (var item in Model)
     {
         <div class="kategori" id="@item.Id" href="" onmouseover="goster();">
-            <a href="/Urun/Urunler?KimeGore=@item.Id"> @item.cinsiyet</a>
+            <a href="/Urun/Urunler?KimeGore=@item.Id"> @item.kimeGore</a>
         </div>
     }
 </div>

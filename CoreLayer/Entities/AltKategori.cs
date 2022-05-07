@@ -9,7 +9,7 @@ namespace CoreLayer.Entities
         public string AltKategoriAdi { get; set; }
         public string Renk { get; set; }
         [ForeignKey("kategori")]
-        public int KategoriId { get; set; }
+        public int? KategoriId { get; set; }
         public Kategori kategori { get; set; }
         public List<Urun> Urunler { get; set; }
     }

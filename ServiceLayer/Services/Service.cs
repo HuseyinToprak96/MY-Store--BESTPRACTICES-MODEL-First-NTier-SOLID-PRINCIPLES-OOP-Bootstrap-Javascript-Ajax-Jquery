@@ -31,7 +31,7 @@ namespace ServiceLayer.Services
         {
             var hasData = await _repository.getByIdAsync(id);
             if (hasData == null)
-                throw new ClientSideException($"{typeof(T).Name} bulunamadı.");
+            throw new ClientSideException($"{typeof(T).Name} bulunamadı.");
             return await _repository.getByIdAsync(id);
         }
 

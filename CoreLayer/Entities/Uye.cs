@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoreLayer.Entities
 {
+    public enum Cinsiyet { Erkek=1, Kadın=2}
     public class Uye
     {
         public int Id { get; set; }
@@ -13,8 +14,6 @@ namespace CoreLayer.Entities
         public string Telefon { get; set; }
         public string Mail { get; set; }
         public string Sifre { get; set; }
-        [ForeignKey("cinsiyet")]
-        public int? CinsiyetId { get; set; }
         public Cinsiyet cinsiyet { get; set; }
         public Sepet sepet { get; set; }
         public List<Fatura> Faturalar { get; set; }

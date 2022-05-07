@@ -10,6 +10,7 @@ namespace DataLayer.Configurations
         {
             builder.Property(x => x.KategoriAdi).HasMaxLength(100);
             builder.Property(x => x.Renk).HasMaxLength(30);
+            
         }
     }
 }
