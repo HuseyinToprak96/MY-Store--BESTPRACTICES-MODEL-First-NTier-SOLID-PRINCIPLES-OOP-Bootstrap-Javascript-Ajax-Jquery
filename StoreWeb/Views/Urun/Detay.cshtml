@@ -19,9 +19,23 @@
                     <h5 class="card-title" id="name" style="background-color:@Model.urun.altKategori.kategori.Renk">@Model.urun.UrunAdi</h5>
                     <p class="card-text"><strong>BEDEN:</strong> @Model.urun.Beden<br /><strong> Kim İçin:</strong>@Model.urun.kimeGore.kimeGore <br /><strong> Fiyat:</strong>@Model.urun.Ucret TL</p>
                     <p class="card-text"><small class="text-muted">@Model.urun.EklenmeTarihi.ToString("dd/MMM/yyy/")</small></p>
-                    <p class="card-text">
 
-                        <button class="btn-danger" id="ekle" onclick="sepeteEkle(@Model.urun.Id);" >EKLE</button> 
+                    @if (Model.sepet.SepetDetay.Where(x => x.UrunId == Model.urun.Id).SingleOrDefault() == null)
+                    {<p class="card-text" id="ekle">
+                            <button class="btn-danger" id="ekle_@Model.urun.Id" onclick="sepeteEkle(@Model.urun.Id);">EKLE</button>
+                        </p>
+                        <p class="card-text" id="kaldir" style="display:none">
+                            <button class="btn-danger" id="sil_@Model.urun.Id" onclick="kaldir(@Model.urun.Id);">KALDIR</button>
+                        </p>
+                    }
+                    else
+                    {<p class="card-text" id="ekle" style="display:none">
+                            <button class="btn-danger" onclick="sepeteEkle(@Model.urun.Id);">EKLE</button>
+                        </p>
+                        <p class="card-text" id="kaldir">
+                            <button class="btn-danger" onclick="kaldir(@Model.urun.Id);">KALDIR</button>
+                        </p>
+                    }
                 </div>
             </div>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -57,7 +71,7 @@
 
                         @foreach (var item in Model.sepet.SepetDetay)
                         {
-                            <tr>
+                            <tr class="trUrun_@item.UrunId" id="@item.Id">
                                 <td>
                                     @Html.DisplayFor(modelItem => item.urun.UrunAdi)
                                 </td>
@@ -68,7 +82,7 @@
                             </tr>
                         }}
             else {
-                         <tr><th colspan="3">Sepetinizde hiç bir ürün bulunamadı</th></tr>
+                         <tr id="urunYok"><th colspan="3">Sepetinizde hiç bir ürün bulunamadı</th></tr>
                         }
                     </table>
                 </div>
@@ -93,15 +107,23 @@
     }
 </div>
 <script>
+
     function temizle(id) {
         let xhr = new XMLHttpRequest;
         xhr.open("POST", "/MVCSepet/SepetiTemizle?id=" + id, true);
         xhr.send();
+
+        var btnEkle = document.getElementById("ekle");
+        var btnKaldir = document.getElementById("kaldir");
+        btnEkle.style.display = "block";
+        btnKaldir.style.display = "none";
         document.getElementById("ekle").value = "EKLE";
         document.getElementById("tbl_List").innerHTML = "";
          document.getElementById("adet").innerText=0;
 
     }
+
+  
     function sil(id) {
         var adet = document.getElementById("adet");
         let xhr = new XMLHttpRequest;
@@ -111,17 +133,26 @@
         adet.innerText = parseInt(adet.innerText) - 1;
         find.parentNode.parentNode.remove();
     }
+    function kaldir(id) {
+        var btnEkle = document.getElementById("ekle");
+        var btnKaldir = document.getElementById("kaldir");
+        var tr = document.getElementsByClassName("trUrun_" + id);
+        sil(tr[0].id);
+        btnEkle.style.display = "block";
+        btnKaldir.style.display = "none";
+    }
 
     function sepeteEkle(id) {
         var urun = document.getElementById("name");
         var adet = document.getElementById("adet");
-        var btn = document.getElementById("ekle");
+        var btnEkle = document.getElementById("ekle");
+        var btnKaldir = document.getElementById("kaldir");
         var tablo = document.getElementById("tbl_List");
-        if (btn.innerText == "EKLE") {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/MVCSepet/SepetEkle?UrunId=" + id, true);
             xhr.send();
-            btn.innerText = "KALDIR";
+            btnEkle.style.display = "none";
+            btnKaldir.style.display = "block";
             adet.innerText = parseInt(adet.innerText) + 1;
             var tr = document.createElement("tr");
             var td1 = document.createElement("td");
@@ -130,7 +161,7 @@
             var btn = document.createElement("button");
             btn.id = "sil_" + id;
             btn.addEventListener("click", function () {
-                sil(id);
+            sil(id);
             });
             btn.style.backgroundColor = "red";
             btn.style.color = "white";
@@ -143,16 +174,10 @@
             tr.appendChild(td1);
             tr.appendChild(td2);
             tr.appendChild(td3);
-            tablo.appendChild(tr);
-        }
-        else if (btn.innerText == "KALDIR") {
-            btn.innerText = "EKLE";
-            var find = document.getElementById("sil_" + id);
-            sil(id);
-            find.parentNode.parentNode.remove();
-        }
+        tablo.appendChild(tr);
+        var urunYok = document.getElementById("urunYok");
+        urunYok.remove();
     }
-
     //function remove(id) {
     //    let find = document.getElementById(id).parentNode.parentNode;
     //    debugger

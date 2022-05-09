@@ -33,6 +33,8 @@ namespace StoreWeb.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            Durum durum = (Durum)0;
+            TempData["YeniSiparisler"] = await _siparisService.Siparisler(durum);
             TempData["KimeGore"] =await _CinsiyetService.getAllAsync();
             TempData["AltKategoriler"] = await _altKategoriService.getAllAsync();
             return View(await _KategoriService.KategoriyeAitDetaylar());

@@ -7,7 +7,7 @@
 }
 <h1>Profilim</h1>
 <div class="row-cols-1" id="prof" style="width:100%">
-    <div style="width:65%; background-color:lavenderblush;box-shadow:2px 8px 4px 2px;border-color:azure" class="com">
+    <div style="width:65%;min-height:350px; background-color:lavenderblush;box-shadow:2px 8px 4px 2px;border-color:azure" class="com">
         <h3>ÜYELİK BİLGİLERİM</h3>
         <div class="icerik">
             <table class="table">
@@ -25,7 +25,7 @@
                 <tr><td colspan="2">Sepetinizde Şuanda @Model.sepet.SepetDetay.Count adet ürün bulunmaktadır.<a href="/Urun/Urunler">Alışverişe devam etmek için tıklayın.</a></td></tr>}
             
             <tr><td><div>
-    <input type="submit" class="btn btn-outline-secondary"  onclick="mailG();" value="Şifre Değiştirme Maili Gönder" />
+    <input type="submit" class="btn btn-outline-secondary" id="mailGonder"  value="Şifre Değiştirme Maili Gönder" />
 </div></td><td>
               
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -83,88 +83,102 @@
             </table>
         </div>
     </div>
-    <div style="width:33%;background-color:floralwhite;box-shadow:2px 4px 8px 2px" class="com">
-        @if (Model.sepet!=null) {
+    <div style="width:33%;min-height:350px;background-color:floralwhite;box-shadow:2px 4px 8px 2px" class="com">
+
         <h3>SEPETİM</h3>
-        <div class="icerik">
-            <table>
-                <tr>
-                    <th>
-                        RESİM
-                    </th>
-                    <th>
-                        ÜRÜN ADI
-                    </th>
-                    <th>
-                        ÜCRET
-                    </th>
-                    <th>SİL</th>
-                </tr>
-
-                @foreach (var item in Model.sepet.SepetDetay)
-                {
+        @if (Model.sepet.SepetDetay.Count > 0)
+        {<div class="icerik">
+                <table>
                     <tr>
-                        <td>
-                            <img src="@item.urun.Resim" height="100" width="100" />
-                        </td>
-                        <td>
-                            @item.urun.UrunAdi
-                        </td>
-                        <td>
-                            <span id="birimFiyat_@item.Id">   @item.urun.Ucret</span>
-                        </td>
-                        <td><button class="btn-danger" onclick="sil(@item.Id);" id="sil_@item.Id" style="background-color:red;color:white;">Sil</button></td>
+                        <th>
+                            RESİM
+                        </th>
+                        <th>
+                            ÜRÜN ADI
+                        </th>
+                        <th>
+                            ÜCRET
+                        </th>
+                        <th>SİL</th>
                     </tr>
-                }
-                <tr>
-                    <td style="text-align:right">
-                        <strong>TUTAR: </strong>
-                    </td>
-                    <td colspan="2">
-                        <span id="toplamFiyat"> @Model.sepet.SepetDetay.Sum(x => x.urun.Ucret)</span> TL
-                    </td>
-                </tr>
-                <tr><td colspan="3" style="text-align:center"><button class="btn btn-danger btnSiparisVer">Sipariş Ver</button></td></tr>
-            </table>
 
-        </div>}
+                    @foreach (var item in Model.sepet.SepetDetay)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@item.urun.Resim" height="100" width="100" />
+                            </td>
+                            <td>
+                                @item.urun.UrunAdi
+                            </td>
+                            <td>
+                                <span id="birimFiyat_@item.Id">   @item.urun.Ucret</span>
+                            </td>
+                            <td><button class="btn-danger" onclick="sil(@item.Id);" id="sil_@item.Id" style="background-color:red;color:white;">Sil</button></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td style="text-align:right">
+                            <strong>TUTAR: </strong>
+                        </td>
+                        <td colspan="2">
+                            <span id="toplamFiyat"> @Model.sepet.SepetDetay.Sum(x => x.urun.Ucret)</span> TL
+                        </td>
+                    </tr>
+                    <tr><td colspan="3" style="text-align:center"><button class="btn btn-danger btnSiparisVer">Sipariş Ver</button></td></tr>
+                </table>
+
+            </div>}
+            else
+            {
+                <div>Sepet hiç ürün bulunmuyor.</div>
+            }
     </div>
 </div>
 <div>
     <h3>SİPARİŞ TAKİP</h3>
     <table>
-        <tr>
-            <th>Sipariş Kodu</th>
-            <th>Sipariş Tarihi</th>
-            <th>Sipariş Durumu</th>
-            <th></th>
-        </tr>
-        @foreach (var item in Model.Siparisler)
+        @if (Model.Siparisler.Where(x=>x.SiparisDurumu!=Durum.TeslimEdildi)!=null)
         {
-            @if (item.Puan==0)
-            {        <tr>
-        <td>@item.SiparisKodu</td>
-            <td>@item.SiparisTarihi</td>
-            <td>@item.SiparisDurumu</td>
-           @if (item.SiparisDurumu == Durum.TeslimEdildi) {
-        <td>
-           <select class="form-control"  id="puan_@item.Id">
-               @for (int i = 0; i < Puanlama.GetNames(typeof(Puanlama)).Length; i++)
-               {
-               <option value="@i">
-                   @Puanlama.GetNames(typeof(Puanlama))[i]
-               </option>
-               }
-           </select><button id="@item.Id" class="btnPuan">Puanla</button>
-        </td>
+            <tr><td colspan="4">Takip edilecek bir siparişiniz bulunmuyor.</td></tr>
         }
-                    else
-                    {
-                        <td>
-                            <button>Siparişim Nerde?</button>
-                        </td>
-                    }
-        </tr>} }
+        else
+        {
+            <tr>
+                <th>Sipariş Kodu</th>
+                <th>Sipariş Tarihi</th>
+                <th>Sipariş Durumu</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.Siparisler)
+            {
+                @if (item.Puan == 0)
+                {
+                    <tr>
+                        <td>@item.SiparisKodu</td>
+                        <td>@item.SiparisTarihi</td>
+                        <td>@item.SiparisDurumu</td>
+                        @if (item.SiparisDurumu == Durum.TeslimEdildi)
+                        {
+                            <td>
+                                <select class="form-control" id="puan_@item.Id">
+                                    @for (int i = 0; i < Puanlama.GetNames(typeof(Puanlama)).Length; i++)
+                                    {
+                                        <option value="@i">
+                                            @Puanlama.GetNames(typeof(Puanlama))[i]
+                                        </option>
+                                    }
+                                </select><button id="@item.Id" class="btnPuan">Puanla</button>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <button>Siparişim Nerde?</button>
+                            </td>
+                        }
+                    </tr>
+}  }}
     </table>
 </div>
 @if (Model.Faturalar.Count>0 ) {
@@ -222,30 +236,39 @@
         </table>
         </div>
     </div> }
+<div style="position:fixed; background-color:aqua">
+    <button >
+        Yukarı Dön
+    </button>
+</div>
 <script>
-    var kotuPuan = "";
-    var iyiPuan = "";
+    var kotuPuan = "~/img/sold.jpg";
+    var iyiPuan = "~/img/temizle.png";
     $('.btnPuan').click(function () {
         var id = $(this).attr("id");
         var puan = $("#puan_" + id).val();
         let xhr = new XMLHttpRequest;
         xhr.open("POST", "/Siparis/Puanla?puan=" + puan+"&id="+id, true);
         xhr.send();
-        //swal("Puanlama Tamamlandı!", puan >= 3 ? puan + " puan verdiniz.Teşekkür Ederiz" : puan+"puan verdiniz.Özür dileriz", "success");
-        Swal.fire({
-            html: '<div style="display:flex;justify-content:space-between"><a href="/turkce"><img src="https://i.hizliresim.com/9YdOnQ.png"></a>' +
-                puan >= 3 ? iyiPuan: kotuPuan + '</div>',
-            title: puan >= 3 ? puan + " puan verdiniz.Teşekkür Ederiz" : puan + "puan verdiniz.Özür dileriz" ,
-            animation: false,
-            customClass: {
-                popup: 'animated tada'
-            }
-        })
+        this.parentNode.parentNode.remove();
+        swal("Puanlama Tamamlandı!", puan >= 3 ? puan + " puan verdiniz.Teşekkür Ederiz" : puan+"puan verdiniz.Özür dileriz", "success");
+     
     });
 
-    function mailG() {
-        alert("Gonderildi");
-    }
+    
+    $('#mailGonder').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/Kullanici/MailGonder',
+            success: function (data) {
+
+                swal("Mail Gönderildi", "Mailini Kontrol Et!", "success");
+            },
+            error: function (error) {
+                console.log("error", error);
+            }
+        });
+    });
 
 
     $('.btnSiparisVer').click(function () {
@@ -291,20 +314,20 @@
         //adet.innerText = parseInt(adet.innerText) - 1;
         find.parentNode.parentNode.remove();
     }
-    function siparisVer() {
-        let xhr = new XMLHttpRequest;
-        xhr.open("POST", "/MVCSepet/SepettenCikar?id=" + id, true);
-        xhr.send();
-    }
 </script>
 <style>
+    #prof{
+        display:grid;
+        grid-template-columns:70% 40%;
+        width:100%;
+    }
     #prof .com {
         float: left;
         margin-left: 1%;
     }
 
     h3 {
-        color: whitesmoke;
+        color:black;
     }
     .yildiz {
         font-size: 30px;

@@ -16,11 +16,13 @@ namespace StoreWeb.Controllers
     public class LoginController : Controller
     {
         private readonly IUyeService _uyeService;
+        private readonly ISiparisService _siparisService;
         private readonly IMapper _mapper;
-        public LoginController(IUyeService uyeService, IMapper mapper)
+        public LoginController(IUyeService uyeService, IMapper mapper, ISiparisService siparisService)
         {
             _uyeService = uyeService;
             _mapper = mapper;
+            _siparisService = siparisService;
         }
         public IActionResult KullaniciGiris()
         {

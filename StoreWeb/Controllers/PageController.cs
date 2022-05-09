@@ -3,6 +3,9 @@ using CoreLayer.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StoreWeb.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace StoreWeb.Controllers
@@ -19,7 +22,10 @@ namespace StoreWeb.Controllers
             _KimeGoreservice = kimeGoreservice;
             _kategoriService = kategoriService;
             _urunService = urunService;
+
+
         }
+
 
         public async Task<IActionResult> Index()
         {
@@ -36,14 +42,9 @@ namespace StoreWeb.Controllers
         public IActionResult Hakkimizda() => View();
         public IActionResult İletisim() => View();
         public IActionResult Magazalarimiz() => View();
-        public IActionResult Vizyon() => View();
-        public IActionResult Kurumsal() => View();
         public IActionResult İnsanKaynaklari() => View();
-        public IActionResult Tarihce() => View();
         public IActionResult Kariyer() => View();
-        public IActionResult KurumsalAkademi() => View();
         public IActionResult KariyerFirsatlari() => View();
-        public IActionResult Basarilar() => View();
         public IActionResult Koleksiyonlar() => View();
     }
 }

@@ -38,7 +38,9 @@
                         </select>}
                 else
                 {
-                    <strong> Müşteri Puanı</strong>
+                    if (item.Puan != 0) { 
+                    <strong>@((Puanlama)item.Puan)</strong>}
+                    else { <strong>Bekleniyor</strong>}
                 }
                     </td>
                     <td>

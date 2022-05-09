@@ -1,8 +1,10 @@
-﻿@model StoreWeb.ViewModels.VMIndex
+﻿
+@model StoreWeb.ViewModels.VMIndex
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @Html.Partial("PartialKategoriMenu", Model.kimeGore)
 <table class="table" id="ind">
 
@@ -19,9 +21,22 @@
         <td>  @Html.Partial("BitmesiYakinUrunlerPartial", Model.BitmesiYakinUrunler) </td>
     </tr>
 </table>
-
+<div style="margin-top:30px;height:220px;text-align:center; font-display:fallback">
+    <h3> ÖDEME YÖNTEMLERİ</h3>
+    <div id="odemeIslemleri" style="display:grid;grid-template-columns:3% 30% 30% 30% 3%;">
+        <div></div>
+        <div><img style="box-shadow: 2px 4px 4px 2px;" src="~/img/kredi.jpg" /></div>
+        <div><img style="box-shadow: 2px 4px 4px 2px;" src="~/img/kapida.jpg" /></div>
+        <div><img style="box-shadow: 2px 4px 4px 2px;" src="~/img/Havale.jpg" /></div>
+        <div></div>
+    </div>
+</div>
 <style>
-    #ind tr td{
-height:400px;
+    #ind tr td {
+        height: 380px;
+    }
+
+    #odemeIslemleri {
+        margin: 5px auto;
     }
 </style>
