@@ -42,7 +42,7 @@ namespace StoreWeb.Controllers
             try
             {
                 SmtpClient client = new SmtpClient("smtp@gmail.com", 587);
-                client.Credentials = new NetworkCredential("HuseyinToprak96@outlook.com", "hsyn.1234");
+                client.Credentials = new NetworkCredential("HuseyinToprak96@outlook.com", "*****");
                 client.EnableSsl = true;
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress("hsyn_tprak_94@hotmail.com", "HOŞGELDİN KRAL");
