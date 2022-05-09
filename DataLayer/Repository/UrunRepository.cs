@@ -21,14 +21,11 @@ namespace DataLayer.Repository
 
         public async Task<List<Urun>> BitmesiYakin()
         {
-            var Urunler = await _data.Urunler.OrderByDescending(x => x.Adet).Where(x => x.Adet > 0).ToListAsync();
-            List<Urun> urunler = new List<Urun>();
-            if (Urunler.Count >= 4) { 
-            for (int i = 0; i < 4; i++)
-                urunler.Add(Urunler[i]);}
-            else
-                urunler = Urunler;
-            return urunler;
+            var urunler = (from u in _data.Urunler
+                           orderby u.Adet
+                           where u.Adet>0
+                           select u).Take(4);
+            return await urunler.ToListAsync();
         }
 
         public async Task<Urun> EklenenUrunuGoster(Urun urun)
@@ -39,30 +36,22 @@ namespace DataLayer.Repository
 
         public async Task<List<Urun>> EncokSatan()
         {
-            var Urunler = await _data.Urunler.Include(x => x.altKategori).ThenInclude(x => x.kategori).OrderBy(x => x.FaturaDetay.Count).ToListAsync();
-            List<Urun> urunler = new List<Urun>();
-            if (Urunler.Count >= 4)
-            {
-                for (int i = 0; i < 4; i++)
-                    urunler.Add(Urunler[i]);
-            }
-            else
-                urunler = Urunler;
-            return urunler;
+            var urunler = (from u in _data.Urunler
+                           orderby u.FaturaDetay.Count
+                           descending
+                           where u.Adet > 0
+                           select u).Take(4);
+            return await urunler.ToListAsync();
         }
 
         public async Task<List<Urun>> FavoriUrunler()
         {
-            var Urunler = await _data.Urunler.Include(x => x.altKategori).ThenInclude(x => x.kategori).OrderBy(x => x.sepetDetay.Count).ToListAsync();
-            List<Urun> urunler = new List<Urun>();
-            if (Urunler.Count >= 4)
-            {
-                for (int i = 0; i < 4; i++)
-                    urunler.Add(Urunler[i]);
-            }
-            else
-                urunler = Urunler;
-            return urunler;
+            var urunler = (from u in _data.Urunler
+                           orderby u.sepetDetay.Count       
+                           descending
+                           where u.Adet > 0
+                           select u).Take(4);
+            return await urunler.ToListAsync();
         }
 
         public IQueryable<Urun> GetAll()
@@ -81,16 +70,13 @@ namespace DataLayer.Repository
 
         public async Task<List<Urun>> Yeni4Urun()
         {
-            var Urunler = await _data.Urunler.OrderBy(x => x.EklenmeTarihi).ToListAsync();
-            List<Urun> urunler = new List<Urun>();
-            if (Urunler.Count >= 4)
-            {
-                for (int i = 0; i < 4; i++)
-                    urunler.Add(Urunler[i]);
-            }
-            else
-                urunler = Urunler;
-            return urunler;
+            var urunler = (from u in _data.Urunler
+                           orderby u.EklenmeTarihi
+                           descending
+                           where u.Adet > 0
+                           select u).Take(4);
+                          
+            return await urunler.ToListAsync();
         }
     }
 }

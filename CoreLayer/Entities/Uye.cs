@@ -17,6 +17,6 @@ namespace CoreLayer.Entities
         public Cinsiyet cinsiyet { get; set; }
         public Sepet sepet { get; set; }
         public List<Fatura> Faturalar { get; set; }
-        public List<Siparis> Sipariler { get; set; }
+        public List<Siparis> Siparisler { get; set; }
     }
 }

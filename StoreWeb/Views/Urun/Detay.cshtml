@@ -21,7 +21,7 @@
                     <p class="card-text"><small class="text-muted">@Model.urun.EklenmeTarihi.ToString("dd/MMM/yyy/")</small></p>
                     <p class="card-text">
 
-                        <input type="submit" class="btn-danger" id="ekle" onclick="sepeteEkle(@Model.urun.Id);" value="EKLE" />
+                        <button class="btn-danger" id="ekle" onclick="sepeteEkle(@Model.urun.Id);" >EKLE</button> 
                 </div>
             </div>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -72,12 +72,9 @@
                         }
                     </table>
                 </div>
-                <div class="modal-footer">
-                  @if (Model.sepet.SepetDetay.Count>0)
-                  {  <button onclick="temizle(@Model.sepet.Id);"><img src="~/img/temizle.png" height="45" width="70" /></button>}
+                <div class="modal-footer">  <button onclick="temizle(@Model.sepet.Id);"><img src="~/img/temizle.png" height="45" width="70" /></button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
                     <button type="button" class="btn btn-primary" formmethod="get" formaction="Profilim"><a href="/Kullanici/Profilim">Sepete Git</a></button>
-                    
                 </div>
             </div>
         </div>
@@ -96,10 +93,10 @@
     }
 </div>
 <script>
-    function temizle() {
-        //let xhr = new XMLHttpRequest;
-        //xhr.open("POST", "/Sepet/SepetiSil?id=" + id, true);
-        //xhr.send();
+    function temizle(id) {
+        let xhr = new XMLHttpRequest;
+        xhr.open("POST", "/MVCSepet/SepetiTemizle?id=" + id, true);
+        xhr.send();
         document.getElementById("ekle").value = "EKLE";
         document.getElementById("tbl_List").innerHTML = "";
          document.getElementById("adet").innerText=0;
@@ -120,11 +117,11 @@
         var adet = document.getElementById("adet");
         var btn = document.getElementById("ekle");
         var tablo = document.getElementById("tbl_List");
-        if (btn.value == "EKLE") {
+        if (btn.innerText == "EKLE") {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/MVCSepet/SepetEkle?UrunId=" + id, true);
             xhr.send();
-            btn.value = "KALDIR";
+            btn.innerText = "KALDIR";
             adet.innerText = parseInt(adet.innerText) + 1;
             var tr = document.createElement("tr");
             var td1 = document.createElement("td");
@@ -148,10 +145,10 @@
             tr.appendChild(td3);
             tablo.appendChild(tr);
         }
-        else if (btn.value=="KALDIR") {
-            btn.value = "EKLE";
-            adet.innerText = parseInt(adet.innerText) - 1;
+        else if (btn.innerText == "KALDIR") {
+            btn.innerText = "EKLE";
             var find = document.getElementById("sil_" + id);
+            sil(id);
             find.parentNode.parentNode.remove();
         }
     }

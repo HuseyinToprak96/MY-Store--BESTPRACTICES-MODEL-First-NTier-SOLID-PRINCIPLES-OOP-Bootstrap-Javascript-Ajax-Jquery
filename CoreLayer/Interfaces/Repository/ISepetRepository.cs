@@ -10,6 +10,8 @@ namespace CoreLayer.Interfaces.Repository
         void SepettenCikar(int Id);
         Task<Sepet> MusterininSepeti(int UyeId);
         Task<List<SepetDetay>> sepetDetaylari(int sepetId);
+        Task SepetiTemizle(int id);
+        Task<int> SepetIdBul(int UyeId);
 
     }
 }

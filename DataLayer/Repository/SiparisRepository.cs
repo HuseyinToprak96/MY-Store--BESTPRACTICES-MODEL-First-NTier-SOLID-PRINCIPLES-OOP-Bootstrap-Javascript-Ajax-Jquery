@@ -22,6 +22,12 @@ namespace DataLayer.Repository
             siparis.SiparisDurumu += 1;
         }
 
+        public async Task<int> SiparisBul(int UyeId)
+        {
+            var siparis = await _data.Siparisler.Where(x => x.UyeId == UyeId && x.siparisDetay.Count<1).SingleOrDefaultAsync();
+            return siparis.Id;
+        }
+
         public async Task<Siparis> SiparisDetay(int id)
         {
             return await _data.Siparisler.Include(x=>x.siparisDetay).ThenInclude(x=>x.urun).Where(x => x.Id == id).SingleOrDefaultAsync();
@@ -37,6 +43,17 @@ namespace DataLayer.Repository
         public async Task<List<Siparis>> Siparisler(Durum durum)
         {
             return await _data.Siparisler.Include(x=>x.uye).Include(x=>x.siparisDetay).ThenInclude(x=>x.urun).Where(x =>(int)x.SiparisDurumu == (int)durum).ToListAsync();
+        }
+
+        public void SiparisleriEkle(List<SiparisDetay> siparisDetaylar)
+        {
+             _data.SiparisDetaylar.AddRange(siparisDetaylar);
+           
+        }
+        public void Puanla(int puan,int id)
+        {
+          var siparis=  _data.Siparisler.Where(x => x.Id == id).SingleOrDefault();
+            siparis.Puan = puan;
         }
     }
 }

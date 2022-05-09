@@ -22,6 +22,7 @@ namespace ServiceLayer.Maping
             CreateMap<SiparisDetay, SiparisDetailDto>();
             CreateMap<SiparisDetay, Siparis_Detay_Urun>();
             CreateMap<Siparis, Siparis_Siparis_Detay_UrunDto>().ForMember(x => x.siparisDetaylar, opt => opt.MapFrom(x => x.siparisDetay));//auto mapper Navigation Property
+            CreateMap<UyeGuncelleDto, Uye>().ReverseMap();
         }
     }
 }

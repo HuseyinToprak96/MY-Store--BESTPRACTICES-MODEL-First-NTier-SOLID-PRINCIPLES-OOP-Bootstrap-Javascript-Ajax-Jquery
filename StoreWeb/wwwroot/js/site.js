@@ -160,3 +160,126 @@
                 });
             });
         });
+
+
+
+//Sayfa Açıldığında
+
+function load() {
+    
+    sayfalama();
+    renkDegis();
+}
+
+
+function renkDegis() {
+    var cins = document.getElementById("cins");
+    var h = document.getElementsByTagName("h3");
+    if (cins.innerText == "Erkek" || cins.innerText == "Erkek Çocuk") {
+        for (var i = 0; i < h.length; i++) {
+
+
+            h[i].style.backgroundColor = "dodgerblue";
+        }
+    }
+    else {
+        for (var i = 0; i < h.length; i++) {
+
+
+            h[i].style.backgroundColor = "hotpink";
+        }
+    }
+}
+
+
+
+//SAYFALAMA İŞLEMLERİ
+
+
+function sayfalama() {
+var btn = document.createElement("button");
+    btn.id = 1;
+    sayfaDegistir(btn);
+}
+
+function sayfaDegistir(btn) {
+    var page = btn.id;
+    var urunler = document.getElementsByClassName("resimUrun");
+    Temizle();
+    btn.style.backgroundColor = "red";
+    btn.style.color= "white";
+    for (var i = (page - 1) * 8; i < page * 8; i++) {
+        urunler[i].style.display = "block";
+    }
+}
+function Temizle() {
+    var urunler = document.getElementsByClassName("resimUrun");
+    for (var i = 0; i < urunler.length; i++) {
+        urunler[i].style.display = "none";
+    }
+    var butonlar = document.getElementsByClassName("btnSayfa");
+    for (var i = 0; i < butonlar.length; i++) {
+        butonlar[i].style.backgroundColor = "darkgrey";
+        butonlar[i].style.color = "black";
+    }
+}
+
+//Kime Göre ürünler Listelensin
+$("#dr_kimeGore").change(function () {
+    var id = $(this).val();
+    Temizle();
+    var urunler = document.getElementsByClassName("kimeGore_" + id);
+    for (var i = 0; i < urunler.length; i++) {
+        urunler[i].style.display = "block";
+    }
+});
+//Alt Kategoriye göre Listelensin
+$("#dr_altKategori").change(function () {
+    var id = $(this).val();
+    Temizle();
+    var urunler = document.getElementsByClassName("alt_" + id);
+    for (var i = 0; i < urunler.length; i++) {
+        urunler[i].style.display = "block";
+    }
+});
+
+
+
+
+//PAGE-INDEX
+
+function goster() {
+    var urunler = document.getElementsByClassName("urun");
+    for (var i = 0; i < urunler.length; i++) {
+        urunler[i].addEventListener("mouseover", function () {
+            var ucret = document.getElementById("ucret_" + this.id);
+            var bilgi = document.getElementById("bilgi_" + this.id);
+            ucret.style.display = "block";
+            bilgi.style.opacity = 1;
+            this.addEventListener("mouseleave", function () {
+                ucret.style.display = "none";
+                bilgi.style.opacity = 0.5;
+            });
+        });
+    }
+}
+
+//ÜYE GÜNCELLEME İŞLEMİ
+
+$('#uyelikGuncelle').submit(function (e) {
+    alert("başla");
+    e.preventDefault();
+    var formData = $(this).serialize();
+    var id = $(this).attr("id");
+    $.ajax({
+        type: 'POST',
+        url: '/Kullanici/BilgileriGuncelle',
+        data: formData,
+        success: function (data) {
+            return 1;
+        },
+        error: function (error) {
+            console.log("error", error);
+        }
+    });
+});

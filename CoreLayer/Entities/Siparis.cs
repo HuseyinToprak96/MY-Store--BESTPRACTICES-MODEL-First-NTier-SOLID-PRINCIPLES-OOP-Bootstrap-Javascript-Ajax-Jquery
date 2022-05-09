@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace CoreLayer.Entities
 {
     public enum Durum { Yeni=0, Hazirlanıyor=1,Kargoda=2,TeslimEdildi=3}
+    public enum Puanlama {Seç=0, Kötü=1, Orta=2, İyi=3, Çokİyi=4}
     public class Siparis
     {
         public int Id { get; set; }

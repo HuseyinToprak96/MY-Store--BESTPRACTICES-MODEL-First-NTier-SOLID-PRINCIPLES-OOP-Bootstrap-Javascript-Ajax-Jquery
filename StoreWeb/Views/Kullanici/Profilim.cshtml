@@ -23,6 +23,63 @@
 </td></tr>
                 @if (Model.sepet != null) { 
                 <tr><td colspan="2">Sepetinizde Şuanda @Model.sepet.SepetDetay.Count adet ürün bulunmaktadır.<a href="/Urun/Urunler">Alışverişe devam etmek için tıklayın.</a></td></tr>}
+            
+            <tr><td><div>
+    <input type="submit" class="btn btn-outline-secondary"  onclick="mailG();" value="Şifre Değiştirme Maili Gönder" />
+</div></td><td>
+              
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        DÜZENLE
+    </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ÜYELİK BİLGİLERİ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="uyelikGuncelle" name="frmUye">
+                        <table class="table">
+                          
+                            
+                            <tr>
+                                <td>
+                                    AD
+                                </td>
+                                <td><input type="text" name="Ad" value="@Model.Ad" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>SOYAD</td>
+                                <td><input type="text" name="Soyad" value="@Model.Soyad" /></td>
+                            </tr>
+                            <tr>
+                                <td>TELEFON</td>
+                                <td><input type="text" name="Telefon" value="@Model.Telefon" /> 
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td>ADRES</td>
+                                <td>
+                                    <textarea class="form-control" id="Adres" name="Adres">@Model.Adres</textarea>
+                                </td>
+                            </tr>
+                            <tr><td colspan="2"><button class="btn btn-outline-success" > Kaydet</button></td></tr>
+                            <tr><td colspan="2"></td></tr>
+                            <tr><td colspan="2">@TempData["Hata"]</td></tr>
+                        </table>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</td></tr>
             </table>
         </div>
     </div>
@@ -54,9 +111,9 @@
                             @item.urun.UrunAdi
                         </td>
                         <td>
-                            @item.urun.Ucret
+                            <span id="birimFiyat_@item.Id">   @item.urun.Ucret</span>
                         </td>
-                        <td><button class="btn-danger" onclick="silUrun(@item.Id);" id="@item.Id" style="background-color:red;color:white;">Sil</button></td>
+                        <td><button class="btn-danger" onclick="sil(@item.Id);" id="sil_@item.Id" style="background-color:red;color:white;">Sil</button></td>
                     </tr>
                 }
                 <tr>
@@ -64,14 +121,51 @@
                         <strong>TUTAR: </strong>
                     </td>
                     <td colspan="2">
-                        @Model.sepet.SepetDetay.Sum(x => x.urun.Ucret) TL
+                        <span id="toplamFiyat"> @Model.sepet.SepetDetay.Sum(x => x.urun.Ucret)</span> TL
                     </td>
                 </tr>
-                <tr><td colspan="3" style="text-align:center"><button class="btn btn-danger">Sipariş Ver</button></td></tr>
+                <tr><td colspan="3" style="text-align:center"><button class="btn btn-danger btnSiparisVer">Sipariş Ver</button></td></tr>
             </table>
 
         </div>}
     </div>
+</div>
+<div>
+    <h3>SİPARİŞ TAKİP</h3>
+    <table>
+        <tr>
+            <th>Sipariş Kodu</th>
+            <th>Sipariş Tarihi</th>
+            <th>Sipariş Durumu</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Siparisler)
+        {
+            @if (item.Puan==0)
+            {        <tr>
+        <td>@item.SiparisKodu</td>
+            <td>@item.SiparisTarihi</td>
+            <td>@item.SiparisDurumu</td>
+           @if (item.SiparisDurumu == Durum.TeslimEdildi) {
+        <td>
+           <select class="form-control"  id="puan_@item.Id">
+               @for (int i = 0; i < Puanlama.GetNames(typeof(Puanlama)).Length; i++)
+               {
+               <option value="@i">
+                   @Puanlama.GetNames(typeof(Puanlama))[i]
+               </option>
+               }
+           </select><button id="@item.Id" class="btnPuan">Puanla</button>
+        </td>
+        }
+                    else
+                    {
+                        <td>
+                            <button>Siparişim Nerde?</button>
+                        </td>
+                    }
+        </tr>} }
+    </table>
 </div>
 @if (Model.Faturalar.Count>0 ) {
 <div>
@@ -88,6 +182,7 @@
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.AlisverisTarihi</td>
+                    <td></td>
                     <td>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             FATURA DETAY
@@ -128,19 +223,90 @@
         </div>
     </div> }
 <script>
-    function silUrun(id) {
-        //let xhr = new XMLHttpRequest;
-        //xhr.open("POST", "/Sepet/SepettenCikar/" + id, true);
-        //xhr.send();
-        var find = document.getElementById(id);
+    var kotuPuan = "";
+    var iyiPuan = "";
+    $('.btnPuan').click(function () {
+        var id = $(this).attr("id");
+        var puan = $("#puan_" + id).val();
+        let xhr = new XMLHttpRequest;
+        xhr.open("POST", "/Siparis/Puanla?puan=" + puan+"&id="+id, true);
+        xhr.send();
+        //swal("Puanlama Tamamlandı!", puan >= 3 ? puan + " puan verdiniz.Teşekkür Ederiz" : puan+"puan verdiniz.Özür dileriz", "success");
+        Swal.fire({
+            html: '<div style="display:flex;justify-content:space-between"><a href="/turkce"><img src="https://i.hizliresim.com/9YdOnQ.png"></a>' +
+                puan >= 3 ? iyiPuan: kotuPuan + '</div>',
+            title: puan >= 3 ? puan + " puan verdiniz.Teşekkür Ederiz" : puan + "puan verdiniz.Özür dileriz" ,
+            animation: false,
+            customClass: {
+                popup: 'animated tada'
+            }
+        })
+    });
+
+    function mailG() {
+        alert("Gonderildi");
+    }
+
+
+    $('.btnSiparisVer').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/Siparis/SiparisVer',
+            success: function (data) {
+
+                swal("Sipariş Verildi!", "Profilinizden Takip Edebilirsiniz!", "success");
+            },
+            error: function (error) {
+                console.log("error", error);
+            }
+        });
+    });
+
+    $('#uyelikGuncelle').submit(function (e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+            var id = $(this).attr("id");
+            $.ajax({
+                type: 'POST',
+                url: '/Kullanici/BilgileriGuncelle',
+                data: formData,
+                success: function (data) {
+                  
+
+                },
+                error: function (error) {
+                    console.log("error", error);
+                }
+            });
+        });
+
+    function sil(id) {
+        var urunFiyat = document.getElementById("birimFiyat_" + id);
+        var toplamFiyat = document.getElementById("toplamFiyat");
+        toplamFiyat.innerText = parseFloat(toplamFiyat.innerText) - parseFloat(urunFiyat.innerText);
+        let xhr = new XMLHttpRequest;
+        xhr.open("POST", "/MVCSepet/SepettenCikar?id=" + id, true);
+        xhr.send();
+        var find = document.getElementById("sil_" + id);
+        //adet.innerText = parseInt(adet.innerText) - 1;
         find.parentNode.parentNode.remove();
+    }
+    function siparisVer() {
+        let xhr = new XMLHttpRequest;
+        xhr.open("POST", "/MVCSepet/SepettenCikar?id=" + id, true);
+        xhr.send();
+    }
 </script>
 <style>
-    #prof .com{
-        float:left;
-        margin-left:1%;
+    #prof .com {
+        float: left;
+        margin-left: 1%;
     }
-    h3{
-        color:whitesmoke;
+
+    h3 {
+        color: whitesmoke;
+    }
+    .yildiz {
+        font-size: 30px;
     }
 </style>
