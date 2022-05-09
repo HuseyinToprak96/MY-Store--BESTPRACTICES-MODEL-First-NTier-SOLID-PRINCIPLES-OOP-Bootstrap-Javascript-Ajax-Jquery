@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoreLayer.Dtos;
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,11 @@ namespace AppAPI.Controllers
     public class UyeController : ControllerBase
     {
         private readonly IUyeService _service;
-        public UyeController(IUyeService service)
+        private readonly IMapper _mapper;
+        public UyeController(IUyeService service, IMapper mapper)
         {
             _service = service;
-         
+            _mapper = mapper;
         }
         [HttpPost]
         public async Task<IActionResult> Add(Uye uye)
@@ -46,6 +48,13 @@ namespace AppAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(Uye uye)
         {
+            await _service.Update(uye);
+            return Ok();
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateDto(UyeGuncelleDto uyeGuncelleDto)
+        {
+            var uye = _mapper.Map<Uye>(uyeGuncelleDto);
             await _service.Update(uye);
             return Ok();
         }

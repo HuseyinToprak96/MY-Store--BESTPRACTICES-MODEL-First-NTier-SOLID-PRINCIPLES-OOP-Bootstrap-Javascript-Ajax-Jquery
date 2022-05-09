@@ -1,7 +1,7 @@
 ﻿@model List<CoreLayer.Entities.Urun>
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
 <div id="urunListe">
@@ -20,21 +20,7 @@
     }
 </div>
 <script>
-    function goster() {
-    var urunler = document.getElementsByClassName("urun");
-    for (var i = 0; i < urunler.length; i++) {
-        urunler[i].addEventListener("mouseover", function () {
-            var ucret = document.getElementById("ucret_" + this.id);
-            var bilgi = document.getElementById("bilgi_" + this.id);
-            ucret.style.display = "block";
-            bilgi.style.opacity = 1;
-            this.addEventListener("mouseleave", function () {
-                ucret.style.display = "none";
-                bilgi.style.opacity = 0.5;
-            });
-        });
-        }
-    }
+   
 </script>
 <style>
     #urunListe{

@@ -37,7 +37,18 @@ namespace ServiceLayer.Services
             await _sepetRepository.SepeteEkle(UrunId, UyeId);
             await _unitOfWork.CommitAsync();
         }
-        
+
+        public async Task<int> SepetIdBul(int UyeId)
+        {
+            return await _sepetRepository.SepetIdBul(UyeId);
+        }
+
+        public async Task SepetiTemizle(int id)
+        {
+           await _sepetRepository.SepetiTemizle(id);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task SepettenCikar(int Id)
         {
             _sepetRepository.SepettenCikar(Id);

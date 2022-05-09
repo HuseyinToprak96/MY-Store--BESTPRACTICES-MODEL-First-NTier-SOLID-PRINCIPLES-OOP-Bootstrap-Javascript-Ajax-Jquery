@@ -14,7 +14,7 @@ namespace DataLayer.Repository
 
         public Task<Uye> uyeDetay(int UyeId)
         {
-            return _data.Uyeler.Include(x => x.Faturalar).ThenInclude(x => x.faturaDetays).ThenInclude(x => x.urun).Include(x => x.sepet).ThenInclude(x=>x.SepetDetay).ThenInclude(x=>x.urun).Where(x => x.Id == UyeId).SingleOrDefaultAsync();
+            return _data.Uyeler.Include(x => x.Faturalar).ThenInclude(x => x.faturaDetays).ThenInclude(x => x.urun).Include(x => x.sepet).ThenInclude(x=>x.SepetDetay).Include(x=>x.Siparisler).ThenInclude(x=>x.siparisDetay).ThenInclude(x=>x.urun).Where(x => x.Id == UyeId).SingleOrDefaultAsync();
         }
         public async Task<Uye> UyeLogin(string mail, string sifre)
         {

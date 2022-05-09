@@ -63,11 +63,9 @@ namespace StoreWeb.Controllers
             return View();
         }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UyeOl(UyeOlDto uyeOlDto)
         {
-          
-
             if (ModelState.IsValid)
             {
                 uyeOlDto.CinsiyetId = 2;

@@ -20,7 +20,7 @@ namespace StoreWeb.Controllers
         public async Task<JsonResult> SepetEkle(int UrunId)
         {
            int id = (int)HttpContext.Session.GetInt32("ID");
-           await _SepetService.SepeteEkle(UrunId, 2);
+           await _SepetService.SepeteEkle(UrunId, id);
            return Json(UrunId);
         }
         [HttpPost]
@@ -29,11 +29,10 @@ namespace StoreWeb.Controllers
             await _SepetService.SepettenCikar(id);
             return Json(id);
         }
-        //[HttpPost]
-        public async Task<JsonResult> SepetiSil(int id)
+        [HttpPost]
+        public async Task<JsonResult> SepetiTemizle(int id)
         {
-            var sepet = await _SepetService.getByIdAsync(id);
-            await _SepetService.Remove(sepet);
+          await  _SepetService.SepetiTemizle(id);
             return Json(id);
         }
     }

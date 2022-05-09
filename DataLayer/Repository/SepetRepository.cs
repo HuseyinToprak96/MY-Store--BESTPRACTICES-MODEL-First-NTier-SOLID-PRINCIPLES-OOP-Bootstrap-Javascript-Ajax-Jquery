@@ -35,6 +35,19 @@ namespace DataLayer.Repository
             _data.SepetDetaylar.Add(sepetDetay);
         }
 
+        public async Task<int> SepetIdBul(int UyeId)
+        {
+            var sepet = await _data.Sepetler.Where(x => x.UyeId == UyeId).SingleOrDefaultAsync();
+            return sepet.Id;
+        }
+
+        public async Task SepetiTemizle(int id)
+        {
+            var sepetDetaylari =await _data.SepetDetaylar.Where(x=>x.SepetId==id).ToListAsync();
+            _data.SepetDetaylar.RemoveRange(sepetDetaylari);
+
+        }
+
         public void SepettenCikar(int Id)
         {
          _data.SepetDetaylar.Remove(_data.SepetDetaylar.Where(i => i.Id == Id).SingleOrDefault());

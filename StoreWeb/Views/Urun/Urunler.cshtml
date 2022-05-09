@@ -1,5 +1,4 @@
-﻿@using X.PagedList
-@using X.PagedList.Mvc.Core
+﻿
 @using CoreLayer.Entities
 @using CoreLayer.Dtos
 @model StoreWeb.ViewModels.VM_Urunler
@@ -8,75 +7,149 @@
     ViewData["Title"] = "Urunler";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
-<div class=""></div>
-<div id="urunler">
-    <div class="comp ml-3" id="kriter">
-        <table class="table">
-            <tr>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <select class="dropdown-header" style="width:100px">
-                        @*@foreach (var item in Model.AltKategoris)
-                            {
-                                <option id="@item.Id">@item.kategori.KategoriAdi @item.AltKategoriAdi </option>
-                            }*@
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <select class="dropdown-header" style="width:100px">
-                        @*@foreach (var item in Model.Cinsiyetler)
-                            {
-                                <option id="@item.Id">@item.cinsiyet</option>
-                            }*@
-                    </select>
-
-                </td>
-            </tr>
-            <tr>
-                <td><button class="btn btn-danger">ARA</button></td>
-            </tr>
-        </table>
+<div class="urunler">
+    <div>
+        <h3>  Filtrele</h3>
+        <div class="drp">
+            <select class="form-control" id="dr_kimeGore">
+                <option>Kime Göre?</option>
+                @foreach (var item in Model.kimeGore)
+                {
+                    <option value="@item.Id">
+                        @item.kimeGore
+                    </option>
+                }
+            </select>
+        </div>
+        @*<div class="drp">
+            <select class="form-control" id="dr_Kategori">
+                <option>Kategori Seç</option>
+                @foreach (var item in Model.kategoriler)
+                {
+                    <option value="@item.Id">@item.KategoriAdi</option>
+                }
+            </select>
+        </div>*@
+        <div class="drp">
+            <select class="form-control" id="dr_altKategori">
+                <option>Alt Kategori Seç</option>
+                @foreach (var item in Model.AltKategoris)
+                {
+                    <option value="@item.Id" class="altDrp altDrp_@item.KategoriId">@item.kategori.KategoriAdi @item.AltKategoriAdi</option>
+                }
+            </select>
+        </div>
     </div>
-    <div class="row-cols-2">
-        <div class="comp col-10" id="liste" style="width:100%">
-            <h3>Arama Sonuçları</h3>
-            @foreach (var item in Model.Urunler)
-            {
-        <a href="/Urun/Detay?id=@item.Id">
-            <div class="urun ml-1 mb-1" style="background-image:url(@item.Resim);">
-                <div style="margin-bottom:0px;">@item.UrunAdi</div>
+    @*@{
+        int page = 1;
+    }*@
+<div>
+    <div id="urunListesi">
+
+        @for (int i = 0; i < Model.Urunler.Count; i++)
+        {
+        <a href="/Urun/Detay?id=@Model.Urunler[i].Id">
+            <div class="resimUrun alt_@Model.Urunler[i].AltKategoriId kimeGore_@Model.Urunler[i].kimeGoreId " style="background-image:url(@Model.Urunler[i].Resim)" id="urun_@i">
+                <div class="innerbir"></div>
+                <h6 class="inner" style="margin:0px;text-align:center;opacity:0.5; width:100%;background-color:navy;color:whitesmoke;">
+                    @Model.Urunler[i].UrunAdi.Substring(0, Model.Urunler[i].UrunAdi.Substring(0, 20).LastIndexOf(" "))
+                </h6>
             </div>
         </a>
-            }
-        </div>
-        <div>
-        </div>
-        <div style="margin-left:150px">
-            <p style="margin-top:20px;">Bu sayfada toplam @Model.Urunler.Count sonuç listelenmiştir.</p>
-        </div>
-        <div style="margin-left:400px">@Html.PagedListPager((IPagedList)Model.Urunler, page => Url.Action("Urunler", new { AltKategoriId=0, KimeGore=0, page }))</div>
-    </div>
-</div><div></div>
-
-<style>
-    #urunler .comp {
-        float: left;
-    }
-
-    #liste .urun {
-        width: 18%;
-        height: 200px;
-        float: left;
-        opacity: 0.6;
-        background-image:url(/wwwroot/img/sold.jpg);
-    }
-
-        #liste .urun:hover {
-            opacity: 1;
         }
-</style>
+    </div>
+</div>
+</div>
+<div class="sayfa">
+    @if (Model.Urunler.Count % 8 != 0)
+    {
+        @for (int i = 0; i <= Model.Urunler.Count / 8; i++)
+        {
+            <button class="btnSayfa" onclick="sayfaDegistir(this);" id="@(i+1)">@(i+1)</button>}
+    }
+    else
+    {
+        @for (int i = 0; i <= Model.Urunler.Count / 8-1; i++)
+        {
+            <button class="btnSayfa" onclick="sayfaDegistir(this);" id="@(i+1)">@(i+1)</button>}
+    
+    }
+</div>
+
+<script>
+    //$("#dr_Kategori").change(function () {
+    //    var id = $(this).val();
+    //    var drpAlt = document.getElementsByClassName("altDrp");
+    //    var altKategoriler = document.getElementsByClassName("altDrp_" + id);
+    //    for (var j = 0; j < drpAlt.length; j++) {
+    //        var sayac = 0;
+    //        for (var i = 0; i < altKategoriler; i++) {
+    //            if (altKategoriler[i].className != drpAlt[j].className) {
+
+    //            }
+
+    //        }
+    //    }
+    //});
+
+
+   
+</script>
+<style>
+    /*.inner{
+        margin:auto 0 0 0;
+    }*/
+  
+    .btnSayfa {
+        background-color: darkgrey;
+        border:0px;
+    }
+    .sayfa{
+        text-align:center;
+        background-color:cornsilk;
+        width:100%;
+        margin:60px auto;
+          border:1px solid;
+    }
+    .sayfa button{
+        height:25px;
+        width:25px;
+        float:left;
+        padding-bottom:2px
+    }
+    .sayfalama{
+        color:black;
+    }
+    .urunler {
+        display: grid;
+        grid-template-columns: 20% 75%;
+        margin: 30px auto;
+    }
+
+    .drp {
+        margin-top: 20px;
+    }
+
+    #urunListesi {
+        display: grid;
+       min-height:500px;
+        grid-template-columns: 23% 23% 23% 23%;
+    }
+
+    .innerbir {
+        margin: 0px 2% 20px 10px;
+        margin-left: 10px;
+        height: 200px;
+    }
+    .resimUrun {
+        display:grid;
+        grid-template-rows:80% 20%;
+        margin:0 15px 15px 15px;
+        max-height:220px;
+    }
+
+        /*#urunListesi:first-child {
+            margin-left: 50px;
+        }*/
+
+   </style>
