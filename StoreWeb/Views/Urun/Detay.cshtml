@@ -25,7 +25,7 @@
                             <button class="btn-danger" id="ekle_@Model.urun.Id" onclick="sepeteEkle(@Model.urun.Id);">EKLE</button>
                         </p>
                         <p class="card-text" id="kaldir" style="display:none">
-                            <button class="btn-danger" id="sil_@Model.urun.Id" onclick="kaldir(@Model.urun.Id);">KALDIR</button>
+                            <button class="btn-danger" id="kaldir_@Model.urun.Id" onclick="kaldir(@Model.urun.Id);">KALDIR</button>
                         </p>
                     }
                     else
@@ -33,7 +33,7 @@
                             <button class="btn-danger" onclick="sepeteEkle(@Model.urun.Id);">EKLE</button>
                         </p>
                         <p class="card-text" id="kaldir">
-                            <button class="btn-danger" onclick="kaldir(@Model.urun.Id);">KALDIR</button>
+                            <button class="btn-danger" id="kaldir_@Model.urun.Id" onclick="kaldir(@Model.urun.Id);">KALDIR</button>
                         </p>
                     }
                 </div>
@@ -131,6 +131,11 @@
         xhr.send();
         var find = document.getElementById("sil_" + id);
         adet.innerText = parseInt(adet.innerText) - 1;
+        var btn = document.getElementById("kaldir_" + id);
+        if (btn != null) {
+            btnEkle.style.display = "block";
+            btnKaldir.style.display = "none";
+        }
         find.parentNode.parentNode.remove();
     }
     function kaldir(id) {
@@ -138,8 +143,8 @@
         var btnKaldir = document.getElementById("kaldir");
         var tr = document.getElementsByClassName("trUrun_" + id);
         sil(tr[0].id);
-        btnEkle.style.display = "block";
-        btnKaldir.style.display = "none";
+        //btnEkle.style.display = "block";
+      //  btnKaldir.style.display = "none";
     }
 
     function sepeteEkle(id) {

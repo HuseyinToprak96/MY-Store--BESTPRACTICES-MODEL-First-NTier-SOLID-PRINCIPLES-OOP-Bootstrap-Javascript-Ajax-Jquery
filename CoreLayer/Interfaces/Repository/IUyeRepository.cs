@@ -9,5 +9,6 @@ namespace CoreLayer.Interfaces.Repository
         Task Yetkilendir(bool yetki, int id);
         Task<Uye> uyeDetay(int UyeId);
         Task<string> MailBul(int id);
+        Task<bool> MailKontrol(string mail);
     }
 }

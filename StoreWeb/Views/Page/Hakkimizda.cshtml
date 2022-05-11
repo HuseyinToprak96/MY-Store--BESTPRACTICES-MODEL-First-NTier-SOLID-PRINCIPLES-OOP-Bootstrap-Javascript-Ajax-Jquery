@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-<h1 style="margin:50px auto">Hakkimizda</h1>
+<h1 style="margin:50px auto" id="yukari">Hakkimizda</h1>
 
 <ul id="hakkimizdaList">
     <a href="#hakkimizda">  <li href="#hakkimizda">HAKKIMIZDA</li></a>
@@ -14,6 +14,9 @@
     <a href="#kalite">  <li>ÜRÜN KALİTE TESTLERİ</li></a>
     <a href="#guvenlik"> <li>ÜRÜN GÜVENLİĞİ</li></a>
 </ul>
+    <button style="border:0px;position:fixed; background-color:aqua;bottom:50px;right:30px;display:none;float:right;background-color:darkblue;height:40px;width:40px;border-radius:50%;" id="fixed">
+        <a style="text-decoration:none;font-size:20px;" href="#yukari">&#9978;</a>
+    </button>
 
 <div class="container">
 
@@ -84,6 +87,24 @@
         </div>
     </div>
 </div>
+<script>
+
+    window.onscroll = function () { myFunction() };
+    var fixed = document.getElementById("fixed")
+    function myFunction() {
+        
+        if (document.body.scrollTop > 350 || document.documentElement.scrollTop > 350) {
+            fixed.style.display = "block";
+        }
+        else {
+            fixed.style.display = "none";
+        }
+
+    }
+
+</script>
+
+
 
 <style>
     #hakkimizdaList li{

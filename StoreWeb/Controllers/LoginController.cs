@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -65,21 +67,60 @@ namespace StoreWeb.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       // [ValidateAntiForgeryToken]
         public async Task<IActionResult> UyeOl(UyeOlDto uyeOlDto)
         {
             if (ModelState.IsValid)
             {
-                uyeOlDto.CinsiyetId = 2;
+               var kontrol=await _uyeService.MailKontrol(uyeOlDto.Mail);
+                if (!kontrol)
+                {
                 var uye = _mapper.Map<Uye>(uyeOlDto);
-               await _uyeService.AddAsync(uye);
-                return RedirectToAction(nameof(KullaniciGiris));
+                await _uyeService.AddAsync(uye);
+                return RedirectToAction(nameof(KullaniciGiris)); }
+                else
+                {
+                    TempData["MailHatasi"] = "Farklı bir mail adresi deneyiniz.";
+                }
             }
             return RedirectToAction("UyeOl");
         }
-
-        public IActionResult UyeOl1()
+        public IActionResult SifremiUnuttum()
         {
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> SifremiUnuttum(string mail)
+        {
+            var kontrol = await _uyeService.MailKontrol(mail);
+            if (kontrol==false)
+            {
+                TempData["Control"] = "Kayıtlı böyle bir mail bulunamadı";
+            }
+            else
+            {
+                try
+                {
+                    SmtpClient client = new SmtpClient("smtp@gmail.com", 587);
+                    client.Credentials = new NetworkCredential("HuseyinToprak96@outlook.com", "*****");
+                    client.EnableSsl = true;
+                    MailMessage mailMessage = new MailMessage();
+                    mailMessage.From = new MailAddress(mail, "HOŞGELDİN KRAL");
+                    mailMessage.To.Add("HuseyinToprak96@outlook.com");
+                    mailMessage.Subject = "Şifre Yenileme";
+                    MailMessage Email = new MailMessage();
+                    Email.From = new MailAddress("HuseyinToprak96@outlook.com");
+                    Email.To.Add("hsyn_tprak_94@hotmail.com");
+                    Email.Subject = "";
+                    Email.Body = "güncellendi";
+                    client.Send(Email);
+                }
+                catch
+                {
+                    TempData["islemHatasi"] = "İşlem sırasında bir hata oluştu.";
+                }
+            }
             return View();
         }
     }

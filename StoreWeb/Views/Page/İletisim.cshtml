@@ -4,5 +4,65 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-<h1>İletisim</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <h1 style="margin-top:80px">İLETİŞİM BİLGİLERİ</h1>
+            <p>
+              <table class="table">
+                  <tr>
+                      <th>TELEFON:</th>
+                      <td>0123456789</td>
+                  </tr>
+                  <tr>
+                      <th>
+                          FAX:
+                      </th>
+                      <td>1111111111</td>
+                  </tr>
 
+                  <tr>
+                      <th>E-POSTA:</th>
+                      <td>HuseyinToprak96@outlook.com</td>
+                  </tr>
+              </table>
+            </p>
+        </div>
+        <div class="col-sm-4" style="margin-left:50px">
+            <h1>ADRES</h1>
+            <p>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24142.355051307!2d29.120123243870808!3d40.854438004340054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf3f48cce55009246!2sB%C3%BCy%C3%BCkada%20Nature%20Park!5e0!3m2!1sen!2str!4v1652308020442!5m2!1sen!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </p>
+        </div>
+
+    </div>
+    <h3 style="margin-top:50px">İNSAN KAYNAKLARI</h3>
+    <div>
+        <table>
+            <tr>
+              <th>ADI SOYADI</th>  <td>Xxxxx Yyyyyy</td>
+              <th>İLETİŞİM</th><td>1234564789</td></tr>
+        </table>
+    </div>
+
+
+
+
+    <h3 style="margin-top:30px" id="magazalarimiz">MAĞAZALARIMIZ</h3>
+    <div class="container">
+        <div class="row">
+           @for (int i = 1; i < 11; i++)
+           {
+              <div class="col-sm-5">
+                  <div>
+                      <h4>MAGAZA @i</h4>
+                      <div>
+                          <img src="~/img/magaza_1.jpg"/>
+                      </div>
+                      <div>Adres:@i numaralı il @i . ilçeşinin @i . sokağının @i. numarası  </div>
+                  </div>
+              </div>
+           }
+        </div>
+    </div>
+</div>

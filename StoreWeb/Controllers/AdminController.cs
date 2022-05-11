@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace StoreWeb.Controllers
 {
-   // [FilterStatus]
+    [FilterStatus]
     public class AdminController : Controller
     {
         private readonly IAltKategoriService _altKategoriService;

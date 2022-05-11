@@ -196,54 +196,6 @@ function renkDegis() {
 //SAYFALAMA İŞLEMLERİ
 
 
-function sayfalama() {
-var btn = document.createElement("button");
-    btn.id = 1;
-    sayfaDegistir(btn);
-}
-
-function sayfaDegistir(btn) {
-    var page = btn.id;
-    var urunler = document.getElementsByClassName("resimUrun");
-    Temizle();
-    btn.style.backgroundColor = "red";
-    btn.style.color= "white";
-    for (var i = (page - 1) * 8; i < page * 8; i++) {
-        urunler[i].style.display = "block";
-    }
-}
-function Temizle() {
-    var urunler = document.getElementsByClassName("resimUrun");
-    for (var i = 0; i < urunler.length; i++) {
-        urunler[i].style.display = "none";
-    }
-    var butonlar = document.getElementsByClassName("btnSayfa");
-    for (var i = 0; i < butonlar.length; i++) {
-        butonlar[i].style.backgroundColor = "darkgrey";
-        butonlar[i].style.color = "black";
-    }
-}
-
-//Kime Göre ürünler Listelensin
-$("#dr_kimeGore").change(function () {
-    var id = $(this).val();
-    Temizle();
-    var urunler = document.getElementsByClassName("kimeGore_" + id);
-    for (var i = 0; i < urunler.length; i++) {
-        urunler[i].style.display = "block";
-    }
-});
-//Alt Kategoriye göre Listelensin
-$("#dr_altKategori").change(function () {
-    var id = $(this).val();
-    Temizle();
-    var urunler = document.getElementsByClassName("alt_" + id);
-    for (var i = 0; i < urunler.length; i++) {
-        urunler[i].style.display = "block";
-    }
-});
-
-
 
 
 //PAGE-INDEX

@@ -7,22 +7,22 @@
 }
 <h1>Profilim</h1>
 <div class="row-cols-1" id="prof" style="width:100%">
-    <div style="width:65%;min-height:350px; background-color:lavenderblush;box-shadow:2px 8px 4px 2px;border-color:azure" class="com">
+    <div style="width:80%;min-height:350px; background-color:lavenderblush;box-shadow:2px 8px 4px 2px;border-color:azure" class="com">
         <h3>ÜYELİK BİLGİLERİM</h3>
         <div class="icerik">
             <table class="table">
                 <tr>
-                  <td colspan="2"><strong>Ad Soyad:</strong>@Model.Ad @Model.Soyad @Context.Session.GetString("Yetki")</td>
+                  <td colspan="2"><strong>Ad Soyad:</strong>@Model.Ad @Model.Soyad </td>
                 </tr>
                 <tr><td><strong>Mail:</strong>@Model.Mail</td><td><strong>Telefon:</strong>@Model.Telefon</td></tr>
-                <tr><td><strong>Cinsiyet:</strong><span id="cins"></span></td><td><strong>Adres:</strong>@Model.Adres</td></tr>
+                <tr><td colspan="2"><strong>Adres:</strong>@Model.Adres</td></tr>
                 <tr><td>Bu güne kadar toplam @Model.Faturalar.Count kez alışveriş yaptınız.</td><td>@if (Model.Faturalar.Count == 0)
             {
-                <a href="/Urun/Urunler" style="color:darkslateblue">Alışverişe Başla</a>
+             <a href="/Urun/Urunler" style="color:darkslateblue">Alışverişe Başla</a>
             }
 </td></tr>
                 @if (Model.sepet != null) { 
-                <tr><td colspan="2">Sepetinizde Şuanda @Model.sepet.SepetDetay.Count adet ürün bulunmaktadır.<a href="/Urun/Urunler">Alışverişe devam etmek için tıklayın.</a></td></tr>}
+                <tr><td colspan="2">Sepetinizde Şuanda @Model.sepet.SepetDetay.Count adet ürün bulunmaktadır.<p> <a href="/Urun/Urunler" style="color: darkmagenta;">Alışverişe devam etmek için tıklayın.</a></p></td></tr>}
             
             <tr><td><div>
     <input type="submit" class="btn btn-outline-secondary" id="mailGonder"  value="Şifre Değiştirme Maili Gönder" />
@@ -41,16 +41,13 @@
                 <div class="modal-body">
                     <form id="uyelikGuncelle" name="frmUye">
                         <table class="table">
-                          
-                            
-                            <tr>
+                         <tr>
                                 <td>
-                                    AD
+                                AD
                                 </td>
                                 <td><input type="text" name="Ad" value="@Model.Ad" />
                                 </td>
                             </tr>
-
                             <tr>
                                 <td>SOYAD</td>
                                 <td><input type="text" name="Soyad" value="@Model.Soyad" /></td>
@@ -83,11 +80,11 @@
             </table>
         </div>
     </div>
-    <div style="width:33%;min-height:350px;background-color:floralwhite;box-shadow:2px 4px 8px 2px" class="com">
+    <div style="width:100%;min-height:350px;background-color:floralwhite;box-shadow:2px 4px 8px 2px" class="com" id="spt">
 
         <h3>SEPETİM</h3>
         @if (Model.sepet.SepetDetay.Count > 0)
-        {<div class="icerik">
+        {<div class="icerik" id="icerikSepet">
                 <table>
                     <tr>
                         <th>
@@ -127,18 +124,18 @@
                     </tr>
                     <tr><td colspan="3" style="text-align:center"><button class="btn btn-danger btnSiparisVer">Sipariş Ver</button></td></tr>
                 </table>
-
-            </div>}
+            </div>
+            }
             else
             {
-                <div>Sepet hiç ürün bulunmuyor.</div>
+            <div>Sepetinizde hiç ürün bulunmuyor.<a href="/Urun/Urunler" style="color:darkslateblue">Alışverişe Başla</a></div>
             }
     </div>
 </div>
-<div>
+<div style="margin-top:50px">
     <h3>SİPARİŞ TAKİP</h3>
     <table>
-        @if (Model.Siparisler.Where(x=>x.SiparisDurumu!=Durum.TeslimEdildi)!=null)
+        @if (Model.Siparisler==null)
         {
             <tr><td colspan="4">Takip edilecek bir siparişiniz bulunmuyor.</td></tr>
         }
@@ -158,7 +155,7 @@
                         <td>@item.SiparisKodu</td>
                         <td>@item.SiparisTarihi</td>
                         <td>@item.SiparisDurumu</td>
-                        @if (item.SiparisDurumu == Durum.TeslimEdildi)
+                        @if (item.SiparisDurumu == (Durum)3)
                         {
                             <td>
                                 <select class="form-control" id="puan_@item.Id">
@@ -236,11 +233,7 @@
         </table>
         </div>
     </div> }
-<div style="position:fixed; background-color:aqua">
-    <button >
-        Yukarı Dön
-    </button>
-</div>
+
 <script>
     var kotuPuan = "~/img/sold.jpg";
     var iyiPuan = "~/img/temizle.png";
@@ -276,7 +269,19 @@
             type: 'POST',
             url: '/Siparis/SiparisVer',
             success: function (data) {
-
+                var spt = document.getElementById("spt");
+                var div = document.createElement("div");
+                div.innerText = "Sepetinizde hiç ürün bulunmuyor.";
+                var a = document.createElement("a");
+                a.href = "/Urun/Urunler";
+                a.style.color = "darkslateblue";
+                a.innerText = "Alışverişe Başla";
+                div.appendChild(a);
+                spt.appendChild(div);
+                var urunler = document.querySelectorAll("#icerikSepet table tr");
+                for (var i = 0; i < urunler.length; i++) 
+                    urunler[i].remove();
+                //var td = document.createElement("td");
                 swal("Sipariş Verildi!", "Profilinizden Takip Edebilirsiniz!", "success");
             },
             error: function (error) {
@@ -318,7 +323,7 @@
 <style>
     #prof{
         display:grid;
-        grid-template-columns:70% 40%;
+        grid-template-columns:70% 30%;
         width:100%;
     }
     #prof .com {

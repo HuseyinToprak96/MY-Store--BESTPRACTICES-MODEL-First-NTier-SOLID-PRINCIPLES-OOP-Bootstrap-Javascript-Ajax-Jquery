@@ -25,7 +25,7 @@
             </tr>
             @foreach (var item in ((List<Siparis>)TempData["siparisler"]))
             {
-                <tr>
+                <tr id="tr_@item.Id">
                     <td>@item.SiparisKodu</td>
                     <td>@item.SiparisTarihi.ToString("dd/MMM/yyyy")</td>
                     <td>@item.uye.Ad @item.uye.Soyad</td>
@@ -67,6 +67,10 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "/Admin/SiparisOlay?durum=" + $(".opt").attr("id") + "&id=" + $(this).attr("id"), true);
                 xhr.send();
+                var id = $(this).attr("id");
+                var tr = document.getElementById("tr_" + id);
+                tr.remove();
+
             });
             
         });

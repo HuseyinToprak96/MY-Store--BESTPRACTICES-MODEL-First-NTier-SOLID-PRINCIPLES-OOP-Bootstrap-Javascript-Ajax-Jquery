@@ -7,59 +7,43 @@
     ViewData["Title"] = "Urunler";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
-<div class="urunler">
-    <div>
-        <h3>  Filtrele</h3>
-        <div class="drp">
-            <select class="form-control" id="dr_kimeGore">
-                <option>Kime Göre?</option>
-                @foreach (var item in Model.kimeGore)
-                {
-                    <option value="@item.Id">
-                        @item.kimeGore
-                    </option>
-                }
-            </select>
-        </div>
-        @*<div class="drp">
-            <select class="form-control" id="dr_Kategori">
-                <option>Kategori Seç</option>
-                @foreach (var item in Model.kategoriler)
-                {
-                    <option value="@item.Id">@item.KategoriAdi</option>
-                }
-            </select>
-        </div>*@
-        <div class="drp">
-            <select class="form-control" id="dr_altKategori">
-                <option>Alt Kategori Seç</option>
-                @foreach (var item in Model.AltKategoris)
-                {
-                    <option value="@item.Id" class="altDrp altDrp_@item.KategoriId">@item.kategori.KategoriAdi @item.AltKategoriAdi</option>
-                }
-            </select>
-        </div>
-    </div>
-    @*@{
-        int page = 1;
-    }*@
-<div>
-    <div id="urunListesi">
-
-        @for (int i = 0; i < Model.Urunler.Count; i++)
+<div style="margin-top:50px">
+    <select class="form-control drp" id="dr_kimeGore">
+        <option value="0">Kime Gore?</option>
+        @foreach (var item in Model.kimeGore)
         {
-        <a href="/Urun/Detay?id=@Model.Urunler[i].Id">
-            <div class="resimUrun alt_@Model.Urunler[i].AltKategoriId kimeGore_@Model.Urunler[i].kimeGoreId " style="background-image:url(@Model.Urunler[i].Resim)" id="urun_@i">
-                <div class="innerbir"></div>
-                <h6 class="inner" style="margin:0px;text-align:center;opacity:0.5; width:100%;background-color:navy;color:whitesmoke;">
-                    @Model.Urunler[i].UrunAdi.Substring(0, Model.Urunler[i].UrunAdi.Substring(0, 20).LastIndexOf(" "))
-                </h6>
+            <option value="@item.Id">
+                @item.kimeGore
+            </option>
+        }
+    </select>
+    <select class="form-control drp" id="dr_altKategori">
+        <option value="0">Alt Kategori Seç</option>
+        @foreach (var item in Model.AltKategoris)
+        {
+            <option value="@item.Id">
+               @item.kategori.KategoriAdi @item.AltKategoriAdi
+            </option>
+        }
+    </select>
+</div>
+<hr />
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model.Urunler)
+        {
+        <div class="col-sm-3 resimUrun alt_@item.AltKategoriId kimeGore_@item.kimeGoreId kimeGore_0 alt_0 " style="margin-top:10px">
+            <a href="/Urun/Detay?id=@item.Id">    <img src="@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk" class="rsm" /></a>
+
+            <div class="urunAdi">
+                <h6><a href="/Urun/Detay?id=@item.Id" style="color:black">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 20).LastIndexOf(" "))</a></h6>
             </div>
-        </a>
+            <div style="border-radius:50%;background-color:@item.altKategori.kategori.Renk; color:whitesmoke;text-align:center"><p>@item.Ucret TL</p></div>
+        </div>
         }
     </div>
 </div>
-</div>
+
 <div class="sayfa">
     @if (Model.Urunler.Count % 8 != 0)
     {
@@ -69,87 +53,128 @@
     }
     else
     {
-        @for (int i = 0; i <= Model.Urunler.Count / 8-1; i++)
+        @for (int i = 0; i <= Model.Urunler.Count / 8 - 1; i++)
         {
             <button class="btnSayfa" onclick="sayfaDegistir(this);" id="@(i+1)">@(i+1)</button>}
-    
+
     }
 </div>
 
-<script>
-    //$("#dr_Kategori").change(function () {
-    //    var id = $(this).val();
-    //    var drpAlt = document.getElementsByClassName("altDrp");
-    //    var altKategoriler = document.getElementsByClassName("altDrp_" + id);
-    //    for (var j = 0; j < drpAlt.length; j++) {
-    //        var sayac = 0;
-    //        for (var i = 0; i < altKategoriler; i++) {
-    //            if (altKategoriler[i].className != drpAlt[j].className) {
-
-    //            }
-
-    //        }
-    //    }
-    //});
-
-
-   
-</script>
 <style>
-    /*.inner{
-        margin:auto 0 0 0;
-    }*/
-  
+    .drp{
+        margin-top:15px;
+    }
+    .urunAdi{
+        height:30px;
+        width:100%;
+        background-color:lightblue;
+        margin-top:10px;
+        text-align:center;
+    }
+
     .btnSayfa {
         background-color: darkgrey;
-        border:0px;
-    }
-    .sayfa{
-        text-align:center;
-        background-color:cornsilk;
-        width:100%;
-        margin:60px auto;
-          border:1px solid;
-    }
-    .sayfa button{
-        height:25px;
-        width:25px;
-        float:left;
-        padding-bottom:2px
-    }
-    .sayfalama{
-        color:black;
-    }
-    .urunler {
-        display: grid;
-        grid-template-columns: 20% 75%;
-        margin: 30px auto;
+        border: 0px;
     }
 
-    .drp {
-        margin-top: 20px;
+    .sayfa {
+        text-align: center;
+        background-color: cornsilk;
+        width: 100%;
+        margin: 60px auto;
+        border: 1px solid;
     }
 
-    #urunListesi {
-        display: grid;
-       min-height:500px;
-        grid-template-columns: 23% 23% 23% 23%;
+        .sayfa button {
+            height: 25px;
+            width: 25px;
+            float: left;
+            padding-bottom: 2px
+        }
+
+    .sayfalama {
+        color: black;
+    }
+    .yeniClass{
+      
+    }
+    .rsm{
+        transition:1s
+    }
+    .rsm:hover {
+        transform: scale(1.05);
+        transition-timing-function:ease-in-out;
+    }
+    .bosClass{
+
+    }
+</style>
+
+<script>
+    
+    function secil(img) {
+        //res.className = "bosClass";
+        res = img;
+        img.className = "yeniClass";
+    }
+    function sayfalama() {
+        var btn = document.createElement("button");
+        
+        btn.id = 1;
+        sayfaDegistir(btn);
     }
 
-    .innerbir {
-        margin: 0px 2% 20px 10px;
-        margin-left: 10px;
-        height: 200px;
+    function sayfaDegistir(btn) {
+        var page = btn.id;
+        var urunler = document.getElementsByClassName("resimUrun");
+        Temizle();
+        btn.style.backgroundColor = "red";
+        btn.style.color = "white";
+        for (var i = (page - 1) * 8; i < page * 8; i++) {
+            urunler[i].style.display = "block";
+        }
     }
-    .resimUrun {
-        display:grid;
-        grid-template-rows:80% 20%;
-        margin:0 15px 15px 15px;
-        max-height:220px;
+    function Temizle() {
+        var urunler = document.getElementsByClassName("resimUrun");
+        for (var i = 0; i < urunler.length; i++) {
+            urunler[i].style.display = "none";
+        }
+        var butonlar = document.getElementsByClassName("btnSayfa");
+        for (var i = 0; i < butonlar.length; i++) {
+            butonlar[i].style.backgroundColor = "darkgrey";
+            butonlar[i].style.color = "black";
+        }
     }
 
-        /*#urunListesi:first-child {
-            margin-left: 50px;
-        }*/
+    //Kime Göre ürünler Listelensin
+    $("#dr_kimeGore").change(function () {
+      //  alert("hg");
 
-   </style>
+        var id = $(this).val();
+        Temizle();
+        var urunler = document.getElementsByClassName("kimeGore_" + id);
+        var sayac = 8;
+        if (urunler.length < 8)
+            sayac = urunler.length
+        for (var i = 0; i < sayac; i++) {
+            urunler[i].style.display = "block";
+        }
+    });
+    //Alt Kategoriye göre Listelensin
+    $("#dr_altKategori").change(function () {
+        var id = $(this).val();
+        Temizle();
+        var urunler = document.getElementsByClassName("alt_" + id);
+        var sayac = 8;
+        if (urunler.length < 8)
+            sayac = urunler.length
+
+        for (var i = 0; i < sayac; i++) {
+            urunler[i].style.display = "block";
+        }
+    });
+
+
+</script>
+
+
