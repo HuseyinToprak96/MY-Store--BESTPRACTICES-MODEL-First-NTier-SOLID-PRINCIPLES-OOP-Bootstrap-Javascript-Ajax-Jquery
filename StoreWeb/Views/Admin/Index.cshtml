@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
 @using CoreLayer.Entities
 @model List<CoreLayer.Entities.Kategori>
 
@@ -6,10 +6,41 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+@if (((List<Siparis>)TempData["YeniSiparisler"]) != null) { 
+<div style="position:fixed;margin:50px 0px auto auto">
+    <h4 style="background-color:lightskyblue">YENİ GELEN SİPARİŞLER</h4>
+    @foreach (var item in ((List<Siparis>)TempData["YeniSiparisler"]))
+    {
+        
+            <div style="margin-top:10px;background-color:blanchedalmond;box-shadow:2px 4px 4px 2px" >
+
+                <table id="siparis_@item.Id">
+                    <tr>
+                        <td>Ad Soyad:</td><td> @item.uye.Ad @item.uye.Soyad</td><td><button onclick="siparisKaldir(@item.Id);">X</button></td>
+                    </tr>
+                    <tr>
+                        <td>Siparis Kodu:</td><td> @item.SiparisKodu</td><td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><a href="/Admin/SiparisDurumu?id=0">Detay</a></td>
+                    </tr>
+                </table>
+            </div>
+        
+    }
+</div>
+    }
+
+
+
+
 <div style="text-align:center;margin-top:60px">
     <input type="text" placeholder="Kategori, AltKategori veya Ürün adı arayın." id="ara" />
 </div>
 <div id="panelAdmin" style="width:80%;margin:0 auto">
+
+
+
 
 
     @foreach (var kategori in Model)
@@ -79,7 +110,7 @@
                                 <div class="form-group" style="display:none">
                                     <input class="form-control" id="urunId_@urun.Id" name="Id" value="@urun.Id" />
                                 </div>
-                                 <div class="form-group" style="display:none">
+                                <div class="form-group" style="display:none">
                                     <label>Resim</label>
                                     <input class="form-control" id="res_@urun.Id" name="Resim" value="@urun.Resim" />
                                 </div>
@@ -93,7 +124,7 @@
                                         @foreach (var altK in ((List<AltKategori>)TempData["AltKategoriler"]))
                                         {
                                             <option value=@altK.Id>@altK.AltKategoriAdi</option>
-}
+                                        }
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -115,8 +146,8 @@
 
                             @*<button type="button" onclick="modalUret();" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 
-                         <strong> RAPOR BİLDİR</strong> 
-                            </button>*@
+                                <strong> RAPOR BİLDİR</strong>
+                                   </button>*@
 
 
 
@@ -389,11 +420,11 @@
             url: '/Admin/UrunGuncelle',
             data: formData,
             success: function (data) {
-                 var sp = document.getElementById("spUrun_" + id);
-                 var h = document.getElementById("hUrun_" + id);
-                 sp.innerText = $("#urunAdi_" + id).val();
-                 h.innerText = $("#urunAdi_" + id).val();
-                 console.log("data", data);
+                var sp = document.getElementById("spUrun_" + id);
+                var h = document.getElementById("hUrun_" + id);
+                sp.innerText = $("#urunAdi_" + id).val();
+                h.innerText = $("#urunAdi_" + id).val();
+                console.log("data", data);
 
             },
             error: function (error) {
@@ -414,6 +445,11 @@
         });
     });
 
+
+    function siparisKaldir(id) {
+        var siparis = document.getElementById("siparis_" + id);
+        siparis.remove();
+    }
 </script>
 
 <style>

@@ -1,27 +1,130 @@
-﻿@model StoreWeb.ViewModels.VMIndex
+﻿
+@model StoreWeb.ViewModels.VMIndex
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Partial("PartialKategoriMenu", Model.kimeGore)
-<table class="table" id="ind">
+<link href='https://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
+<div id="index">
 
-    <tr>
-        <td>@Html.Partial("FavoriUrunlerPartial", Model.FavoriUrunlar)</td>
-    </tr>
-    <tr>
-        <td>@Html.Partial("YeniGelenlerPartial", Model.YeniGelenler)</td>
-    </tr>
-    <tr>
-        <td>@Html.Partial("EnCokSatanlarPartial", Model.EnCokSatanlar)</td>
-    </tr>
-    <tr>
-        <td>  @Html.Partial("BitmesiYakinUrunlerPartial", Model.BitmesiYakinUrunler) </td>
-    </tr>
-</table>
+    <div>
+        @Html.Partial("PartialKategoriMenu", Model.kimeGore)
+    </div>
+
+
+    <div>
+        <div style="font-size:70px;text-align:center;font-family: 'Grand Hotel',cursive;">İYİ GİYİNMEK HERKESİN HAKKI!</div>
+        <div class="container" style="margin-top:50px">
+            <div class="row">
+                @*<h3>YENİ GELEN ÜRÜNLER</h3>*@
+                <div class="vitrin">&#x27A4; YENİ GELEN ÜRÜNLER</div>
+                @foreach (var item in Model.YeniGelenler)
+                {
+                    <div class="col-sm-2 resimUrun" style="margin-top: 10px">
+                        <a href="/Urun/Detay?id=@item.Id">    <img src="@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk;border-radius:7px 7px 0px 0px;" class="rsm" /></a>
+
+                        <div class="baslik">
+                            <h6><a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 20).LastIndexOf(" "))</a></h6>
+                        </div>
+                        <div class="ucRet"><p>@item.Ucret TL</p></div>
+                    </div>
+                }
+                <div class="vitrin">&#x27A4; FAVORİ ÜRÜNLER</div>
+                @foreach (var item in Model.FavoriUrunlar)
+                {
+                    <div class="col-sm-2 resimUrun" style="margin-top:10px">
+                        <a href="/Urun/Detay?id=@item.Id">    <img src="@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk;border-radius:7px 7px 0px 0px;" class="rsm" /></a>
+
+                        <div class="baslik">
+                            <h6><a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 20).LastIndexOf(" "))</a></h6>
+                        </div>
+                        <div class="ucRet"><p>@item.Ucret TL</p></div>
+                    </div>
+                }
+                <div class="vitrin">&#x27A4; EN ÇOK SATILANLAR</div>
+                @foreach (var item in Model.EnCokSatanlar)
+                {
+                    <div class="col-sm-2 resimUrun" style="margin-top:10px">
+                        <a href="/Urun/Detay?id=@item.Id">    <img src="@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk;border-radius:7px 7px 0px 0px;" class="rsm" /></a>
+
+                        <div class="baslik">
+                            <h6><a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 20).LastIndexOf(" "))</a></h6>
+                        </div>
+                        <div class="ucRet"><p>@item.Ucret TL</p></div>
+                    </div>
+                }
+
+                <div class="vitrin">&#x27A4; BİTMESİ YAKIN ÜRÜNLER</div>
+                @foreach (var item in Model.BitmesiYakinUrunler)
+                {
+                    <div class="col-sm-2 resimUrun" style="margin-top:10px">
+                        <a href="/Urun/Detay?id=@item.Id">    <img src="@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk;border-radius:7px 7px 0px 0px;" class="rsm" /></a>
+
+                        <div class="baslik">
+                            <h6><a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 20).LastIndexOf(" "))</a></h6>
+                        </div>
+                        <div class="ucRet"><p>@item.Ucret TL</p></div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        </div>
+    </div>
+
+    <div style="margin-top:80px;height:220px;text-align:center; font-display:fallback;background-color:whitesmoke;box-shadow:2px 4px 4px 2px">
+        <h3 style="font-weight:bold;"> ÖDEME YÖNTEMLERİ</h3>
+        <div id="odemeIslemleri" style="display:grid;grid-template-columns:3% 30% 30% 30% 3%; margin-top:20px">
+            <div></div>
+            <div><img style="box-shadow: 2px 4px 4px 2px;" src="~/img/kredi.jpg" /></div>
+            <div><img style="box-shadow: 2px 4px 4px 2px;" src="~/img/kapida.jpg" /></div>
+            <div><img style="box-shadow: 2px 4px 4px 2px;" src="~/img/Havale.jpg" /></div>
+            <div></div>
+        </div>
+    </div>
+
+
 
 <style>
-    #ind tr td{
-height:400px;
+    .ucRet {
+        background-color: #2b2b2b;
+        color: whitesmoke;
+        text-align: center;
+        margin: 0;
+        border-radius: 0px 0px 7px 7px;
+    }
+    .baslik {
+        text-align: center;
+        background-color: lightgray;
+        margin: 0;
+        overflow: hidden;
+        padding-top: 3px;
+    }
+    .vitrin {
+        background-color: darkorange;
+        font-size: 25px;
+        font-weight: bold;
+        line-height: 35px;
+        color: white;
+        height: 35px;
+        padding-left: 15px;
+        border-radius: 4px;
+        margin: 10px auto;
+    }
+    #index {
+        display: grid;
+        grid-template-rows: 10% 80% 10%;
+        height: 100%;
+    }
+
+    #cmpnt {
+        display: grid;
+        grid-template-rows: 24% 24% 24% 24%;
+        height: 100%;
+    }
+
+    #odemeIslemleri {
+        margin: 5px auto;
     }
 </style>

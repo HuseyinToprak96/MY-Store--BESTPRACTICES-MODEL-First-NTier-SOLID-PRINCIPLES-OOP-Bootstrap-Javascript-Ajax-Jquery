@@ -58,5 +58,11 @@ namespace AppAPI.Controllers
             await _service.Update(uye);
             return Ok();
         }
+        [HttpGet]
+        public async Task<IActionResult> MailFind(int id)
+        {
+            string mail = await _service.MailBul(id);
+            return Ok(mail);
+        }
     }
 }

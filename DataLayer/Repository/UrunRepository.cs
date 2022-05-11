@@ -24,7 +24,7 @@ namespace DataLayer.Repository
             var urunler = (from u in _data.Urunler
                            orderby u.Adet
                            where u.Adet>0
-                           select u).Take(4);
+                           select u).Take(6);
             return await urunler.ToListAsync();
         }
 
@@ -40,7 +40,7 @@ namespace DataLayer.Repository
                            orderby u.FaturaDetay.Count
                            descending
                            where u.Adet > 0
-                           select u).Take(4);
+                           select u).Take(6);
             return await urunler.ToListAsync();
         }
 
@@ -50,7 +50,7 @@ namespace DataLayer.Repository
                            orderby u.sepetDetay.Count       
                            descending
                            where u.Adet > 0
-                           select u).Take(4);
+                           select u).Take(6);
             return await urunler.ToListAsync();
         }
 
@@ -74,7 +74,7 @@ namespace DataLayer.Repository
                            orderby u.EklenmeTarihi
                            descending
                            where u.Adet > 0
-                           select u).Take(4);
+                           select u).Take(6);
                           
             return await urunler.ToListAsync();
         }

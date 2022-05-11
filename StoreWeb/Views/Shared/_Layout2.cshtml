@@ -28,9 +28,6 @@
                             <a class="nav-link" href="/Page/Index">ANASAYFA</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Page/Magazalarimiz">MAGAZALARIMIZ</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="/Page/Hakkimizda">HAKKIMIZDA</a>
                         </li>
                         <li class="nav-item">
@@ -61,39 +58,98 @@
                         }
 
                     </form>
-</div>
+                </div>
             </div>
         </nav>
         <section>
             <article>
                 <div class="container">
-                   
+
                     @RenderBody()
                 </div>
             </article>
         </section>
-        <header></header>
+
+        <footer class="border-top footer text-muted" style="margin-top:250px">
+            <div class="container footer1">
+                <div>
+
+                    <ul id="foot">
+                        <li><h5>KURUMSAL</h5></li>
+                        <a href="/Page/Hakkimizda#hakkimizda">
+                        <li href="#hakkimizda">HAKKIMIZDA</li></a>
+                        <a href="/Page/Hakkimizda#tarihce">
+                        <li href="#tarihce">TARİHÇE</li></a>
+                        <a href="/Page/Hakkimizda#basarilar">
+                        <li href="" src="#tarihce">BAŞARILAR</li></a>
+                        <a href="/Page/Hakkimizda#kurumsal">
+                        <li>KURUMSAL POLİTİKALAR</li></a>
+                        <a href="/Page/Hakkimizda#kalite">
+                        <li>ÜRÜN KALİTE TESTLERİ</li></a>
+                        <a href="/Page/Hakkimizda#guvenlik">
+                        <li>ÜRÜN GÜVENLİĞİ</li></a>
+                    </ul>
+                </div>
+                <div>
+
+                    <ul>
+                        <li><h5>BİZE ULAŞIN</h5></li>
+                        <li>MAĞAZALARİMİZ</li>
+                        <li>İLETİŞİM</li>
+                        <li>İNSAN KAYNAKLARI</li>
+                    </ul>
+                </div>
+                <div>
+
+                    <ul>
+                        <li><h5>TALEPLER</h5></li>
+                        <li>ŞİKAYET FORMU</li>
+                        <li>TAVSİYELER</li>
+                    </ul>
+                </div>
+                <div>
+
+                    <ul>
+                        <li><h5>SOSYAL AĞ</h5></li>
+                        <li><a href="http://www.twitter.com"><img src="/img/twitter.png" />Twitter</a></li>
+                        <li><a href="http://www.instagram.com"> <img src="/img/instagram.png" />İnstagram</a></li>
+                        <li><a href="http://www.facebook.com"><img src="~/img/facebook.png" />Facebook</a> </li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
     </main>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - My Store - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 <script>
    
 </script>
 <style>
+    li {
+        list-style-type: none
+    }
+    footer a{
+        color:black;
+    }
+    footer a:hover{
+        color:black
+    }
+    .footer1 {
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+        width: 100%;
+    }
+
+        .footer1 a {
+            color: black;
+        }
     main {
         display: grid;
-        grid-template-rows: 5% 85% 10%;
+        grid-template-rows: 2% 75% 22%;
         width: 100%;
-        height: 1500px;
+        min-height:3000px;
+        height:max-content;
+        max-height:4000px;
     }
 
     section {

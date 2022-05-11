@@ -9,5 +9,7 @@ namespace CoreLayer.Interfaces.Services
         Task<GirenBilgileri> UyeLogin(string mail, string sifre);
         Task Yetkilendir(bool yetki, int id);
         Task<Uye> uyeDetay(int UyeId);
+        Task<string> MailBul(int id);
+        Task<bool> MailKontrol(string mail);
     }
 }

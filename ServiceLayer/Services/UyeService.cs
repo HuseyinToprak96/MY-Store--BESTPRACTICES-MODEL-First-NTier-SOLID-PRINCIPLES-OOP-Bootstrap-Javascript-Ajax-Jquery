@@ -18,6 +18,16 @@ namespace ServiceLayer.Services
             _uyeRepository = uyeRepository;
         }
 
+        public async Task<string> MailBul(int id)
+        {
+            return await _uyeRepository.MailBul(id);
+        }
+
+        public async Task<bool> MailKontrol(string mail)
+        {
+            return await _uyeRepository.MailKontrol(mail);
+        }
+
         public async Task<Uye> uyeDetay(int UyeId)
         {
             var uye = await _uyeRepository.uyeDetay(UyeId);
