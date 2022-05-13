@@ -3,7 +3,7 @@
     ViewData["Title"] = "İletisim";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
-
+@using StoreWeb.Models
 <div class="container">
     <div class="row">
         <div class="col-sm-4">
@@ -36,30 +36,19 @@
         </div>
 
     </div>
-    <h3 style="margin-top:50px">İNSAN KAYNAKLARI</h3>
-    <div>
-        <table>
-            <tr>
-              <th>ADI SOYADI</th>  <td>Xxxxx Yyyyyy</td>
-              <th>İLETİŞİM</th><td>1234564789</td></tr>
-        </table>
-    </div>
-
-
-
 
     <h3 style="margin-top:30px" id="magazalarimiz">MAĞAZALARIMIZ</h3>
     <div class="container">
         <div class="row">
-           @for (int i = 1; i < 11; i++)
+           @foreach (var item in ((List<Magaza>)ViewBag.Magazalar))
            {
-              <div class="col-sm-5">
+              <div class="col-sm-5" style="margin:20px auto">
                   <div>
-                      <h4>MAGAZA @i</h4>
+                      <h4>@item.MagazaAdi</h4>
                       <div>
-                          <img src="~/img/magaza_1.jpg"/>
+                          <img src="~/img/@item.Resim"/>
                       </div>
-                      <div>Adres:@i numaralı il @i . ilçeşinin @i . sokağının @i. numarası  </div>
+                      <div>Adres:@item.Adres</div>
                   </div>
               </div>
            }

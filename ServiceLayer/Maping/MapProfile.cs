@@ -12,6 +12,7 @@ namespace ServiceLayer.Maping
             CreateMap<SepetDetay, SepetDetayDto>().ReverseMap();
             CreateMap<Urun, UrunDto>().ReverseMap();
             CreateMap<Urun, VitrinDto>();
+            CreateMap<Urun, StokDto>().ReverseMap();
             CreateMap<UrunGuncelleDto, Urun>();
             CreateMap<AltKategori, AltKategoriDto>().ReverseMap();
             CreateMap<Kategori, KategoriDto>().ReverseMap();

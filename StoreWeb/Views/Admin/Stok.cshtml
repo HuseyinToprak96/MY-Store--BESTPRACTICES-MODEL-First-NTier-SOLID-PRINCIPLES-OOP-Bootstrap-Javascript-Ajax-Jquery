@@ -1,0 +1,49 @@
+﻿@model List<CoreLayer.Dtos.StokDto>
+@{
+    ViewData["Title"] = "Stok";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 style="margin-top:60px">Stok(<span id="sp">@Model.Count</span>)</h1>
+<table class="table">
+    <tr>
+        <th>Ürün Resmi</th>
+        <th>Ürün Adı</th>
+        <th>Stok Miktari</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img src="@item.Resim" height="35" width="35"/>
+            </td>
+            <td>
+                @item.UrunAdi
+            </td>
+            <td id="adet_@item.Id">
+                @item.Adet
+            </td>
+            <td>
+                <input type="text" id="stok_@item.Id" style="width:35px" name="adet" /><input type="submit" style="border:1px; width:max-content;height:max-content;background-color:cornflowerblue;color:whitesmoke" id="@item.Id" class="uygula" value="Arttır"/>
+            </td>
+        </tr>
+    }
+</table>
+<script>
+    $('.uygula').click(function () {
+        var id = $(this).attr("id");
+        var adet = $('#stok_' + id).val();
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/Admin/StokDegis?id=" + id + "&adet=" + adet, true);
+        xhr.send();
+        $('#adet_' + id).text(parseInt($('#adet_' + id).text()) + parseInt(adet));
+        if (parseInt($('#adet_' + id).text()) > 100) {
+            var btn = document.getElementById(id);
+            btn.parentNode.parentNode.remove();
+            var sp = document.getElementById("sp");
+            sp.innerText = parseInt(sp.innerText) - 1;
+        }
+    });
+</script>

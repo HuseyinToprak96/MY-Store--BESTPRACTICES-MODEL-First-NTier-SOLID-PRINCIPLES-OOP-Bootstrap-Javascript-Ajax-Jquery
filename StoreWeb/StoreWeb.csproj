@@ -25,4 +25,8 @@
     <PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Products\" />
+  </ItemGroup>
+
 </Project>

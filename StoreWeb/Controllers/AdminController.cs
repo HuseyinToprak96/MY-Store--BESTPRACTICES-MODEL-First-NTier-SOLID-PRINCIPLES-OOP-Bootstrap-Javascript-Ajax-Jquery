@@ -3,15 +3,18 @@ using CoreLayer.Dtos;
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StoreWeb.Filters;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace StoreWeb.Controllers
 {
-    [FilterStatus]
+    //[FilterStatus]
     public class AdminController : Controller
     {
         private readonly IAltKategoriService _altKategoriService;
@@ -20,8 +23,9 @@ namespace StoreWeb.Controllers
         private readonly IKategoriService _KategoriService;
         private readonly IMapper _mapper;
         private readonly ISiparisService _siparisService;
-        private readonly IService<KimeGore> _CinsiyetService;
-        public AdminController(IAltKategoriService altKategoriService, IUyeService uyeService, IUrunService urunService, IKategoriService kategoriService, IMapper mapper, ISiparisService siparisService, IService<KimeGore> cinsiyetService)
+        private readonly IService<KimeGore> _kimeGoreService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public AdminController(IAltKategoriService altKategoriService, IUyeService uyeService, IUrunService urunService, IKategoriService kategoriService, IMapper mapper, ISiparisService siparisService, IWebHostEnvironment webHostEnvironment, IService<KimeGore> kimeGoreService)
         {
             _altKategoriService = altKategoriService;
             _uyeService = uyeService;
@@ -29,27 +33,45 @@ namespace StoreWeb.Controllers
             _KategoriService = kategoriService;
             _mapper = mapper;
             _siparisService = siparisService;
-            _CinsiyetService = cinsiyetService;
+            _webHostEnvironment = webHostEnvironment;
+            _kimeGoreService = kimeGoreService;
         }
         public async Task<IActionResult> Index()
         {
-            Durum durum = (Durum)0;
-            TempData["YeniSiparisler"] = await _siparisService.Siparisler(durum);
-            TempData["KimeGore"] =await _CinsiyetService.getAllAsync();
-            TempData["AltKategoriler"] = await _altKategoriService.getAllAsync();
+           Durum durum = (Durum)0;
+           TempData["YeniSiparisler"] =await _siparisService.Siparisler(durum);
+           TempData["KimeGore"] =await _kimeGoreService.getAllAsync();
+           TempData["AltKategoriler"] = await _altKategoriService.getAllAsync();
             return View(await _KategoriService.KategoriyeAitDetaylar());
         }
-        [HttpPost]
-        public async Task<JsonResult> UrunEkle(Urun urun)
+        public async Task<IActionResult> Stok()
         {
-            //IFormFile formFile //Resim yükleme
-            //var newName = Path.GetExtension(formFile.FileName);
-            //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", newName);
-            //var stream = new FileStream(path, FileMode.Create);
-            //await formFile.CopyToAsync(stream);
-             //return Created(string.Empty,formFile)
+            var urunler =await _urunService.StokKontrol(100);
+            return View(urunler);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> StokDegis(int id,int adet)
+        {
+            await _urunService.AdetGuncelle(adet, id);
+            return Json(id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UrunEkle(Urun urun,IFormFile formFile)
+        {
+            if (formFile != null)
+            {
+                string folder = "Products/";
+                folder += Guid.NewGuid().ToString() + formFile.FileName;
+                string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
+                await formFile.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                urun.Resim = folder;
+            }
+            urun.EklenmeTarihi = DateTime.Now;
+            
             await _urunService.AddAsync(urun);
-            return Json(urun.Id);
+            return RedirectToAction("Index");
         }
         [HttpPost]
         public async Task<JsonResult> urunSil(int id)
@@ -143,14 +165,16 @@ namespace StoreWeb.Controllers
         public async Task<IActionResult> SiparisDurumu(int id)
         {
             Durum durum = (Durum)id;
-        //siparisle ilgili işlemler değişmeyeceğinden enum içerisinde tuttuk
+            //siparisle ilgili işlemler değişmeyeceğinden enum içerisinde tuttuk
+            var deger= await _siparisService.PuanOrt();
+            int sayi=(int)((deger * 80) / 4);
             TempData["siparisler"] =await _siparisService.Siparisler(durum);
             
             //Tempdata ile taşıma sebebimiz eğer yeni sipariş gelmiş ise altta bulunan metoddan dolayı bunun durumu 1 e getirilcek
             //yani görülmüş sipariş olacak. bundan dolayıda yeni gelen siparişleri göremeyiz.
             if (id == 0)
                 await _siparisService.DurumGuncelle(id);
-            return View();
+            return View(sayi);
         }
 
 
@@ -164,6 +188,33 @@ namespace StoreWeb.Controllers
         {
             TempData["Siparisler"] = await _siparisService.getAllAsync();
             return View(await _siparisService.SiparisDetay(id));
+        }
+
+        public IActionResult DosyaKontrol()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult DosyaKontrol(IFormFile formFile)
+        {
+            if (formFile!=null)
+            {
+                string folder = "Products/";
+                folder += Guid.NewGuid().ToString()+formFile.FileName;
+                string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
+                formFile.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+            }
+            return RedirectToAction("DosyaKontrol");
+        }
+        public async Task<CreatedResult> ResimEkle(IFormFile formFile)
+        {
+            var newName = Path.GetExtension(formFile.FileName);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", newName);
+            var stream = new FileStream(path, FileMode.Create);
+            await formFile.CopyToAsync(stream);
+            return Created(string.Empty, formFile);
+            //return Json();
         }
 
     }

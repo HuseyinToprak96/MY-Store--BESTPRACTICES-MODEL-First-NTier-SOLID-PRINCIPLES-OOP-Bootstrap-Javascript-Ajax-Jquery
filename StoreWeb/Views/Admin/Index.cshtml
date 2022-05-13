@@ -6,23 +6,22 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-@if (((List<Siparis>)TempData["YeniSiparisler"]) != null) { 
-<div style="position:fixed;margin:50px 0px auto auto">
-    <h4 style="background-color:lightskyblue">YENİ GELEN SİPARİŞLER</h4>
+@if (((List<Siparis>)TempData["YeniSiparisler"]).Count>0) { 
+<div style="position:fixed;top:60px;right:10px;overflow:hidden">
+    <h4 style="background-color:lavender;">YENİ GELEN SİPARİŞLER</h4>
     @foreach (var item in ((List<Siparis>)TempData["YeniSiparisler"]))
     {
         
-            <div style="margin-top:10px;background-color:blanchedalmond;box-shadow:2px 4px 4px 2px" >
-
+            <div style="background-color:blanchedalmond;box-shadow:2px 4px 4px 2px" >
                 <table id="siparis_@item.Id">
                     <tr>
-                        <td>Ad Soyad:</td><td> @item.uye.Ad @item.uye.Soyad</td><td><button onclick="siparisKaldir(@item.Id);">X</button></td>
+                        <th>Ad Soyad:</th><td> @item.uye.Ad @item.uye.Soyad</td><td><button onclick="siparisKaldir(@item.Id);" style="text-align:right">X</button></td>
                     </tr>
                     <tr>
-                        <td>Siparis Kodu:</td><td> @item.SiparisKodu</td><td></td>
+                        <th>Siparis Kodu:</th><td> @item.SiparisKodu</td><td></td>
                     </tr>
                     <tr>
-                        <td colspan="3"><a href="/Admin/SiparisDurumu?id=0">Detay</a></td>
+                        <th colspan="3"><a href="/Admin/SiparisDetay?id=@item.Id">Detay</a></th>
                     </tr>
                 </table>
             </div>
@@ -45,8 +44,8 @@
 
     @foreach (var kategori in Model)
     {
-        <div style="max-width:800px" id="kategori_@kategori.Id" class="kategoriAccordion">
-            <h3 style="background-color:@kategori.Renk" id="h_@kategori.Id" onclick="Goster(@kategori.Id,'kategori')" class="kat"><span id="sp_@kategori.Id"> @kategori.KategoriAdi</span><button onclick="accordionSil(@kategori.Id,'kategori');">X</button></h3>
+        <div style="max-width:800px;border-radius:30px 10px 30px 10px" id="kategori_@kategori.Id;" class="kategoriAccordion">
+            <h3 style="border-radius:30px 10px 0px 0px;background-color:@kategori.Renk" id="h_@kategori.Id" onclick="Goster(@kategori.Id,'kategori')" class="kat"><span id="sp_@kategori.Id"> @kategori.KategoriAdi</span><button onclick="accordionSil(@kategori.Id,'kategori');">X</button></h3>
             <form class="updateKategori" id="@kategori.Id">
                 <div class="form-group" style="display:none">
 
@@ -68,7 +67,7 @@
                 <h2 style="text-align:center">ALT KATEGORİLER(@kategori.KategoriAdi)</h2>}
             @foreach (var altKategori in kategori.altKategoriler)
             {
-                <div class="li kategori_@kategori.Id" style="width:80%;margin:0 0 0 auto">
+                <div class="li kategori_@kategori.Id" style="width:80%;border-radius:8px;margin:0 0 0 auto">
                     <h4 class="altH" style="background-color:@altKategori.Renk;color:whitesmoke;" id="altKategori_@altKategori.Id" onclick="Goster(@altKategori.Id,'altKategori')">
                         <span id="spAlt_@altKategori.Id"> @altKategori.AltKategoriAdi</span><button onclick="accordionSil(@altKategori.Id,'altKategori');" id="btn_@altKategori.Id">X</button>
                     </h4>
@@ -103,46 +102,47 @@
                 <div style="margin:0 0 0 auto; width:64%" class="urunlerAccordion altKategori_@altKategori.Id" id="alt_altKategori_@altKategori.Id">
                     @foreach (var urun in altKategori.Urunler)
                     {
-                        <h5 id="hUrun_@urun.Id" style="text-align:center;background-color:darkseagreen; margin-top:10px;">@urun.UrunAdi</h5>
+                        <h5 id="hUrun_@urun.Id" style="text-align:center;border-radius:6px;background-color:darkseagreen; margin-top:10px;">@urun.UrunAdi</h5>
                         <div class="urunAdmin" id="urun_@urun.Id">
                             <span id="spUrun_@urun.Id"> @urun.UrunAdi</span>  <button onclick="accordionSil(@urun.Id, 'urun');">X</button>
-                            <form class="updateUrun" id="@urun.Id">
-                                <div class="form-group" style="display:none">
-                                    <input class="form-control" id="urunId_@urun.Id" name="Id" value="@urun.Id" />
-                                </div>
-                                <div class="form-group" style="display:none">
-                                    <label>Resim</label>
-                                    <input class="form-control" id="res_@urun.Id" name="Resim" value="@urun.Resim" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Ürün Adı</label>
-                                    <input class="form-control" id="urunAdi_@urun.Id" name="UrunAdi" value="@urun.UrunAdi" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Alt Kategori</label>
-                                    <select name="altKategoriId" class="form-control">
-                                        @foreach (var altK in ((List<AltKategori>)TempData["AltKategoriler"]))
-                                        {
-                                            <option value=@altK.Id>@altK.AltKategoriAdi</option>
-                                        }
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Adet</label>
-                                    <input class="form-control" id="adet_@urun.Id" name="Adet" value="@urun.Adet" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Kime Göre?</label>
-                                    <select name="CinsiyetId" id="kim_@urun.Id" class="form-control">
-                                        @foreach (var item in ((List<KimeGore>)TempData["KimeGore"]))
-                                        {
-                                            <option selected="@urun.kimeGoreId" value="@item.Id">@item.kimeGore</option>
-                                        }
-                                    </select>
-                                </div>
+                       <form class="updateUrun" id="@urun.Id">
+                       <div class="form-group" style="display:none">
+                       <input class="form-control" id="urunId_@urun.Id" name="Id" value="@urun.Id" />
+                       </div>
+                       <div class="form-group" style="display:none">
+                       <label>Resim</label>
+                       <input class="form-control" id="res_@urun.Id" name="Resim" value="@urun.Resim" />
+                       </div>
+                       <div class="form-group">
+                       <label>Ürün Adı</label>
+                       <input class="form-control" id="urunAdi_@urun.Id" name="UrunAdi" value="@urun.UrunAdi" />
+                       </div>
+                       <div class="form-group">
+                       <label>Alt Kategori</label>
+                       <select name="altKategoriId" class="form-control">
+                       @foreach (var altK in ((List<AltKategori>)TempData["AltKategoriler"]))
+                        {
+                        <option value=@altK.Id>@altK.AltKategoriAdi</option>
+                        }
+                     </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Adet</label>
+                      <input class="form-control" id="adet_@urun.Id" name="Adet" value="@urun.Adet" />
+                       </div>
+                       @if (((List<KimeGore>)TempData["KimeGore"]).Count > 0) { 
+                        <div class="form-group">
+                        <label>Kime Göre?</label>
+                        <select name="kimeGoreId" id="kim_@urun.Id" class="form-control">
+                        @foreach (var item in ((List<KimeGore>)TempData["KimeGore"]))
+                         {
+                         <option selected="@urun.kimeGoreId" value="@item.Id">@item.kimeGore</option>
+                          }
+                         </select>
+                         </div>}
 
-                                <input type="submit" class="btn-success" value="Güncelle" />
-                            </form>
+                         <input type="submit" class="btn-success" value="Güncelle" />
+                        </form>
 
                             @*<button type="button" onclick="modalUret();" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 
@@ -157,7 +157,12 @@
                     }
                     <div class="urunAdmin ekleForm" id="urun_-1">
                         <h3 style="color:darkblue">Yeni Ürün Ekle (@altKategori.AltKategoriAdi)</h3>
-                        <form id="@altKategori.Id" class="urunForm">
+                        <form id="@altKategori.Id" asp-controller="Admin" asp-action="UrunEkle" method="post" class="urunForm" enctype="multipart/form-data">
+
+                            <div class="form-group">
+                                <label>Resim</label>
+                                <input type="file" id="res_@altKategori.Id"  class="form-control" name="formFile" />
+                            </div>
                             <div class="form-group">
                                 <label>Ürün Adı</label>
                                 <input id="txt_@altKategori.Id" class="form-control" name="UrunAdi" />
@@ -172,7 +177,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Kime Göre?</label>
-                                <select name="CinsiyetId" id="kim_@altKategori.Id" class="form-control">
+                                <select name="kimeGoreId" id="kim_@altKategori.Id" class="form-control">
                                     @foreach (var item in ((List<KimeGore>)TempData["KimeGore"]))
                                     {
                                         <option value="@item.Id">@item.kimeGore</option>
@@ -276,9 +281,6 @@
         });
     });
 
-
-
-
     //ALT KATEGORİ EKLE
     $('.altForm').submit(function (e) {
         e.preventDefault();
@@ -319,43 +321,42 @@
 
     //ÜRÜN EKLEME//NASIL TEKE İNDİRİLLİR?
 
-    $('.urunForm').submit(function (e) {
+    //$('.urunForm').submit(function (e) {
 
-        e.preventDefault();
-        var formData = $(this).serialize();
-        var id = $(this).attr("id");
-        //var resim = $("#Resim_" + id);
-        //alert(resim.val());
-        //alert(resim.val());
+    //    e.preventDefault();
+    //    var formData = $(this).serialize();
+    //    var id = $(this).attr("id");
+    //   // var resim = $("res_" + id);
+    //    //alert(resim.val());
+    //    //alert(resim.val());
+    //    $.ajax({
+    //        type: 'POST',
+    //        url: '/Admin/urunEkle',
+    //        data: formData,
+    //        success: function (data_) {
+    //            var div = document.createElement("div");
+    //            div.className = "urunAdmin";
+    //            div.id = "urun_" + data_;
+    //            var span = document.createElement("span");
+    //            span.id = "spUrun_" + data_;
+    //            span.innerText = $("#txt_" + id).val();
+    //            div.appendChild(span);
+    //            var btn = document.createElement("button");
+    //            btn.addEventListener("click", function () {
+    //                accordionSil(data_, 'urun');
+    //            });
+    //            btn.innerText = "X";
+    //            div.appendChild(btn);
+    //            var d = document.getElementById("alt_altKategori_" + id);
+    //            d.appendChild(div);
+    //            console.log("data", data_);
 
-        $.ajax({
-            type: 'POST',
-            url: '/Admin/urunEkle',
-            data: formData,
-            success: function (data) {
-                var div = document.createElement("div");
-                div.className = "urunAdmin";
-                div.id = "urun_" + data;
-                var span = document.createElement("span");
-                span.id = "spUrun_" + data;
-                span.innerText = $("#txt_" + id).val();
-                div.appendChild(span);
-                var btn = document.createElement("button");
-                btn.addEventListener("click", function () {
-                    accordionSil(data, 'urun');
-                });
-                btn.innerText = "X";
-                div.appendChild(btn);
-                var d = document.getElementById("alt_altKategori_" + id);
-                d.appendChild(div);
-                console.log("data", data);
-
-            },
-            error: function (error) {
-                console.log("error", error);
-            }
-        });
-    });
+    //        },
+    //        error: function (error) {
+    //            console.log("error", error);
+    //        }
+    //    });
+    //});
 
 
     //UPDATE KATEGORİ

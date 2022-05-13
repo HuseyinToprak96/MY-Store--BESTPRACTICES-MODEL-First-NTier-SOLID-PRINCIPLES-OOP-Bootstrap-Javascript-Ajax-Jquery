@@ -85,5 +85,10 @@ namespace ServiceLayer.Services
             _siparisRepository.Puanla(puan, id);
             await _unitOfWork.CommitAsync();
         }
+
+        public async Task<double> PuanOrt()
+        {
+            return await _siparisRepository.PuanOrt();
+        }
     }
 }

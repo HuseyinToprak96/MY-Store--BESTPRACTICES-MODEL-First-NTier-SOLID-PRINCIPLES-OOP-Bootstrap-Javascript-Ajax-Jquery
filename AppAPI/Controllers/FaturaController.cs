@@ -50,5 +50,11 @@ namespace AppAPI.Controllers
             await _service.Update(fatura);
             return Ok();
         }
+        [HttpPost]
+        public async Task<IActionResult> FaturaDetay(int id)
+        {
+            var fatura = await _service.FaturaDetay(id);
+            return Ok(id);
+        }
     }
 }

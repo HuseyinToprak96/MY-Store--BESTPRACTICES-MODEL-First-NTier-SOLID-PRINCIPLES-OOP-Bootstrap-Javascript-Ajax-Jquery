@@ -18,5 +18,6 @@ namespace CoreLayer.Interfaces.Services
         Task<int> SiparisBul(int UyeId);
         Task SiparisleriEkle(List<SepetDetay> sepetDetaylar,int siparisId);
         Task Puanla(int puan,int id);
+        Task<double> PuanOrt();
     }
 }

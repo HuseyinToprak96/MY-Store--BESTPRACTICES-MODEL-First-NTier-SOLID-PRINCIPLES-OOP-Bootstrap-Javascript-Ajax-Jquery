@@ -17,5 +17,7 @@ namespace CoreLayer.Interfaces.Services
         Task<List<Urun>> OnerilenUrunler(int? cinsId, int? AltKategoriId);
         Task<List<Urun>> Arama(Source source);
         Task<Urun> EklenenUrunuGoster(Urun urun);
+        Task<List<StokDto>> StokKontrol(int tehlikeSiniri);
+        Task AdetGuncelle(int adet,int id);
     }
 }

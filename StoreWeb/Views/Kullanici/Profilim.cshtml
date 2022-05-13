@@ -5,6 +5,11 @@
     ViewData["Title"] = "Profilim";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
+<div style="display:none;height:35px;width:150px;position:fixed;top:50px;right:20px;background-color:whitesmoke" id="fixedSepet">
+    <div>
+     Sepet(@Model.sepet.SepetDetay.Count)   <img src="~/img/sepet.jpg" height="30" width="30" onclick="toggle(1)" />
+    </div>
+    </div>
 <h1>Profilim</h1>
 <div class="row-cols-1" id="prof" style="width:100%">
     <div style="width:80%;min-height:350px; background-color:lavenderblush;box-shadow:2px 8px 4px 2px;border-color:azure" class="com">
@@ -46,6 +51,7 @@
                                 AD
                                 </td>
                                 <td><input type="text" name="Ad" value="@Model.Ad" />
+                             
                                 </td>
                             </tr>
                             <tr>
@@ -67,6 +73,15 @@
                             <tr><td colspan="2"><button class="btn btn-outline-success" > Kaydet</button></td></tr>
                             <tr><td colspan="2"></td></tr>
                             <tr><td colspan="2">@TempData["Hata"]</td></tr>
+                            <tr style="display:none">
+                                <td>
+                                    <input type="text" name="Id" value="@Model.Id" />
+                                    <input type="text" name="cinsiyet" value="@Model.cinsiyet" />
+                                    <input type="text" name="Sifre" value="@Model.Sifre" />
+                                    <input type="checkbox" checked="@Model.Yetki" name="Yetki" value="@Model.Yetki" />
+                                    <input type="text" value="@Model.Mail" name="Mail"/>
+                                </td>
+                            </tr>
                         </table>
                     </form>
                     
@@ -80,7 +95,7 @@
             </table>
         </div>
     </div>
-    <div style="width:100%;min-height:350px;background-color:floralwhite;box-shadow:2px 4px 8px 2px" class="com" id="spt">
+    <div style="width:35%;min-height:50px;background-color:floralwhite;box-shadow:2px 4px 8px 2px;position:fixed;top:80px;right:50px" class="com" id="spt">
 
         <h3>SEPETİM</h3>
         @if (Model.sepet.SepetDetay.Count > 0)
@@ -123,18 +138,20 @@
                         </td>
                     </tr>
                     <tr><td colspan="3" style="text-align:center"><button class="btn btn-danger btnSiparisVer">Sipariş Ver</button></td></tr>
+
                 </table>
             </div>
-            }
-            else
-            {
+        }
+        else
+        {
             <div>Sepetinizde hiç ürün bulunmuyor.<a href="/Urun/Urunler" style="color:darkslateblue">Alışverişe Başla</a></div>
-            }
+        }
+        <button onclick="toggle(0);" style="background-color:cornsilk;border:0px;">Küçült</button>
     </div>
 </div>
 <div style="margin-top:50px">
     <h3>SİPARİŞ TAKİP</h3>
-    <table>
+    <table class="table">
         @if (Model.Siparisler==null)
         {
             <tr><td colspan="4">Takip edilecek bir siparişiniz bulunmuyor.</td></tr>
@@ -144,7 +161,7 @@
             <tr>
                 <th>Sipariş Kodu</th>
                 <th>Sipariş Tarihi</th>
-                <th>Sipariş Durumu</th>
+                <td>Sipariş Detay</td>
                 <th></th>
             </tr>
             @foreach (var item in Model.Siparisler)
@@ -154,7 +171,7 @@
                     <tr>
                         <td>@item.SiparisKodu</td>
                         <td>@item.SiparisTarihi</td>
-                        <td>@item.SiparisDurumu</td>
+                        <td></td>
                         @if (item.SiparisDurumu == (Durum)3)
                         {
                             <td>
@@ -171,7 +188,7 @@
                         else
                         {
                             <td>
-                                <button>Siparişim Nerde?</button>
+                                <button class="btn btn-outline-success" id="@item.SiparisDurumu" onclick="siparisNerde(this);">Siparişim Nerde?</button>
                             </td>
                         }
                     </tr>
@@ -194,49 +211,32 @@
                     <td>@item.Id</td>
                     <td>@item.AlisverisTarihi</td>
                     <td></td>
-                    <td>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            FATURA DETAY
-                        </button>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Fatura Detay</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <table class="table">
-                                            <tr>
-                                                <th>
-                                                    ÜRÜN ADI
-                                                </th>
-                                                <th>ÜRÜN ADEDİ</th>
-                                                <th>ÜRÜN FİYATI</th>
-                                            </tr>
-                                            @foreach (var urun in item.faturaDetays)
-                                            {
-                                                <tr>
-                                                    <td>@urun.urun.UrunAdi</td><td>@urun.Adet</td><td>@urun.Fiyat</td>
-                                                </tr>
-}
-                                           <tr><td colspan="3">Ödenen Tutar:@Model.Sifre</td></tr>
-                                        </table>
-                                    </div>
-                                    <div class="modal-footer">
-
-                                    </div>
-                                </div></div></div>
-                    </td>
                 </tr>
             }
+            <tr><td colspan="3">Detayları mail adresinizden kontrol edebilirsiniz.</td></tr>
         </table>
         </div>
     </div> }
 
 <script>
-    var kotuPuan = "~/img/sold.jpg";
-    var iyiPuan = "~/img/temizle.png";
+    function siparisNerde(btn) {
+        var durum = btn.id;
+      
+        swal(durum == "Kargoda" ? "Siparişiniz Kargoya Verilmiştir" : "Siparişiniz Hazırlanıyor", durum == "Kargoda" ? "Fatura için Mailinizi Kontrol Ediniz" : "Beklediğiniz için Teşekkürler", "success");
+    }
+    function toggle(durum) {
+        var sepet = document.getElementById("spt");
+        var fixed = document.getElementById("fixedSepet");
+        if (durum == 0) {
+            sepet.style.display = "none";
+            fixed.style.display = "block";
+        }
+        else {
+            sepet.style.display = "block";
+            fixed.style.display = "none";
+        }
+    }
+
     $('.btnPuan').click(function () {
         var id = $(this).attr("id");
         var puan = $("#puan_" + id).val();

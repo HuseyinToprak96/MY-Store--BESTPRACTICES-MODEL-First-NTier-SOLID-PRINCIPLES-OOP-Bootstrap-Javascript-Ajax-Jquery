@@ -2,6 +2,7 @@
 using CoreLayer.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreWeb.Models;
 using StoreWeb.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -40,11 +41,11 @@ namespace StoreWeb.Controllers
             return View(vMIndex);
         }
         public IActionResult Hakkimizda() => View();
-        public IActionResult İletisim() => View();
-        public IActionResult Magazalarimiz() => View();
-        public IActionResult İnsanKaynaklari() => View();
-        public IActionResult Kariyer() => View();
-        public IActionResult KariyerFirsatlari() => View();
-        public IActionResult Koleksiyonlar() => View();
+        public IActionResult İletisim()
+        {
+            Magaza magaza = new Magaza();
+            ViewBag.Magazalar = magaza.List();
+            return View();
+        }
     }
 }

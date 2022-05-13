@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "DosyaKontrol";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 style="margin-top:60px">DosyaKontrol</h1>
+<form method="post" asp-action="DosyaKontrol" asp-controller="Admin" enctype="multipart/form-data">
+    <input type="file" name="formFile" id="resim" />
+    <input type="submit"  id="resEkle" value="Ekle" />
+</form>
+<script>
+    function ekleRes() {
+        var res = document.getElementById("resim");
+        alert(res.value());
+    }
+</script>
