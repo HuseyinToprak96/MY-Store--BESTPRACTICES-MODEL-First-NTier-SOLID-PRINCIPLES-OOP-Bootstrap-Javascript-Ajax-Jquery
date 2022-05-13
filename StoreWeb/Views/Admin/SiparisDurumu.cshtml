@@ -1,4 +1,4 @@
-﻿@model List<CoreLayer.Entities.Siparis>
+﻿@model int
 @using CoreLayer.Entities
 @{
     ViewData["Title"] = "SiparisDurumu";
@@ -23,37 +23,46 @@
                 <th></th>
                 <th>Detay</th>
             </tr>
-            @foreach (var item in ((List<Siparis>)TempData["siparisler"]))
+            @if (((List<Siparis>)TempData["siparisler"]).Count > 0)
             {
-                <tr id="tr_@item.Id">
-                    <td>@item.SiparisKodu</td>
-                    <td>@item.SiparisTarihi.ToString("dd/MMM/yyyy")</td>
-                    <td>@item.uye.Ad @item.uye.Soyad</td>
-                    <td>@item.uye.Telefon</td>
-                    
-                    <td>
-                    @if(((int)item.SiparisDurumu+1)<Durum.GetNames(typeof(Durum)).Length) {
-                    <select id="dropEnum">
-                            <option class="opt" id="@((int)item.SiparisDurumu+1)">@Durum.GetNames(typeof(Durum))[((int)item.SiparisDurumu)+1]</option>
-                        </select>}
-                else
+                @foreach (var item in ((List<Siparis>)TempData["siparisler"]))
                 {
-                    if (item.Puan != 0) { 
-                    <strong>@((Puanlama)item.Puan)</strong>}
-                    else { <strong>Bekleniyor</strong>}
-                }
-                    </td>
-                    <td>
-                        @if (((int)item.SiparisDurumu + 1) < Durum.GetNames(typeof(Durum)).Length)
-                        {
-                            <button class="btn btn-light btnEnum" id="@item.Id">Güncelle</button>
-                        }
-                    </td>
-                    <td>
-                        <a href="/Admin/SiparisDetay?id=@item.Id">İncele</a>
-                    </td>
-                </tr>
-            }
+                    <tr id="tr_@item.Id">
+                        <td>@item.SiparisKodu</td>
+                        <td>@item.SiparisTarihi.ToString("dd/MMM/yyyy")</td>
+                        <td>@item.uye.Ad @item.uye.Soyad</td>
+                        <td>@item.uye.Telefon</td>
+
+                        <td>
+                            @if (((int)item.SiparisDurumu + 1) < Durum.GetNames(typeof(Durum)).Length)
+                            {
+                                <select id="dropEnum">
+                                    <option class="opt" id="@((int)item.SiparisDurumu+1)">@Durum.GetNames(typeof(Durum))[((int)item.SiparisDurumu) + 1]</option>
+                                </select>}
+                            else
+                            {
+                                if (item.Puan != 0)
+                                {
+                                    <strong>@((Puanlama)item.Puan)</strong>}
+                                else
+                                { <strong>Bekleniyor</strong>}
+                            }
+                        </td>
+                        <td>
+                            @if (((int)item.SiparisDurumu + 1) < Durum.GetNames(typeof(Durum)).Length)
+                            {
+                                <button class="btn btn-light btnEnum" id="@item.Id">Güncelle</button>
+                            }
+                        </td>
+                        <td>
+                            <a href="/Admin/SiparisDetay?id=@item.Id">İncele</a>
+                        </td>
+                    </tr>
+                }}
+            <tr>
+                <td colspan="4">Bu sayfada toplam @(((List<Siparis>)TempData["siparisler"]).Count) sonuç listelenmiştir.</td>
+                
+            </tr>
         </table>
     </div>
 </div>

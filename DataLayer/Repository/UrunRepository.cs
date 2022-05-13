@@ -14,6 +14,12 @@ namespace DataLayer.Repository
 
         }
 
+        public async Task AdetGuncelle(int adet, int id)
+        {
+          var urun= await _data.Urunler.Where(x => x.Id == id).SingleOrDefaultAsync();
+            urun.Adet = urun.Adet + adet;
+        }
+
         public async Task<List<Urun>> AltKategoriyeGore(int id)
         {
             return await _data.Urunler.Where(x => x.AltKategoriId == id).ToListAsync();
@@ -58,6 +64,13 @@ namespace DataLayer.Repository
         {
             return _data.Urunler.AsQueryable().AsNoTracking();
         }
+
+        public async Task<List<Urun>> StokKontrol(int tehlikeSiniri)
+        {
+            var urunler = await _data.Urunler.Where(x => x.Adet <= tehlikeSiniri).OrderBy(x=>x.Adet).ToListAsync();
+            return urunler;
+        }
+
         public async Task<List<Urun>> TumUrunBilgileri()
         {
             return await _data.Urunler.Include(x => x.altKategori).ThenInclude(x => x.kategori).ToListAsync();

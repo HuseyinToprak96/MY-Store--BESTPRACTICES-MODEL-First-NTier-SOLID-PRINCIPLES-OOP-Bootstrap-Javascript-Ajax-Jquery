@@ -17,9 +17,11 @@ namespace StoreWeb.Controllers
     public class KullaniciController : Controller
     {
         private readonly IUyeService _uyeService;
-        public KullaniciController(IUyeService uyeService)
+        private readonly IFaturaService _faturaService;
+        public KullaniciController(IUyeService uyeService, IFaturaService faturaService)
         {
             _uyeService = uyeService;
+            _faturaService = faturaService;
         }
         [FilterLogin]
         public async Task<IActionResult> Profilim()
@@ -30,7 +32,6 @@ namespace StoreWeb.Controllers
         [HttpPost]
         public async Task<JsonResult> BilgileriGuncelle(Uye uye)
         {
-            //uye.cinsiyet = (Cinsiyet)1;
             await _uyeService.Update(uye);
             return Json(uye.Id);
         }
@@ -42,7 +43,7 @@ namespace StoreWeb.Controllers
             try
             {
                 SmtpClient client = new SmtpClient("smtp@gmail.com", 587);
-                client.Credentials = new NetworkCredential("HuseyinToprak96@outlook.com", "*****");
+                client.Credentials = new NetworkCredential("HuseyinToprak96@outlook.com", "hsyn.1234");
                 client.EnableSsl = true;
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress("hsyn_tprak_94@hotmail.com", "HOŞGELDİN KRAL");
@@ -59,10 +60,13 @@ namespace StoreWeb.Controllers
             {
                 ViewBag.Hata = "Hata var";
             }
-
-
-
             return Json(id);
+        }
+        [HttpPost]
+        public async Task<JsonResult> Fatura(int id)
+        {
+            var fatura = await _faturaService.FaturaDetay(id);
+            return Json(fatura);
         }
     }
 }

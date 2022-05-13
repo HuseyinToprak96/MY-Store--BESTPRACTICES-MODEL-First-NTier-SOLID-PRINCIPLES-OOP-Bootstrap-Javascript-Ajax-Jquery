@@ -16,5 +16,7 @@ namespace CoreLayer.Interfaces.Repository
         IQueryable<Urun> GetAll();
         Task<Urun> UrunDetay(int id);
         Task<Urun> EklenenUrunuGoster(Urun urun);
+        Task<List<Urun>> StokKontrol(int tehlikeSiniri);
+        Task AdetGuncelle(int adet,int id);
     }
 }

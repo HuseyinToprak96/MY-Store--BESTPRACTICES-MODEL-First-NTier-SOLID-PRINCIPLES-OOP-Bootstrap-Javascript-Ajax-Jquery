@@ -33,16 +33,20 @@
         @foreach (var item in Model.Urunler)
         {
         <div class="col-sm-3 resimUrun alt_@item.AltKategoriId kimeGore_@item.kimeGoreId kimeGore_0 alt_0 " style="margin-top:10px">
-            <a href="/Urun/Detay?id=@item.Id">    <img src="@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk" class="rsm" /></a>
+            <a href="/Urun/Detay?id=@item.Id">    <img src="~/Products/@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk" class="rsm" /></a>
 
             <div class="urunAdi">
-                <h6><a href="/Urun/Detay?id=@item.Id" style="color:black">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 20).LastIndexOf(" "))</a></h6>
+                <h6><a href="/Urun/Detay?id=@item.Id" style="color:black">@item.UrunAdi</a></h6>
             </div>
             <div style="border-radius:50%;background-color:@item.altKategori.kategori.Renk; color:whitesmoke;text-align:center"><p>@item.Ucret TL</p></div>
         </div>
         }
     </div>
 </div>
+
+@*<div class="like-indicator"><svg class="like-indicator__heart like-indicator__heart--not-liked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.755 24.173" id="icon-not-liked"><path data-name="like (1)" d="M24.7 8.684c-.364-3.974-3.177-6.858-6.7-6.858a6.655 6.655 0 0 0-5.7 3.285 6.413 6.413 0 0 0-5.564-3.285C3.216 1.826.4 4.71.042 8.684a7.072 7.072 0 0 0 .21 2.606 11.178 11.178 0 0 0 3.425 5.715l8.618 7.821 8.766-7.82a11.18 11.18 0 0 0 3.425-5.716 7.087 7.087 0 0 0 .214-2.606z" transform="translate(.509 -1.326)" style="fill: rgb(255, 255, 255); stroke: rgb(155, 155, 155);"></path></svg></div>*@
+
+
 
 <div class="sayfa">
     @if (Model.Urunler.Count % 8 != 0)

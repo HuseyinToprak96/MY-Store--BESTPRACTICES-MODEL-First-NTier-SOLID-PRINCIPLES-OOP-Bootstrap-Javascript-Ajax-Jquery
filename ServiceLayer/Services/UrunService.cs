@@ -17,6 +17,12 @@ namespace ServiceLayer.Services
             _urunRepository = urunRepository;
         }
 
+        public async Task AdetGuncelle(int adet, int id)
+        {
+            await _urunRepository.AdetGuncelle(adet, id);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task<List<Urun>> AltKategoriyeGore(int id)
         {
             return await _urunRepository.AltKategoriyeGore(id);
@@ -48,6 +54,11 @@ namespace ServiceLayer.Services
         }
 
         public Task<List<Urun>> OnerilenUrunler(int? cinsId, int? AltKategoriId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<StokDto>> StokKontrol(int tehlikeSiniri)
         {
             throw new NotImplementedException();
         }

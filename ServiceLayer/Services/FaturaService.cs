@@ -19,7 +19,6 @@ namespace ServiceLayer.Services
         {
             return await _faturaRepository.FaturaDetay(id);
         }
-
         public async Task<List<Fatura>> KisininFaturalari(int UyeId)
         {
             return await _faturaRepository.KisininFaturalari(UyeId);

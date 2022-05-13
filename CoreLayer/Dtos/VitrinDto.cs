@@ -1,4 +1,6 @@
-﻿namespace CoreLayer.Dtos
+﻿using Microsoft.AspNetCore.Http;
+
+namespace CoreLayer.Dtos
 {
     public class VitrinDto
     {

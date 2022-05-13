@@ -15,7 +15,7 @@ namespace DataLayer.Repository
 
         public async Task<Fatura> FaturaDetay(int id)
         {
-            return await _data.Faturalar.Include(x => x.faturaDetays).Where(x => x.Id == id).SingleOrDefaultAsync();
+            return await _data.Faturalar.Include(x => x.faturaDetays).ThenInclude(x=>x.urun).Where(x => x.Id == id).SingleOrDefaultAsync();
         }
 
         public async Task<List<Fatura>> KisininFaturalari(int UyeId)

@@ -7,55 +7,55 @@
 }
 <h3 style="margin-top:60px;text-align:center">@Model.SiparisKodu Kodlu Siparişin Detayları</h3>
 <div style="display:grid; grid-template-columns:60% 25%">
-    
-    <div id="detay">
-        <div class="detayBilgi">
-            <div>Resim</div>
-            <div>Ürün Adı</div>
-            <div>Fiyat</div>
-            <div>Ne kadar kaldı?</div>
-        </div>
-        @foreach (var item in Model.siparisDetaylar)
-        {<div class="detayBilgi">
-                <div><img src="@item.Urun.Resim" height="150" width="150" /></div>
-                <div>@item.Urun.UrunAdi</div>
-                <div>@item.Fiyat TL</div>
-                <div>@item.Urun.Adet adet kaldı.</div>
-            </div>}
-        <div style="text-align:center">Toplam Tutar:@Model.siparisDetaylar.Sum(x=>x.Fiyat) TL dir.</div>
-    </div>
-    <div style="text-align:right; ">
-        <h4>DİĞER SİPARİŞLER</h4>
-        @foreach(var siparis in ((List<Siparis>)TempData["Siparisler"]))
-        {
-            <div>
-                <a href="/Admin/SiparisDetay?id=@siparis.Id"> @siparis.SiparisKodu</a> <strong style="color:red"> @siparis.SiparisDurumu</strong>
-            </div>
-        }
-    </div>
-</div>
-    <div style="background-color:mediumpurple; color:whitesmoke;text-align:center;width:100%;margin-top:50px" marquee="left">
-        <a href="/Admin/SiparisDurumu?id=1" style="color:whitesmoke">Siparis Sayfasına Dön</a>
-    </div>
 
+    <table class="table">
+        <tr style="height:50px">
+            <th>Resim</th>
+            <th>Ürün Adı</th>
+            <th>Adet</th>
+
+        </tr>
+        @foreach (var item in Model.siparisDetaylar)
+        {
+            <tr style="height:50px">
+                <td><img src="@item.Urun.Resim" height="40" width="40" /></td>
+                <td>@item.Urun.UrunAdi</td>
+                <td>1 adet</td>
+            </tr>
+        }
+        <tr><td colspan="3" style="text-align:center"> Toplam Tutar:@Model.siparisDetaylar.Sum(x => x.Fiyat) TL dir.</td></tr>
+        </table>
+<div style="text-align:right; ">
+    <h4>DİĞER SİPARİŞLER</h4>
+    @foreach (var siparis in ((List<Siparis>)TempData["Siparisler"]))
+    {
+        <div>
+            <a href="/Admin/SiparisDetay?id=@siparis.Id"> @siparis.SiparisKodu</a> <strong style="color:red"> @siparis.SiparisDurumu</strong>
+        </div>
+    }
+</div>
+<div style="background-color:mediumpurple; color:whitesmoke;text-align:center;width:100%;margin-top:50px" marquee="left">
+    <a href="/Admin/SiparisDurumu?id=1" style="color:whitesmoke">Siparis Sayfasına Dön</a>
+</div>
+</div>
 <style>
     .detayBilgi {
         display: grid;
         grid-template-columns: 28% 30% 8% 24%;
         width: 80%;
-        margin-left:25%;
+        margin-left: 25%;
     }
-    .detayBilgi:first-child div{
-        font-weight:bold;
-        background-color:lightblue;
-    }
-    .detayBilgi:nth-child(n+1){
-        margin-top:30px;
-       
-    }
-    .detayBilgi:nth-child(n+1) div{
-        border:1px solid;
-        height:max-content;
-    }
-    
+
+        .detayBilgi:first-child div {
+            font-weight: bold;
+            background-color: lightblue;
+        }
+
+        .detayBilgi:nth-child(n+1) {
+            margin-top: 30px;
+        }
+
+            .detayBilgi:nth-child(n+1) div {
+                border: 1px solid;
+            }
 </style>

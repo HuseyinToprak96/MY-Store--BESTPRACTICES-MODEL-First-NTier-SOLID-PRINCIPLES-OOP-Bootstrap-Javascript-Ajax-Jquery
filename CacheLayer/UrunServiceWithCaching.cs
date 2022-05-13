@@ -1,4 +1,5 @@
-﻿using CoreLayer.Dtos;
+﻿using AutoMapper;
+using CoreLayer.Dtos;
 using CoreLayer.Entities;
 using CoreLayer.Interfaces.Repository;
 using CoreLayer.Interfaces.Services;
@@ -17,8 +18,9 @@ namespace CacheLayer
         private readonly IMemoryCache _memoryCache;
         private readonly IUrunRepository _urunRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public UrunServiceWithCaching(IMemoryCache memoryCache, IUrunRepository urunRepository, IUnitOfWork unitOfWork)
+        public UrunServiceWithCaching(IMemoryCache memoryCache, IUrunRepository urunRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _memoryCache = memoryCache;
             _urunRepository = urunRepository;
@@ -27,7 +29,7 @@ namespace CacheLayer
             {
                 _memoryCache.Set(CacheUrunKey, _urunRepository.TumUrunBilgileri().Result);
             }
-
+            _mapper = mapper;
         }
         public async Task CacheAllUrunlerAsync()
         {
@@ -108,6 +110,20 @@ namespace CacheLayer
         {
          var u=  await _urunRepository.EklenenUrunuGoster(urun);
             return u;
+        }
+
+        public Task<List<StokDto>> StokKontrol(int tehlikeSiniri)
+        {
+            var urunler= _memoryCache.Get<List<Urun>>(CacheUrunKey).Where(x =>x.Adet<=tehlikeSiniri).ToList();
+            var stokDto = _mapper.Map<List<StokDto>>(urunler);
+            return Task.FromResult(stokDto);
+        }
+
+        public async Task AdetGuncelle(int adet, int id)
+        {
+            await _urunRepository.AdetGuncelle(adet,id);
+            await _unitOfWork.CommitAsync();
+            await CacheAllUrunlerAsync();
         }
     }
 }

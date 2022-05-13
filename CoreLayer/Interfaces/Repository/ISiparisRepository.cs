@@ -16,6 +16,7 @@ namespace CoreLayer.Interfaces.Repository
         Task<int> SiparisBul(int UyeId);
         void SiparisleriEkle(List<SiparisDetay> siparisDetaylar);
         void Puanla(int puan,int id);
+        Task<double> PuanOrt();
 
         
     }
