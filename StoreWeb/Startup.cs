@@ -94,6 +94,9 @@ namespace Alısveris
             services.AddScoped<IFaturaService, FaturaService>();
             services.AddScoped<ISiparisRepository, SiparisRepository>();
             services.AddScoped<ISiparisService, SiparisService>();
+
+            //
+
             services.AddAutoMapper(typeof(MapProfile));
             services.AddMemoryCache();
 

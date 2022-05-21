@@ -18,6 +18,7 @@ namespace CoreLayer.Entities
         [ForeignKey("kimeGore")]
         public int? kimeGoreId { get; set; }
         public DateTime EklenmeTarihi { get; set; }
+        public bool Goster { get; set; }
         public KimeGore kimeGore { get; set; }
         public List<SepetDetay> sepetDetay { get; set; }
         public List<FaturaDetay> FaturaDetay { get; set; }

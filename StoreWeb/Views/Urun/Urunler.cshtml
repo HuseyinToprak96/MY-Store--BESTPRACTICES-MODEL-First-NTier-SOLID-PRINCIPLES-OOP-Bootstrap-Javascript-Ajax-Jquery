@@ -7,7 +7,12 @@
     ViewData["Title"] = "Urunler";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
-<div style="margin-top:50px">
+<div style="display:grid;grid-template-columns:80% 20%">
+    <div></div>
+    <a href="/Urun/UrunEkle" style="color:black;font-size:12pt;text-align:right">Yeni Urun Ekle</a>
+</div>
+
+<div style="margin-top:20px">
     <select class="form-control drp" id="dr_kimeGore">
         <option value="0">Kime Gore?</option>
         @foreach (var item in Model.kimeGore)
@@ -32,13 +37,13 @@
     <div class="row">
         @foreach (var item in Model.Urunler)
         {
-        <div class="col-sm-3 resimUrun alt_@item.AltKategoriId kimeGore_@item.kimeGoreId kimeGore_0 alt_0 " style="margin-top:10px">
-            <a href="/Urun/Detay?id=@item.Id">    <img src="~/Products/@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk" class="rsm" /></a>
-
-            <div class="urunAdi">
-                <h6><a href="/Urun/Detay?id=@item.Id" style="color:black">@item.UrunAdi</a></h6>
-            </div>
-            <div style="border-radius:50%;background-color:@item.altKategori.kategori.Renk; color:whitesmoke;text-align:center"><p>@item.Ucret TL</p></div>
+        <div class="col-sm-2 resimUrun alt_@item.AltKategoriId kimeGore_@item.kimeGoreId kimeGore_0 alt_0 " style="margin-top:10px;display:grid;grid-template-rows:80% 20%">
+          <img src="~/Products/@item.Resim" />
+            <div style="display:grid;grid-template-columns:80% 20%">
+            <div>@item.UrunAdi
+                </div>
+            <div>@item.Ucret
+                </div></div>
         </div>
         }
     </div>
@@ -95,7 +100,10 @@
             float: left;
             padding-bottom: 2px
         }
-
+        .resimUrun{
+            height:150px;
+            margin:10px 10px
+        }
     .sayfalama {
         color: black;
     }
@@ -112,10 +120,15 @@
     .bosClass{
 
     }
+    
 </style>
 
 <script>
-    
+    function sil(id) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/Admin/urunSil?id=" + id, true);
+        xhr.send();
+    }
     function secil(img) {
         //res.className = "bosClass";
         res = img;
