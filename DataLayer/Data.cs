@@ -8,8 +8,7 @@ namespace DataLayer
     {
         public Data(DbContextOptions<Data> options) : base(options)
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+           
         }
         public DbSet<Urun> Urunler { get; set; }
         public DbSet<Kategori> Kategoriler { get; set; }

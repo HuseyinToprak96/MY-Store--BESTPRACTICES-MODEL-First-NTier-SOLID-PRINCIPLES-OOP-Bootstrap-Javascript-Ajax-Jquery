@@ -59,7 +59,8 @@ namespace DataLayer.Repository
         public async Task<double> PuanOrt()
         {
             var ort = await _data.Siparisler.Where(x=>x.Puan!=0).AverageAsync(x => x.Puan);
-            return ort;
+           
+            return ort; 
         }
     }
 }

@@ -10,6 +10,7 @@ namespace CoreLayer.Entities
         public string Renk { get; set; }
         [ForeignKey("kategori")]
         public int? KategoriId { get; set; }
+        public bool Goster { get; set; }
         public Kategori kategori { get; set; }
         public List<Urun> Urunler { get; set; }
     }

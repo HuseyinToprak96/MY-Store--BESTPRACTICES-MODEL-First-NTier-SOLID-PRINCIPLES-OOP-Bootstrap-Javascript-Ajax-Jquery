@@ -11,7 +11,7 @@ namespace CoreLayer.Entities
     {
         public int Id { get; set; }
         [ForeignKey("urun")]
-        public int urunId { get; set; }
+        public int? urunId { get; set; }
         [ForeignKey("siparis")]
         public int SiparisId { get; set; }
         public double Fiyat { get; set; }

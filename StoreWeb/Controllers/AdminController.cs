@@ -41,7 +41,9 @@ namespace StoreWeb.Controllers
            Durum durum = (Durum)0;
            TempData["YeniSiparisler"] =await _siparisService.Siparisler(durum);
            TempData["KimeGore"] =await _kimeGoreService.getAllAsync();
-           TempData["AltKategoriler"] = await _altKategoriService.getAllAsync();
+            var altKategoriler=await _altKategoriService.getAllAsync();
+            if (altKategoriler != null)
+                TempData["AltKategoriler"] = altKategoriler; 
             return View(await _KategoriService.KategoriyeAitDetaylar());
         }
         public async Task<IActionResult> Stok()
