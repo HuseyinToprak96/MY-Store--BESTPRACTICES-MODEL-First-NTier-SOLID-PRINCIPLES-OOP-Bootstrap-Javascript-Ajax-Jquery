@@ -35,6 +35,11 @@
 <hr />
 <div class="container">
     <div class="row" style="display:grid;grid-template-columns:18% 18% 18% 18% 18%; margin-left:1%">
+        @if(Model.Urunler.Count<1)
+        {
+        <div>
+            <strong>Bu kategoride hiç ürün bulunamadı.</strong>
+        </div>}
         @foreach (var item in Model.Urunler)
         {
         <a href="/Urun/Detay?id=@item.Id" target="_blank">
