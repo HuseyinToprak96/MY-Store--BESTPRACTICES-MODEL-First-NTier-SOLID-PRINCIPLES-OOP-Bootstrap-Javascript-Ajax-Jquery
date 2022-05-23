@@ -176,7 +176,7 @@ namespace StoreWeb.Controllers
             //yani görülmüş sipariş olacak. bundan dolayıda yeni gelen siparişleri göremeyiz.
             if (id == 0)
                 await _siparisService.DurumGuncelle(id);
-            return View(sayi);
+            return View();
         }
 
 
