@@ -91,7 +91,7 @@ namespace CacheLayer
 
         public Task<List<Urun>> OnerilenUrunler(int? cinsId, int? AltKategoriId)
         {
-            var urunler = _memoryCache.Get<List<Urun>>(CacheUrunKey).Where(x => x.kimeGoreId == cinsId && x.AltKategoriId == AltKategoriId).ToList();
+            var urunler = _memoryCache.Get<List<Urun>>(CacheUrunKey).Where(x => x.kimeGoreId == cinsId && x.AltKategoriId == AltKategoriId).Take(5).ToList();
             return Task.FromResult(urunler);
         }
 

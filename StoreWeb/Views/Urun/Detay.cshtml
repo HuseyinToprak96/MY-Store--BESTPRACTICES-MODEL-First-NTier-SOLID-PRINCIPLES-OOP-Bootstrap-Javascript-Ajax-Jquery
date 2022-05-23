@@ -9,30 +9,40 @@
 @Html.Partial("PartialKategoriMenu", Model.kimeGore)
 
 <div id="detay">
-    <div class="card mb-3" style="max-width: 540px; margin-top:100px;">
+    <div class="card mb-3" style="width: 65%; margin-top:100px;">
         <div class="row g-0">
             <div class="col-md-4">
                 <img src="/Products/@Model.urun.Resim" class="img-fluid rounded-start" alt="...">
             </div>
             <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title" id="name" style="background-color:@Model.urun.altKategori.kategori.Renk">@Model.urun.UrunAdi</h5>
-                    <p class="card-text"><strong>BEDEN:</strong> @Model.urun.Beden<br /><strong> Kim İçin:</strong>@Model.urun.kimeGore.kimeGore <br /><strong> Fiyat:</strong>@Model.urun.Ucret TL</p>
-                    <p class="card-text"><small class="text-muted">@Model.urun.EklenmeTarihi.ToString("dd/MMM/yyy/")</small></p>
+                <div class="card-body" style="text-align:left">
+                    <h5 class="card-title" id="name" style="background-color:lightblue;font-size:14pt;font-weight:bold">@Model.urun.UrunAdi</h5>
+                    <p class="card-text"><small class="text-muted">Satıcı:<a href="/Page/Hakkimizda" style="color:darkblue">Biz</a> </small></p>
+                    <p class="card-text">   <strong> Fiyat:</strong><span style="color:orangered;font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-size:15pt">@(Model.urun.Ucret+10) TL</span><span style="font-size:12pt;margin-left:20px;border:2px solid @Model.urun.altKategori.Renk">Sepette İndirimli</span></p>
+                    <hr />
+                    <p class="card-text"><strong>BEDEN:</strong><span id="bdn"> @Model.urun.Beden</span> | <button class="beden" style="margin-left:10px">S</button><button class="beden">M</button><button class="beden">L</button><button class="beden">XL</button><br /></p>
+                    <p class="card-text">
+                    <strong>RENK SEÇ:</strong>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                       <button class="renk" style="background-color:rgb(@(i*67),@(i*59), @(i*37))">A</button>
+                    } </p>
+                    <strong> Kim İçin:</strong>@Model.urun.kimeGore.kimeGore <br />
+                 
 
                     @if (Model.sepet.SepetDetay.Where(x => x.UrunId == Model.urun.Id).SingleOrDefault() == null)
-                    {<p class="card-text" id="ekle">
+                    {<p class="card-text" id="ekle" style="text-align:center">
                             <button class="btn-danger" id="ekle_@Model.urun.Id" onclick="sepeteEkle(@Model.urun.Id);">EKLE</button>
                         </p>
-                        <p class="card-text" id="kaldir" style="display:none">
+                        <p class="card-text" id="kaldir" style="display:none;text-align:center">
                             <button class="btn-danger" id="kaldir_@Model.urun.Id" onclick="kaldir(@Model.urun.Id);">KALDIR</button>
                         </p>
                     }
                     else
-                    {<p class="card-text" id="ekle" style="display:none">
+                    {<p class="card-text" id="ekle" style="display:none;text-align:center">
                             <button class="btn-danger" onclick="sepeteEkle(@Model.urun.Id);">EKLE</button>
                         </p>
-                        <p class="card-text" id="kaldir">
+                        <p class="card-text" id="kaldir" style="text-align:center">
                             <button class="btn-danger" id="kaldir_@Model.urun.Id" onclick="kaldir(@Model.urun.Id);">KALDIR</button>
                         </p>
                     }
@@ -95,18 +105,48 @@
     </div>
 </div>
 <h2>ÖNERİLEN BENZER ÜRÜNLER</h2>
-<div class="row-cols-4" id="benzer">
+<div class="row-cols-2" id="benzer">
     @foreach (var item in Model.BenzerUrunler)
     {
         <a href="/Urun/Detay?id=@item.Id">
             <div class="u">
-                <div> <img src="@item.Resim" /></div>
-                <div style="background-color:@item.altKategori.kategori.Renk">  @item.UrunAdi</div>
+                <div> <img src="/Products/@item.Resim" width="200" height="300"/></div>
+                
+                <div class="ad" style="background-color:@item.altKategori.kategori.Renk">
+                    @if (item.UrunAdi.Length > 25)
+                    {
+
+                        <strong > @item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 25).LastIndexOf(" "))</strong>}
+                    else
+                    {
+                            <strong> @item.UrunAdi</strong>
+                    }
+                </div>
             </div>
         </a>
     }
 </div>
 <script>
+    var butonlar = document.getElementsByClassName("beden");
+    var beden = document.getElementById("bdn");
+    for (var i = 0; i < butonlar.length; i++) {
+        butonlar[i].addEventListener("click", function () {
+            beden.innerText = this.innerText;
+           // this.style.border = 4+'px' 'solid' 'orange';
+            
+        });
+    }
+
+    var renkler = document.getElementsByClassName("renk");
+    for (var i = 0; i < renkler.length; i++) {
+        renkler[i].addEventListener("click", function () {
+            for (var j = 0; j < renkler.length; j++) {
+                renkler[j].style.border = "1px solid black";
+            }
+            this.style.border= "4px solid black";
+        })
+    }
+
 
     function temizle(id) {
         let xhr = new XMLHttpRequest;
@@ -249,13 +289,27 @@
 
 
 <style>
+    .renk{
+        height:30px;
+        width:30px;
+    }
     #benzer .u {
         float: left;
-        margin-left: 5%;
+        margin-left: 1%;
         margin-top: 50px;
     }
 
     #detay {
         text-align: center;
+    }
+    .beden{
+        border-radius:10px;
+        border:1px solid;
+        height:28px;
+        width:40px;
+        margin-left:5px;
+    }
+    .ad{
+        background-color:black
     }
 </style>

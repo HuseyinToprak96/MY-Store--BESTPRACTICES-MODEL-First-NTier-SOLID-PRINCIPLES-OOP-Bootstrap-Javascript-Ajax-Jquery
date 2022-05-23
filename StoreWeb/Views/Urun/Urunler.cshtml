@@ -34,17 +34,25 @@
 </div>
 <hr />
 <div class="container">
-    <div class="row">
+    <div class="row" style="display:grid;grid-template-columns:18% 18% 18% 18% 18%; margin-left:1%">
         @foreach (var item in Model.Urunler)
         {
-        <div class="col-sm-2 resimUrun alt_@item.AltKategoriId kimeGore_@item.kimeGoreId kimeGore_0 alt_0 " style="margin-top:10px;display:grid;grid-template-rows:80% 20%">
-          <img src="~/Products/@item.Resim" />
-            <div style="display:grid;grid-template-columns:80% 20%">
-            <div>@item.UrunAdi
+        <a href="/Urun/Detay?id=@item.Id" target="_blank">
+            <div class="resimUrun altKategori_@item.AltKategoriId kimeGore_@item.kimeGoreId" style="display:grid;grid-template-rows:75% 25%;height:400px;width:200px;margin:15px 10px;border-color:@item.altKategori.Renk">
+                <img src="~/Products/@item.Resim" height="300" width="200" style="border-radius:15px 50px" class="urunList" />
+                <div class="rad" style="display:grid; grid-template-rows:70% 30%;background-color:whitesmoke;margin-top:10px;border:0px;color:black;font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+                    @if (item.UrunAdi.Length > 40)
+                    {
+                        <div style="opacity:0.7;padding-left:5px;min-height:60px;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 40).LastIndexOf(" ")) ...</div>
+                    }
+                    else
+                    {
+                        <div style="opacity:0.7">@item.UrunAdi</div>
+                    }
+                    <div style="font-size:12pt;min-height:28px;border:2px solid @item.altKategori.Renk">Sepette İndirimli<strong style="color:orangered;font-size:14pt"> @(item.Ucret+10) TL</strong></div>
                 </div>
-            <div>@item.Ucret
-                </div></div>
-        </div>
+            </div>
+        </a>
         }
     </div>
 </div>
@@ -54,15 +62,15 @@
 
 
 <div class="sayfa">
-    @if (Model.Urunler.Count % 8 != 0)
+    @if (Model.Urunler.Count % 10 != 0)
     {
-        @for (int i = 0; i <= Model.Urunler.Count / 8; i++)
+        @for (int i = 0; i <= Model.Urunler.Count / 10; i++)
         {
             <button class="btnSayfa" onclick="sayfaDegistir(this);" id="@(i+1)">@(i+1)</button>}
     }
     else
     {
-        @for (int i = 0; i <= Model.Urunler.Count / 8 - 1; i++)
+        @for (int i = 0; i <= Model.Urunler.Count / 10 - 1; i++)
         {
             <button class="btnSayfa" onclick="sayfaDegistir(this);" id="@(i+1)">@(i+1)</button>}
 
@@ -70,6 +78,15 @@
 </div>
 
 <style>
+    .urunList{
+        transition:all 1s;
+    }
+    .urunList:hover{
+        transform:scale(1.08);
+    }
+    .rad{
+        border:1px solid black;
+    }
     .drp{
         margin-top:15px;
     }
@@ -147,7 +164,7 @@
         Temizle();
         btn.style.backgroundColor = "red";
         btn.style.color = "white";
-        for (var i = (page - 1) * 8; i < page * 8; i++) {
+        for (var i = (page - 1) * 10; i < page * 10; i++) {
             urunler[i].style.display = "block";
         }
     }
@@ -165,31 +182,26 @@
 
     //Kime Göre ürünler Listelensin
     $("#dr_kimeGore").change(function () {
-      //  alert("hg");
-
+        // alert("hg");
         var id = $(this).val();
-        Temizle();
-        var urunler = document.getElementsByClassName("kimeGore_" + id);
-        var sayac = 8;
-        if (urunler.length < 8)
-            sayac = urunler.length
-        for (var i = 0; i < sayac; i++) {
-            urunler[i].style.display = "block";
-        }
+        window.location.href = "/Urun/Urunler?KimeGore=" + id;
     });
+        //Temizle();
+        //var urunler = document.getElementsByClassName("kimeGore_" + id);
+        //for (var i = 0; i < urunler.length; i++) {
+        //    urunler[i].style.display = "block";}
     //Alt Kategoriye göre Listelensin
     $("#dr_altKategori").change(function () {
         var id = $(this).val();
-        Temizle();
-        var urunler = document.getElementsByClassName("alt_" + id);
-        var sayac = 8;
-        if (urunler.length < 8)
-            sayac = urunler.length
-
-        for (var i = 0; i < sayac; i++) {
-            urunler[i].style.display = "block";
-        }
+        window.location.href = "/Urun/Urunler?AltKategoriId=" + id;
     });
+       // Temizle();
+       // var urunler = document.getElementsByClassName("altKategori_" + id);
+        
+       // for (var i = 0; i < urunler.length; i++) {
+       //     urunler[i].style.display = "block";
+       //}
+   
 
 
 </script>

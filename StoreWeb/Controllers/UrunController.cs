@@ -48,7 +48,7 @@ namespace StoreWeb.Controllers
         public async Task<IActionResult> Urunler(Source source)
         {
             VM_Urunler vM_Urunler = new VM_Urunler();
-            var urunler =await _UrunService.getAllAsync();
+            var urunler =await _UrunService.Arama(source);
             vM_Urunler.Urunler= urunler;//.Result.ToPagedList(page, 12);
             vM_Urunler.kimeGore = await _KimeGoreService.getAllAsync();
             vM_Urunler.AltKategoris = await _altKategoriService.getAllAsync();

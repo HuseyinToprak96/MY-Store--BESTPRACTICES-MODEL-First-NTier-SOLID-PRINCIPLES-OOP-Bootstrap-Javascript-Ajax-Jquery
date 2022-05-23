@@ -29,7 +29,18 @@
                         <a href="/Urun/Detay?id=@item.Id">    <img src="~/Products/@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk;border-radius:7px 7px 0px 0px;" class="rsm" /></a>
 
                         <div class="baslik">
-                            <h6><a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0,item.UrunAdi.Substring(0,25).LastIndexOf(" "))</a></h6>
+                            <h6>
+                                @if (item.UrunAdi.Length > 25)
+                                {
+
+                                    <a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 25).LastIndexOf(" "))</a>
+                                }
+                                else
+                                {
+                                    <a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi</a>
+
+                                }
+                            </h6>
                         </div>
                         <div class="ucRet"><p>@item.Ucret TL</p></div>
                     </div>
@@ -41,7 +52,15 @@
                         <a href="/Urun/Detay?id=@item.Id">    <img src="~/Products/@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk;border-radius:7px 7px 0px 0px;" class="rsm" /></a>
 
                         <div class="baslik">
-                           <h6><a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 25).LastIndexOf(" "))</a></h6>
+                            <h6>
+                                @if (item.UrunAdi.Length > 25)
+                                {
+                                    <a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 25).LastIndexOf(" "))</a>}
+                                else
+                                {
+                                    <a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi</a>   
+                                    }
+                            </h6>
                         </div>
                         <div class="ucRet"><p>@item.Ucret TL</p></div>
                     </div>
@@ -53,7 +72,15 @@
                         <a href="/Urun/Detay?id=@item.Id">    <img src="~/Products/@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk;border-radius:7px 7px 0px 0px;" class="rsm" /></a>
 
                         <div class="baslik">
-                        <h6><a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 25).LastIndexOf(" "))</a></h6>
+                            <h6>
+                                @if (item.UrunAdi.Length > 25)
+                                {
+                                    <a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 25).LastIndexOf(" "))</a>}
+                                else
+                                {
+                                    <a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi</a>
+                                }
+                            </h6>
                         </div>
                         <div class="ucRet"><p>@item.Ucret TL</p></div>
                     </div>
@@ -66,7 +93,18 @@
                         <a href="/Urun/Detay?id=@item.Id">    <img src="~/Products/@item.Resim" style="width:100%;border:2px solid @item.altKategori.Renk;border-radius:7px 7px 0px 0px;" class="rsm" /></a>
 
                         <div class="baslik">
-                            <h6><a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 25).LastIndexOf(" "))</a></h6>
+                            <h6>
+                                @if (item.UrunAdi.Length>25)
+                                {
+
+                                    <a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi.Substring(0, item.UrunAdi.Substring(0, 25).LastIndexOf(" "))</a>
+                                }
+                                else
+                                {
+                                    <a href="/Urun/Detay?id=@item.Id" style="color:black;">@item.UrunAdi</a>
+
+                                }
+                            </h6>
                         </div>
                         <div class="ucRet"><p>@item.Ucret TL</p></div>
                     </div>
